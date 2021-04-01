@@ -31,7 +31,8 @@ def login():
             session["USERNAME"] = user_in_db.username
             return redirect(url_for('index'))
         flash('Incorrect Password')
-        return redirect(url_for('index'))
+
+        return redirect(url_for('login'))
     return render_template('login.html', title='Sign In', form=form)
 
 
@@ -49,7 +50,7 @@ def register():
         flash('User registered with username:{}'.format(form.username.data))
         session["USERNAME"] = user.username
         print(session)
-        return redirect(url_for('register'))
+        return redirect(url_for('index'))
     return render_template('register.html', title='Register a new user', form=form)
 
 
