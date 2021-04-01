@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlite:F:\git\Group11_Project\Code\Group11_code_draf\webapp\blogdb.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="blogdb [2]" uuid="32c49e9c-c42a-47c0-8c16-3b5622af55ac">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Project\Group11_Project\Code\Group11_code_draf\webapp\blogdb.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

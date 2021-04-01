@@ -94,6 +94,11 @@ def my_profile():
     return render_template('my-profile.html')
 
 
+@app.route('/submit-new-property', methods=['GET', 'POST'])
+def submit_new_property():
+    return render_template('submit-new-property.html')
+
+
 @app.route('/change-password', methods=['GET', 'POST'])
 # @login_required  # Only login_user can change password
 def change_password():
