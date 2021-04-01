@@ -927,21 +927,34 @@
 									<div class="form-group">
 										<label>User Name</label>
 										<div class="input-with-icon">
-											<input type="text" class="form-control" placeholder="Username">
-											<i class="ti-user"></i>
+{#											<input type="text" class="form-control" placeholder="Username">#}
+                                            {{ form.username.label }}<br>
+                                            {{ form1.username(class="form-control", placeholder="Username") }}
+
+                                            {% for error in form1.username.errors %}
+                                            <span style="color: #ff0000;">[{{ error }}]</span>
+                                            {% endfor %}
+{#											<i class="ti-user"></i>#}
 										</div>
 									</div>
 									
 									<div class="form-group">
 										<label>Password</label>
 										<div class="input-with-icon">
-											<input type="password" class="form-control" placeholder="*******">
-											<i class="ti-unlock"></i>
+{#											<input type="password" class="form-control" placeholder="*******">#}
+                                            {{ form1.password.label }}<br>
+                                            {{ form1.password(class="form-control", placeholder="*******") }}
+
+                                            {% for error in form1.password.errors %}
+                                            <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
+{#											<i class="ti-unlock"></i>#}
 										</div>
 									</div>
 									
 									<div class="form-group">
-										<button type="submit" class="btn btn-md full-width pop-login bg-2">Login</button>
+{#										<button type="submit" class="btn btn-md full-width pop-login bg-2">Login</button>#}
+                                        {{ form1.submit(class="btn btn-md full-width pop-login bg-2") }}
 									</div>
 								
 								</form>
@@ -992,10 +1005,16 @@
 										
 										<div class="col-lg-12 col-md-12">
 											<div class="form-group">
-												<label>Full Name</label>
+												<label>User Name</label>
 												<div class="input-with-icon">
-													<input type="text" class="form-control" placeholder="Full Name">
-													<i class="ti-user"></i>
+                                                    {{ form2.username.label }}<br>
+                                                    {{ form2.username(class="form-control", placeholder="Username") }}
+
+                                                    {% for error in form2.username.errors %}
+                                                        <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+{#													<input type="text" class="form-control" placeholder="Full Name">#}
+{#													<i class="ti-user"></i>#}
 												</div>
 											</div>
 										</div>
@@ -1004,18 +1023,14 @@
 											<div class="form-group">
 												<label>Email</label>
 												<div class="input-with-icon">
-													<input type="email" class="form-control" placeholder="Email">
-													<i class="ti-email"></i>
-												</div>
-											</div>
-										</div>
-										
-										<div class="col-lg-12 col-md-12">
-											<div class="form-group">
-												<label>Username</label>
-												<div class="input-with-icon">
-													<input type="text" class="form-control" placeholder="Username">
-													<i class="ti-user"></i>
+{#													<input type="email" class="form-control" placeholder="Email">#}
+                                                    {{ form2.email.label }}<br>
+                                                    {{ form2.email(class="form-control", placeholder="Email") }}
+
+                                                    {% for error in form2.email.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+{#													<i class="ti-email"></i>#}
 												</div>
 											</div>
 										</div>
@@ -1024,8 +1039,30 @@
 											<div class="form-group">
 												<label>Password</label>
 												<div class="input-with-icon">
-													<input type="password" class="form-control" placeholder="*******">
-													<i class="ti-unlock"></i>
+                                                    {{ form2.password.label }}<br>
+                                                    {{ form2.password(class="form-control", placeholder="*******") }}
+
+                                                    {% for error in form2.password.errors %}
+                                                    <span style="color: red;">[{{ error }}]</span>
+                                                    {% endfor %}
+{#													<input type="password" class="form-control" placeholder="*******">#}
+{#													<i class="ti-unlock"></i>#}
+												</div>
+											</div>
+										</div>
+
+                                        <div class="col-lg-12 col-md-12">#}
+											<div class="form-group">
+												<label>Re-Enter Password</label>
+												<div class="input-with-icon">
+{#													<input type="text" class="form-control" placeholder="Re-Enter Password">#}
+                                                    {{ form2.password2.label }}<br>
+                                                    {{ form2.password2(class="form-control", placeholder="Re-Enter Password") }}
+
+                                                    {% for error in form2.password2.errors %}
+                                                    <span style="color: #ff0000;">[{{ error }}]</span>
+                                                    {% endfor %}
+{#													<i class="ti-user"></i>#}
 												</div>
 											</div>
 										</div>
@@ -1033,7 +1070,8 @@
 									</div>
 									
 									<div class="form-group">
-										<button type="submit" class="btn btn-md full-width pop-login bg-2">Create Account</button>
+{#										<button type="submit" class="btn btn-md full-width pop-login bg-2">Create Account</button>#}
+                                        {{ form2.submit(class="btn btn-md full-width pop-login bg-2") }}
 									</div>
 								
 								</form>

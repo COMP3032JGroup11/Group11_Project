@@ -9,7 +9,7 @@ manage = Manager(app)
 # @app.route("/")
 # def first_index():
 #     return "hello_world"
-
+# python wigi.py runserver
 
 """
 

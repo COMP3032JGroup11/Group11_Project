@@ -18,7 +18,15 @@
     <!-- <body class="yellow-skin bg-cover" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);" data-overlay="2">
  -->    
  	<body class="yellow-skinbg-cover" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);">
-
+	{% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
 		 <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -55,7 +63,8 @@
 {#										<div class="modal-divider"><span>Or</span></div>#}
 								
 										<div class="login-form">
-											<form>
+											<form action="" method="post" novalidate>
+												{{ form.hidden_tag() }}
 												
 												<div class="row">
 													
