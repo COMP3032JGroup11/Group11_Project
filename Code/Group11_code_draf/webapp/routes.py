@@ -5,7 +5,7 @@ from flask import render_template, request
 from flask import render_template, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from webapp import app, db
-from webapp.forms import LoginForm, RegisterForm, ChangePasswordForm
+from webapp.forms import LoginForm, RegisterForm, ChangePasswordForm, MyProfileForm
 from webapp.models import User
 from django.contrib.auth.decorators import login_required
 from webapp.config import Config
@@ -90,8 +90,10 @@ def register():
 
 
 @app.route('/my-profile', methods=['GET', 'POST'])
+# @login_required
 def my_profile():
-    return render_template('my-profile.html')
+    form = MyProfileForm()
+    return render_template('my-profile.html', form=form)
 
 
 @app.route('/submit-new-property', methods=['GET', 'POST'])

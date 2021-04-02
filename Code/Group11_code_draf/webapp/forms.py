@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
+    TextAreaField
 from wtforms.validators import DataRequired, EqualTo
 from flask_wtf.file import FileRequired, FileAllowed
 
@@ -28,7 +29,6 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField('Reset')
 
 
-
 # class IndexLoginForm(FlaskForm):
 #     username = StringField('Username', validators=[DataRequired()])
 #     password = PasswordField('Password', validators=[DataRequired()])
@@ -44,3 +44,17 @@ class ChangePasswordForm(FlaskForm):
 #     accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()])
 #     submit = SubmitField('Register')
 
+
+class MyProfileForm(FlaskForm):
+    name = StringField('Your Name', validators=[DataRequired()])
+    phone = StringField('Phone Number', validators=[DataRequired()])
+    address = StringField('Your Address', validators=[DataRequired()])
+    city = StringField('Your City', validators=[DataRequired()])
+    state = StringField('Your Country', validators=[DataRequired()])
+    zip = StringField('Zip of Your Area', validators=[DataRequired()])
+    about = TextAreaField('Your Information', validators=[DataRequired()])
+    facebook = StringField('Facebook Account', validators=[DataRequired()])
+    twitter = StringField('Twitter Account', validators=[DataRequired()])
+    google = StringField('Google Account', validators=[DataRequired()])
+    linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
+    submit = SubmitField('Save Information')
