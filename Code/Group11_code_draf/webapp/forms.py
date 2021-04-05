@@ -17,7 +17,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired()])
-    # accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()])
+    accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()] )
     submit = SubmitField('Register')
 
 
@@ -25,7 +25,6 @@ class ChangePasswordForm(FlaskForm):
     password = PasswordField('Origin Password', validators=[DataRequired()])
     new_password1 = PasswordField('New Password', validators=[DataRequired(), EqualTo('new_password2', message='Passwords must match')])
     new_password2 = PasswordField('Repeat New Password', validators=[DataRequired()])
-    # remember_me = BooleanField('Remember Me')
     submit = SubmitField('Reset')
 
 
@@ -46,11 +45,11 @@ class ChangePasswordForm(FlaskForm):
 
 
 class MyProfileForm(FlaskForm):
-    name = StringField('Your Name', validators=[DataRequired()])
+    username = StringField('Your Name', validators=[DataRequired()])
     phone = StringField('Phone Number', validators=[DataRequired()])
     address = StringField('Your Address', validators=[DataRequired()])
     city = StringField('Your City', validators=[DataRequired()])
-    state = StringField('Your Country', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
     zip = StringField('Zip of Your Area', validators=[DataRequired()])
     about = TextAreaField('Your Information', validators=[DataRequired()])
     facebook = StringField('Facebook Account', validators=[DataRequired()])

@@ -54,6 +54,74 @@ def register():
     return render_template('register.html', title='Register a new user', form=form)
 
 
+# @app.route('/my-profile', methods=['GET', 'POST'])
+# # @login_required
+# def my_profile():
+#     form = MyProfileForm()
+#     return render_template('my-profile.html', form=form)
+
+@app.route('/my-profile', methods=['GET', 'POST'])
+# @login_required
+def my_profile():
+    form = MyProfileForm()
+    if not session.get("USERNAME") is None:
+        if form.validate_on_submit():
+
+            username = form.username.data
+            phone = form.phone.data
+            address = form.address.data
+            city = form.city.data
+            email = form.email.data
+            zip = form.zip.data
+            about = form.about.data
+            facebook = form.facebook.data
+            twitter = form.twitter.data
+            google = form.google.data
+            linkedin = form.linkedin.data
+            flash('personal information saved')
+            # now we add the object to the database
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            user_profile = User.query.filter(User.username == user_in_db).first()
+            # check if user already has a profile
+            # stored_profile = Profile.query.filter(Profile.user == user_in_db).first()
+            # if not stored_profile:
+            #     # if no profile exists, add a new object
+            #     profile = Profile(dob=form.dob.data, gender=form.gender.data, cv=cv_filename, user=user_in_db)
+            #     db.session.add(profile)
+            # else:
+                # else, modify the existing object with form data
+
+            user_profile.username = form.username.data
+            user_profile.phone = form.phone.data
+            user_profile.address = form.address.data
+            user_profile.city = form.city.data
+            user_profile.email = form.email.data
+            user_profile.zip = form.zip.data
+            user_profile.about = form.about.data
+            user_profile.facebook = form.facebook.data
+            user_profile.twitter = form.twitter.data
+            user_profile.google = form.google.data
+            user_profile.linkedin = form.linkedin.data
+
+            # remember to commit
+            db.session.commit()
+            return redirect(url_for('my-profile'))
+        else:
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            stored_profile = Profile.query.filter(Profile.user == user_in_db).first()
+            if not stored_profile:
+                return render_template('my-profile.html', title='Add your profile', form=form)
+            else:
+                form.dob.data = stored_profile.dob
+                form.gender.data = stored_profile.gender
+                return render_template('my-profile.html', title='Modify your profile', form=form)
+
+    else:
+        flash("User needs to either login or signup first")
+    return render_template("my-profile.html", form=form)
+
+
+
 # @app.route('/index', methods=['GET', 'POST'])
 # def index_login():
 #     form1 = LoginForm()
@@ -87,13 +155,6 @@ def register():
 #         print(session)
 #         return redirect(url_for('???'))
 #     return render_template('index.html', title='Register a new user', form2=form2)
-
-
-@app.route('/my-profile', methods=['GET', 'POST'])
-# @login_required
-def my_profile():
-    form = MyProfileForm()
-    return render_template('my-profile.html', form=form)
 
 
 @app.route('/submit-new-property', methods=['GET', 'POST'])
