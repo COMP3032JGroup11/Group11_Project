@@ -60,8 +60,17 @@ def register():
 #     form = MyProfileForm()
 #     return render_template('my-profile.html', form=form)
 
+def upload_pic(form_picture):
+    random_hex = secrets.token_hex(8)   #https://baijiahao.baidu.com/s?id=1616189755017671452&wfr=spider&for=pc
+    _, fextension = os.path.splitext(form_picture.filename)
+    #reference: https://www.cnblogs.com/liangmingshen/p/10215065.html
+    picture_name = random_hex + fextension
+    picture_path = os.path.join(app.root_path, 'static/pic', picture_name)
+    form_picture.save(picture_path)
+    return picture_name
+
 @app.route('/my-profile', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def my_profile():
     form = MyProfileForm()
     if not session.get("USERNAME") is None:
@@ -112,8 +121,18 @@ def my_profile():
             if not stored_profile:
                 return render_template('my-profile.html', title='Add your profile', form=form)
             else:
-                form.dob.data = stored_profile.dob
-                form.gender.data = stored_profile.gender
+                form.username.data = stored_profile.username
+                form.phone.data = stored_profile.phone
+                form.address.data = stored_profile.address
+                form.city.data = stored_profile.city
+                form.email.data = stored_profile.email
+                form.zip.data = stored_profile.zip
+                form.about.data = stored_profile.about
+                form.facebook.data = stored_profile.facebook
+                form.twitter.data = stored_profile.twitter
+                form.google.data = stored_profile.google
+                form.linkedin.data = stored_profile.linkedin
+
                 return render_template('my-profile.html', title='Modify your profile', form=form)
 
     else:
