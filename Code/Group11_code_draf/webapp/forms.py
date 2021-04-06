@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
-    TextAreaField
+    TextAreaField, SelectField
 from wtforms.validators import DataRequired, EqualTo
 from flask_wtf.file import FileRequired, FileAllowed
 
@@ -57,3 +57,15 @@ class MyProfileForm(FlaskForm):
     google = StringField('Google Account', validators=[DataRequired()])
     linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
     submit = SubmitField('Save Information')
+
+class AddHouseForm(FlaskForm):
+    housename = StringField('House Detail', validators=[DataRequired()])
+    size = StringField('House Size', validators=[DataRequired()])
+    floorkind = SelectField('Floor Kind', validators=[DataRequired()],
+                            choices=[(1, 'basement'), (2, 'low floor'), (3, 'medium floor'), (4, 'high floor')],
+                            coerce=int)
+    floornumber = StringField('Floor Number', validators=[DataRequired()])
+    roomnumber = StringField('Room Number', validators=[DataRequired()])
+    livingnumber = StringField('Living Room Number', validators=[DataRequired()])
+    bathnumber = StringField('Bath Room Number', validators=[DataRequired()])
+

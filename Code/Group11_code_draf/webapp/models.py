@@ -18,11 +18,12 @@ class User(db.Model):
     city = db.Column(db.String(120), index=True)
     # state = db.Column(db.String(120), index=True)
     zip = db.Column(db.String(120), index=True)
-    about = db.Column(db.String(500), index=True, unique=True)
+    about = db.Column(db.String(500), index=True)
     facebook = db.Column(db.String(120), index=True, unique=True)
     twitter = db.Column(db.String(120), index=True, unique=True)
     google = db.Column(db.String(120), index=True, unique=True)
     linkedin = db.Column(db.String(120), index=True, unique=True)
+    houses = db.relationship('House', back_populates='user')
 
 
 class House(db.Model):
@@ -34,9 +35,12 @@ class House(db.Model):
     room_number = db.Column(db.Integer, index=True)
     living_number = db.Column(db.Integer, index=True)
     bath_number = db.Column(db.Integer, index=True)
-    rent_type = db.Column(db.Boolean, default=False)
-    district_number = db.Column(db.Integer, index=True)
-    community__number = db.Column(db.Integer, index=True)
+    rent_type = db.Column(db.Integer, index=True)
+    district_id = db.Column(db.Integer, index=True)
+    community_id = db.Column(db.Integer, index=True)
+    price = db.Column(db.Integer, index=True)
+    predicted_price = db.Column(db.Integer, index=True)
+    image_name = db.Column(db.String, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='houses')
 
