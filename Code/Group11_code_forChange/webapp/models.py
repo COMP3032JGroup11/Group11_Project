@@ -11,14 +11,18 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    name = db.Column(db.String(120), index=True)
+# Here is for profile.html
+    nickname = db.Column(db.String(120), index=True)
     phone = db.Column(db.String(120), index=True, unique=True)
     address = db.Column(db.String(120), index=True)
     city = db.Column(db.String(120), index=True)
-    state = db.Column(db.String(120), index=True)
     zip = db.Column(db.String(120), index=True)
     about = db.Column(db.String(500), index=True)
-    houses = db.relationship('House', back_populates='user')
+    facebook = db.Column(db.String(120), index=True)
+    twitter = db.Column(db.String(120), index=True)
+    google = db.Column(db.String(120), index=True)
+    linkedin = db.Column(db.String(120), index=True)
+    houses = db.relationship('House', backref='user', lazy='dynamic')
 
 
 class House(db.Model):
@@ -37,7 +41,6 @@ class House(db.Model):
     predicted_price = db.Column(db.Integer, index=True)
     image_name = db.Column(db.String, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='houses')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
