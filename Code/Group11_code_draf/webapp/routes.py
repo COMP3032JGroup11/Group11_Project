@@ -29,7 +29,7 @@ def login():
         if check_password_hash(user_in_db.password_hash, form.password.data):
             flash('Login success!')
             session["USERNAME"] = user_in_db.username
-            return redirect(url_for('index'))
+            return redirect(url_for('my_profile'))
         flash('Incorrect Password')
 
         return redirect(url_for('login'))
@@ -50,8 +50,68 @@ def register():
         flash('User registered with username:{}'.format(form.username.data))
         session["USERNAME"] = user.username
         print(session)
-        return redirect(url_for('index'))
+        return redirect(url_for('my_profile'))
     return render_template('register.html', title='Register a new user', form=form)
+
+
+# @app.route('/my-profile', methods=['GET', 'POST'])
+# # @login_required
+# def my_profile():
+#     form = MyProfileForm()
+#     return render_template('my-profile.html', form=form)
+
+def upload_pic(form_picture):
+    random_hex = secrets.token_hex(8)   #https://baijiahao.baidu.com/s?id=1616189755017671452&wfr=spider&for=pc
+    _, fextension = os.path.splitext(form_picture.filename)
+    #reference: https://www.cnblogs.com/liangmingshen/p/10215065.html
+    picture_name = random_hex + fextension
+    picture_path = os.path.join(app.root_path, 'static/pic', picture_name)
+    form_picture.save(picture_path)
+    return picture_name
+
+
+@app.route('/my-profile', methods=['GET', 'POST'])
+# @login_required
+def my_profile():
+    user = {'username': 'User'}
+    form = MyProfileForm()
+
+    if not session.get("USERNAME") is None:
+        if form.validate_on_submit():
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            user_in_db.nickname = form.nickname.data
+            user_in_db.phone = form.phone.data
+            user_in_db.address = form.address.data
+            user_in_db.city = form.city.data
+            user_in_db.email = form.email.data
+            user_in_db.zip = form.zip.data
+            user_in_db.about = form.about.data
+            user_in_db.facebook = form.facebook.data
+            user_in_db.twitter = form.twitter.data
+            user_in_db.google = form.google.data
+            user_in_db.linkedin = form.linkedin.data
+            db.session.commit()
+            flash('personal information saved')
+            return redirect(url_for('my_profile'))
+
+        elif request.method == 'GET':
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            form.nickname.data = user_in_db.nickname
+            form.phone.data = user_in_db.phone
+            form.address.data = user_in_db.address
+            form.city.data = user_in_db.city
+            form.email.data = user_in_db.email
+            form.zip.data = user_in_db.zip
+            form.about.data = user_in_db.about
+            form.facebook.data = user_in_db.facebook
+            form.twitter.data = user_in_db.twitter
+            form.google.data = user_in_db.google
+            form.linkedin.data = user_in_db.linkedin
+
+    else:
+        flash("User needs to either login or signup first")
+    return render_template("my-profile.html", form=form)
+
 
 
 # @app.route('/index', methods=['GET', 'POST'])
@@ -87,13 +147,6 @@ def register():
 #         print(session)
 #         return redirect(url_for('???'))
 #     return render_template('index.html', title='Register a new user', form2=form2)
-
-
-@app.route('/my-profile', methods=['GET', 'POST'])
-# @login_required
-def my_profile():
-    form = MyProfileForm()
-    return render_template('my-profile.html', form=form)
 
 
 @app.route('/submit-new-property', methods=['GET', 'POST'])
