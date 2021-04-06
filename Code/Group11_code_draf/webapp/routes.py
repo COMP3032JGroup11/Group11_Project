@@ -141,40 +141,6 @@ def change_password():
         return redirect(url_for('login'))
 
 
-# @app.route('/change-password', methods=['GET', 'POST'])
-# # @login_required  #只有登录的人才能修改密码
-# def change_password():
-#     form = ChangePasswordForm()
-#     if form.validate_on_submit():
-#         # if current_user.verify_password(form.password.data):
-#         if 1==1:
-#             #这里引入user的上下文，这个概念不太懂，暂且当成全局变量来用
-#             current_user.password = form.new_password1.data
-#             #修改密码
-#             db.session.add(current_user)
-#             #加入数据库的session，这里不需要.commit()，在配置文件中已经配置了自动保存
-#             flash('Your password has been updated.')
-#             return redirect(url_for('change_password'))
-#         else:
-#             flash('Invalid password.')
-#     return render_template("change-password.html", form=form)
-
-
-# @app.route('/change-password', methods=['GET', 'POST'])
-# def change_password():
-#     form = ChangePasswordForm()
-#     if request.method == 'GET':
-#         return render_template('change-password.html', form=form)
-#     else:
-#         o_password = form.password.data
-#         password1 = form.new_password1.data
-#         password2 = form.new_password2.data
-#         validate_func(o_password, password1, password2)
-#         g.user.password = generate_password_hash(password1)
-#         db.session.commit()
-#
-#         return render_template("change-password.html", form=form)
-
 
 @app.route('/logout')
 def logout():
