@@ -28,22 +28,6 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField('Reset')
 
 
-# class IndexLoginForm(FlaskForm):
-#     username = StringField('Username', validators=[DataRequired()])
-#     password = PasswordField('Password', validators=[DataRequired()])
-#     remember_me = BooleanField('Remember Me')
-#     submit = SubmitField('Sign In')
-#
-#
-# class IndexRegisterForm(FlaskForm):
-#     username = StringField('Username', validators=[DataRequired()])
-#     email = StringField('Email', validators=[DataRequired()])
-#     password = PasswordField('Password', validators=[DataRequired()])
-#     password2 = PasswordField('Repeat Password', validators=[DataRequired()])
-#     accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()])
-#     submit = SubmitField('Register')
-
-
 class MyProfileForm(FlaskForm):
     nickname = StringField('Your Nickname', validators=[DataRequired()])
     phone = StringField('Phone Number', validators=[DataRequired()])

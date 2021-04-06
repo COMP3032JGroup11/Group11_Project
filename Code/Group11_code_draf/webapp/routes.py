@@ -113,63 +113,25 @@ def my_profile():
     return render_template("my-profile.html", form=form)
 
 
-
-# @app.route('/index', methods=['GET', 'POST'])
-# def index_login():
-#     form1 = LoginForm()
-#     if form1.validate_on_submit():
-#         user_in_db = User.query.filter(User.username == form1.username.data).first()
-#         if not user_in_db:
-#             flash('No user found with username: {}'.format(form1.username.data))
-#             return redirect(url_for('index'))
-#         if (check_password_hash(user_in_db.password_hash, form1.password.data)):
-#             flash('Login success!')
-#             session["USERNAME"] = user_in_db.username
-#             return redirect(url_for('???'))
-#         flash('Incorrect Password')
-#         return redirect(url_for('index'))
-#     return render_template('index.html', title='Sign In', form1=form1)
-
-
-# @app.route('/index', methods=['GET', 'POST'])
-# def index_register():
-#     form2 = RegisterForm()
-#     if form2.validate_on_submit():
-#         if form2.password.data != form2.password2.data:
-#             flash('Passwords do not match!')
-#             return redirect(url_for('index'))
-#         passw_hash = generate_password_hash(form2.password.data)
-#         user = User(username=form2.username.data, email=form2.email.data, password_hash=passw_hash)
-#         db.session.add(user)
-#         db.session.commit()
-#         flash('User registered with username:{}'.format(form2.username.data))
-#         session["USERNAME"] = user.username
-#         print(session)
-#         return redirect(url_for('???'))
-#     return render_template('index.html', title='Register a new user', form2=form2)
-
-
 @app.route('/submit-new-property', methods=['GET', 'POST'])
 def submit_new_property():
     return render_template('submit-new-property.html')
 
 
 @app.route('/change-password', methods=['GET', 'POST'])
-# @login_required  # Only login_user can change password
 def change_password():
     form = ChangePasswordForm()
-    if form.validate_on_submit():
-        if current_user.verify_password(form.password.data):
-            # 这里引入user的上下文，这个概念不太懂，暂且当成全局变量来用
-            current_user.password = form.new_password1.data
-            # 修改密码
-            db.session.add(current_user)
-            # 加入数据库的session，这里不需要.commit()，在配置文件中已经配置了自动保存
-            flash('Your password has been updated.')
-            return redirect(url_for('change-password'))
-        else:
-            flash('Invalid password.')
-    return render_template("change-password.html", form=form)
+    if request.method == 'GET':
+        return render_template('change-password.html')
+    else:
+        o_password = form.password.data
+        password1 = form.new_password1.data
+        password2 = form.new_password2.data
+        validate_func(o_password, password1, password2)
+        g.user.password = generate_password_hash(password1)
+        db.session.commit()
+
+        return render_template("change-password.html", form=form)
 
 
 @app.route('/logout')
