@@ -45,7 +45,7 @@ class ChangePasswordForm(FlaskForm):
 
 
 class MyProfileForm(FlaskForm):
-    username = StringField('Your Name', validators=[DataRequired()])
+    nickname = StringField('Your Nickname', validators=[DataRequired()])
     phone = StringField('Phone Number', validators=[DataRequired()])
     address = StringField('Your Address', validators=[DataRequired()])
     city = StringField('Your City', validators=[DataRequired()])
@@ -57,6 +57,7 @@ class MyProfileForm(FlaskForm):
     google = StringField('Google Account', validators=[DataRequired()])
     linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
     submit = SubmitField('Save Information')
+
 
 class AddHouseForm(FlaskForm):
     housename = StringField('House Detail', validators=[DataRequired()])

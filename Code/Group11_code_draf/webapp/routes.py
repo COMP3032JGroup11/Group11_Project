@@ -29,7 +29,7 @@ def login():
         if check_password_hash(user_in_db.password_hash, form.password.data):
             flash('Login success!')
             session["USERNAME"] = user_in_db.username
-            return redirect(url_for('index'))
+            return redirect(url_for('my_profile'))
         flash('Incorrect Password')
 
         return redirect(url_for('login'))
@@ -50,7 +50,7 @@ def register():
         flash('User registered with username:{}'.format(form.username.data))
         session["USERNAME"] = user.username
         print(session)
-        return redirect(url_for('index'))
+        return redirect(url_for('my_profile'))
     return render_template('register.html', title='Register a new user', form=form)
 
 
@@ -69,71 +69,44 @@ def upload_pic(form_picture):
     form_picture.save(picture_path)
     return picture_name
 
+
 @app.route('/my-profile', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def my_profile():
+    user = {'username': 'User'}
     form = MyProfileForm()
+
     if not session.get("USERNAME") is None:
         if form.validate_on_submit():
-
-            username = form.username.data
-            phone = form.phone.data
-            address = form.address.data
-            city = form.city.data
-            email = form.email.data
-            zip = form.zip.data
-            about = form.about.data
-            facebook = form.facebook.data
-            twitter = form.twitter.data
-            google = form.google.data
-            linkedin = form.linkedin.data
-            flash('personal information saved')
-            # now we add the object to the database
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
-            user_profile = User.query.filter(User.username == user_in_db).first()
-            # check if user already has a profile
-            # stored_profile = Profile.query.filter(Profile.user == user_in_db).first()
-            # if not stored_profile:
-            #     # if no profile exists, add a new object
-            #     profile = Profile(dob=form.dob.data, gender=form.gender.data, cv=cv_filename, user=user_in_db)
-            #     db.session.add(profile)
-            # else:
-                # else, modify the existing object with form data
-
-            user_profile.username = form.username.data
-            user_profile.phone = form.phone.data
-            user_profile.address = form.address.data
-            user_profile.city = form.city.data
-            user_profile.email = form.email.data
-            user_profile.zip = form.zip.data
-            user_profile.about = form.about.data
-            user_profile.facebook = form.facebook.data
-            user_profile.twitter = form.twitter.data
-            user_profile.google = form.google.data
-            user_profile.linkedin = form.linkedin.data
-
-            # remember to commit
+            user_in_db.nickname = form.nickname.data
+            user_in_db.phone = form.phone.data
+            user_in_db.address = form.address.data
+            user_in_db.city = form.city.data
+            user_in_db.email = form.email.data
+            user_in_db.zip = form.zip.data
+            user_in_db.about = form.about.data
+            user_in_db.facebook = form.facebook.data
+            user_in_db.twitter = form.twitter.data
+            user_in_db.google = form.google.data
+            user_in_db.linkedin = form.linkedin.data
             db.session.commit()
-            return redirect(url_for('my-profile'))
-        else:
-            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
-            stored_profile = Profile.query.filter(Profile.user == user_in_db).first()
-            if not stored_profile:
-                return render_template('my-profile.html', title='Add your profile', form=form)
-            else:
-                form.username.data = stored_profile.username
-                form.phone.data = stored_profile.phone
-                form.address.data = stored_profile.address
-                form.city.data = stored_profile.city
-                form.email.data = stored_profile.email
-                form.zip.data = stored_profile.zip
-                form.about.data = stored_profile.about
-                form.facebook.data = stored_profile.facebook
-                form.twitter.data = stored_profile.twitter
-                form.google.data = stored_profile.google
-                form.linkedin.data = stored_profile.linkedin
+            flash('personal information saved')
+            return redirect(url_for('my_profile'))
 
-                return render_template('my-profile.html', title='Modify your profile', form=form)
+        elif request.method == 'GET':
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            form.nickname.data = user_in_db.nickname
+            form.phone.data = user_in_db.phone
+            form.address.data = user_in_db.address
+            form.city.data = user_in_db.city
+            form.email.data = user_in_db.email
+            form.zip.data = user_in_db.zip
+            form.about.data = user_in_db.about
+            form.facebook.data = user_in_db.facebook
+            form.twitter.data = user_in_db.twitter
+            form.google.data = user_in_db.google
+            form.linkedin.data = user_in_db.linkedin
 
     else:
         flash("User needs to either login or signup first")
