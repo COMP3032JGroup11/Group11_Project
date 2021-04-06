@@ -113,4 +113,5 @@ class AddHouseForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
-
+    imagename = FileField('House Image', validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
+    upload = SubmitField('Upload House')
