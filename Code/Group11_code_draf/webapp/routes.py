@@ -54,12 +54,6 @@ def register():
     return render_template('register.html', title='Register a new user', form=form)
 
 
-# @app.route('/my-profile', methods=['GET', 'POST'])
-# # @login_required
-# def my_profile():
-#     form = MyProfileForm()
-#     return render_template('my-profile.html', form=form)
-
 def upload_pic(form_picture):
     random_hex = secrets.token_hex(8)  # https://baijiahao.baidu.com/s?id=1616189755017671452&wfr=spider&for=pc
     _, fextension = os.path.splitext(form_picture.filename)
@@ -139,7 +133,6 @@ def change_password():
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
-
 
 
 @app.route('/logout')
