@@ -61,9 +61,9 @@ def register():
 #     return render_template('my-profile.html', form=form)
 
 def upload_pic(form_picture):
-    random_hex = secrets.token_hex(8)   #https://baijiahao.baidu.com/s?id=1616189755017671452&wfr=spider&for=pc
+    random_hex = secrets.token_hex(8)  # https://baijiahao.baidu.com/s?id=1616189755017671452&wfr=spider&for=pc
     _, fextension = os.path.splitext(form_picture.filename)
-    #reference: https://www.cnblogs.com/liangmingshen/p/10215065.html
+    # reference: https://www.cnblogs.com/liangmingshen/p/10215065.html
     picture_name = random_hex + fextension
     picture_path = os.path.join(app.root_path, 'static/pic', picture_name)
     form_picture.save(picture_path)
@@ -120,18 +120,60 @@ def submit_new_property():
 
 @app.route('/change-password', methods=['GET', 'POST'])
 def change_password():
+    user = {'username': 'User'}
     form = ChangePasswordForm()
-    if request.method == 'GET':
-        return render_template('change-password.html')
+    if not session.get("USERNAME") is None:
+        if form.validate_on_submit():
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            if not (check_password_hash(user_in_db.password_hash, form.password.data)):
+                flash('Incorrect Password')
+                return redirect(url_for('change_password'))
+            if form.new_password1.data != form.new_password2.data:
+                flash('Passwords do not match!')
+                return redirect(url_for('change_password'))
+            else:
+                user_in_db.password_hash = generate_password_hash(form.new_password1.data)
+                db.session.commit()
+                return redirect(url_for('change_password'))
+        return render_template('change-password.html', user=user, form=form)
     else:
-        o_password = form.password.data
-        password1 = form.new_password1.data
-        password2 = form.new_password2.data
-        validate_func(o_password, password1, password2)
-        g.user.password = generate_password_hash(password1)
-        db.session.commit()
+        flash("User needs to either login or signup first")
+        return redirect(url_for('login'))
 
-        return render_template("change-password.html", form=form)
+
+# @app.route('/change-password', methods=['GET', 'POST'])
+# # @login_required  #只有登录的人才能修改密码
+# def change_password():
+#     form = ChangePasswordForm()
+#     if form.validate_on_submit():
+#         # if current_user.verify_password(form.password.data):
+#         if 1==1:
+#             #这里引入user的上下文，这个概念不太懂，暂且当成全局变量来用
+#             current_user.password = form.new_password1.data
+#             #修改密码
+#             db.session.add(current_user)
+#             #加入数据库的session，这里不需要.commit()，在配置文件中已经配置了自动保存
+#             flash('Your password has been updated.')
+#             return redirect(url_for('change_password'))
+#         else:
+#             flash('Invalid password.')
+#     return render_template("change-password.html", form=form)
+
+
+# @app.route('/change-password', methods=['GET', 'POST'])
+# def change_password():
+#     form = ChangePasswordForm()
+#     if request.method == 'GET':
+#         return render_template('change-password.html', form=form)
+#     else:
+#         o_password = form.password.data
+#         password1 = form.new_password1.data
+#         password2 = form.new_password2.data
+#         validate_func(o_password, password1, password2)
+#         g.user.password = generate_password_hash(password1)
+#         db.session.commit()
+#
+#         return render_template("change-password.html", form=form)
 
 
 @app.route('/logout')
