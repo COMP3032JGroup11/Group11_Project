@@ -23,10 +23,10 @@ class User(db.Model):
 
 class House(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(300), index=True)
+    name = db.Column(db.String, index=True)
     size = db.Column(db.Integer, index=True)
     floor_kind = db.Column(db.Integer, index=True)
-    floor_number = db.Column(db.String(10), index=True)
+    floor_number = db.Column(db.String, index=True)
     room_number = db.Column(db.Integer, index=True)
     living_number = db.Column(db.Integer, index=True)
     bath_number = db.Column(db.Integer, index=True)
