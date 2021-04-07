@@ -9,4 +9,4 @@ class Config(object):
 
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-	PH_UPLOAD_DIR = os.path.join(basedir, 'Uploaded_PH')
+	PH_UPLOAD_DIR = os.path.join(basedir, 'static', 'Uploaded_PH')

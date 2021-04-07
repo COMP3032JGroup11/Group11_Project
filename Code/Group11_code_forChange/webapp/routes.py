@@ -1,5 +1,6 @@
 import secrets
 
+import numpy as np
 from flask_dropzone import random_filename
 from sqlalchemy.sql.functions import current_user
 
@@ -14,6 +15,10 @@ from django.contrib.auth.decorators import login_required
 from webapp.config import Config
 import os
 
+from flask import Flask, request, jsonify, render_template
+import pickle
+
+model = pickle.load(open('model.pkl', 'rb'))
 
 @app.route('/')
 @app.route('/index')
@@ -141,16 +146,29 @@ def upload():
             filename = random_filename(file.filename)
             file.save(os.path.join(ph_dir, filename))
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
+                            form.livingnumber.data, form.bathnumber.data, form.renttype.data,
+                            form.districtid.data, form.communityid.data]])
+            output = int(prediction[0])
             new_house = House(name=form.housename.data, size=form.size.data, floor_kind=form.floorkind.data,
                               floor_number=form.floornumber.data, room_number=form.roomnumber.data, living_number=form.livingnumber.data,
                               bath_number=form.bathnumber.data, rent_type=form.renttype.data, district_id=form.districtid.data,
-                              community_id=form.communityid.data, price=form.price.data, image_name=filename,
+                              community_id=form.communityid.data, price=form.price.data, predicted_price=output, image_name=filename,
                               user=user_in_db)
             db.session.add(new_house)
             db.session.commit()
             return redirect(url_for('my_profile'))
         else:
             return render_template('upload-house.html', title='Upload House', form=form)
+
+@app.route('/house_list')
+def house_list():
+    if not session.get("USERNAME") is None:
+        prev_posts = db.session.query(House).all()
+        return render_template('house_list.html', title='record', prev_posts=prev_posts)
+    else:
+        flash("User needs to either login or signup first")
+        return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
