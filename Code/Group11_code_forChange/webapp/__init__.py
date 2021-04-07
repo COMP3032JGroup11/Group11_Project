@@ -12,5 +12,4 @@ db = SQLAlchemy(app)
 dropzone = Dropzone(app)
 
 
-
 from webapp import routes, models
