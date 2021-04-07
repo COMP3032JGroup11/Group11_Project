@@ -10,7 +10,7 @@ from flask import render_template, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from webapp import app, db
 from webapp.forms import LoginForm, RegisterForm, ChangePasswordForm, MyProfileForm, AddHouseForm
-from webapp.models import User, House
+from webapp.models import User, House, District, Community, Floor
 from django.contrib.auth.decorators import login_required
 from webapp.config import Config
 import os
@@ -161,14 +161,20 @@ def upload():
         else:
             return render_template('upload-house.html', title='Upload House', form=form)
 
+
 @app.route('/house_list')
 def house_list():
     if not session.get("USERNAME") is None:
+        # prev_posts = db.session.query(House, District, Community, Floor).all()
         prev_posts = db.session.query(House).all()
-        return render_template('house_list.html', title='record', prev_posts=prev_posts)
+        dis_posts = db.session.query(District).all()
+        com_posts = db.session.query(Community).all()
+        floor_posts = db.session.query(Floor).all()
+        return render_template('house_list.html', title='record', prev_posts=prev_posts, dis_posts=dis_posts, com_posts=com_posts, floor_posts=floor_posts)
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
+
 
 @app.route('/logout')
 def logout():

@@ -44,3 +44,20 @@ class House(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+class District(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    district = db.Column(db.Integer, index=True)
+
+
+class Community(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    community = db.Column(db.Integer, index=True)
+
+
+class Floor(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    floor = db.Column(db.Integer, index=True)
+
+
