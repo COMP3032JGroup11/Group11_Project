@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
-    TextAreaField, SelectField
+    TextAreaField, SelectField, FloatField, IntegerField
 from wtforms.validators import DataRequired, EqualTo
 from flask_wtf.file import FileRequired, FileAllowed
 
@@ -43,6 +43,16 @@ class MyProfileForm(FlaskForm):
     submit = SubmitField('Save Information')
 
 
+class CalculatorForm(FlaskForm):
+    total_loans = IntegerField('Total Loans', validators=[DataRequired()])
+    annualized_rate = FloatField('Annualized Rate', validators=[DataRequired()])
+    repayment_years = IntegerField('Repayment Years', validators=[DataRequired()])
+    types = SelectField('Loan Type', validators=[DataRequired()], choices=[(1, 'Equal principal and interest'),
+                                                                           (2, 'Equal principal')], coerce=int)
+    # A = FloatField('Repayment Years', validators=[DataRequired()])
+    submit = SubmitField('Start the Calculation')
+
+
 class AddHouseForm(FlaskForm):
     housename = StringField('House Detail', validators=[DataRequired()])
     size = StringField('House Size', validators=[DataRequired()])
@@ -69,7 +79,7 @@ class AddHouseForm(FlaskForm):
                                        (38, '华威桥'), (39, '十里堡'), (40, 'CBD'), (41, '惠新西街'), (42, '十八里店'), (43, '酒仙桥'), (44, '劲松'),
                                        (45, '百子湾'), (46, '方庄'), (47, '朝青'), (48, '望京'), (49, '欢乐谷'), (50, '中央别墅区'), (51, '甘露园'), (52, '四惠'),
                                        (53, '北工大'), (54, '成寿寺'), (55, '高碑店'), (56, '大望路'), (57, '太阳宫'), (58, '双井'), (59, '团结湖'), (60, '南沙滩'),
-                                       (61, '东大桥'), (62, '甜水园'), (63, '西坝河'), (64, '健翔桥'), (65, '三里屯'), (66, '安贞'), (67, '亮马桥'), (68, 'nan'),
+                                       (61, '东大桥'), (62, '甜水园'), (63, '西坝河'), (64, '健翔桥'), (65, '三里屯'), (66, '安贞'), (67, '亮马桥'), (68, '未知'),
                                        (69, '大山子'), (70, '建国门外'), (71, '朝阳门外'), (72, '东直门'), (73, '农展馆'), (74, '朝阳公园'), (75, '马甸'),
                                        (76, '燕莎'), (77, '安定门'), (78, '南中轴机场商务区'), (79, '高米店'), (80, '黄村火车站'), (81, '枣园'), (82, '黄村中'),
                                        (83, '西红门'), (84, '大兴其它'), (85, '瀛海'), (86, '天宫院'), (87, '义和庄'), (88, '大兴新机场'), (89, '科技园区'),
@@ -97,5 +107,5 @@ class AddHouseForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
-    imagename = FileField('House Image', validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
+    imagename = FileField('Your House Photo', validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
     upload = SubmitField('Upload House')

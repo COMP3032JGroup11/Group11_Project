@@ -22,7 +22,7 @@ class User(db.Model):
     twitter = db.Column(db.String(120), index=True)
     google = db.Column(db.String(120), index=True)
     linkedin = db.Column(db.String(120), index=True)
-    houses = db.relationship('House', back_populates='user')
+    houses = db.relationship('House', backref='user', lazy='dynamic')
 
 
 class House(db.Model):
@@ -41,7 +41,23 @@ class House(db.Model):
     predicted_price = db.Column(db.Integer, index=True)
     image_name = db.Column(db.String, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='houses')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+class District(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    district = db.Column(db.Integer, index=True)
+
+
+class Community(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    community = db.Column(db.Integer, index=True)
+
+
+class Floor(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    floor = db.Column(db.Integer, index=True)
+
+

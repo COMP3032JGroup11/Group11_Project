@@ -1,16 +1,26 @@
+import secrets
+
+
+import math
+import numpy as np
+from flask_dropzone import random_filename
 from sqlalchemy.sql.functions import current_user
 
 from webapp import app
-from flask import render_template, request
+from flask import render_template, request, current_app
 from flask import render_template, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from webapp import app, db
-from webapp.forms import LoginForm, RegisterForm, ChangePasswordForm, MyProfileForm
-from webapp.models import User
+from webapp.forms import LoginForm, RegisterForm, ChangePasswordForm, MyProfileForm, AddHouseForm, CalculatorForm
+from webapp.models import User, House, District, Community, Floor
 from django.contrib.auth.decorators import login_required
 from webapp.config import Config
 import os
 
+from flask import Flask, request, jsonify, render_template
+import pickle
+
+model = pickle.load(open('model.pkl', 'rb'))
 
 @app.route('/')
 @app.route('/index')
@@ -133,6 +143,151 @@ def change_password():
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
+
+
+@app.route('/upload_house', methods=['GET', 'POST'])
+def upload():
+    form = AddHouseForm()
+    if not session.get("USERNAME") is None:
+        ph_dir = Config.PH_UPLOAD_DIR
+        if form.validate_on_submit():
+            file = form.imagename.data
+            filename = random_filename(file.filename)
+            file.save(os.path.join(ph_dir, filename))
+            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+            prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
+                            form.livingnumber.data, form.bathnumber.data, form.renttype.data,
+                            form.districtid.data, form.communityid.data]])
+            output = int(prediction[0])
+            new_house = House(name=form.housename.data, size=form.size.data, floor_kind=form.floorkind.data,
+                              floor_number=form.floornumber.data, room_number=form.roomnumber.data, living_number=form.livingnumber.data,
+                              bath_number=form.bathnumber.data, rent_type=form.renttype.data, district_id=form.districtid.data,
+                              community_id=form.communityid.data, price=form.price.data, predicted_price=output, image_name=filename,
+                              user=user_in_db)
+            db.session.add(new_house)
+            db.session.commit()
+            return redirect(url_for('my_profile'))
+        else:
+            return render_template('upload-house.html', title='Upload House', form=form)
+
+
+@app.route('/house_list')
+def house_list():
+    if not session.get("USERNAME") is None:
+        # prev_posts = db.session.query(House, District, Community, Floor).all()
+        if not db.session.query(Floor).first():
+            floor_list = ['basement', 'low floor', 'medium floor', 'high floor']
+            for index in range(len(floor_list)+1):
+                if index == 0:
+                        continue
+                else:
+                    n_floor = Floor(id=index, floor=floor_list[index-1])
+                    db.session.add(n_floor)
+                    db.session.commit()
+
+        if not db.session.query(District).first():
+            district_list = ['昌平', '朝阳', '大兴', '东城', '房山', '丰台', '海淀', '怀柔', '门头沟',
+                             '密云', '平谷', '石景山', '顺义', '通州', '西城', '延庆', '亦庄开发区'
+                             ]
+            for index in range(len(district_list)+1):
+                if index == 0:
+                        continue
+                else:
+                    n_district = District(id=index, district=district_list[index-1])
+                    db.session.add(n_district)
+                    db.session.commit()
+
+        if not db.session.query(Community).first():
+            community_list = ['西关环岛', '北七家', '霍营', '鼓楼大街', '回龙观', '西三旗', '东关', '天通苑',
+                              '沙河', '南邵', '昌平其它', '小汤山', '立水桥', '奥林匹克公园', '南口', '安宁庄',
+                              '定福庄', '亚运村小营', '豆各庄', '双桥', '常营', '首都机场', '管庄', '十里河',
+                              '芍药居', '垡头', '和平里', '亚运村', '红庙', '石佛营', '朝阳其它', '国展',
+                              '东坝', '工体', '潘家园', '三元桥', '北苑', '华威桥', '十里堡', 'CBD', '惠新西街',
+                              '十八里店', '酒仙桥', '劲松', '百子湾', '方庄', '朝青', '望京', '欢乐谷', '中央别墅区',
+                              '甘露园', '四惠', '北工大', '成寿寺', '高碑店', '大望路', '太阳宫', '双井', '团结湖',
+                              '南沙滩', '东大桥', '甜水园', '西坝河', '健翔桥', '三里屯', '安贞', '亮马桥', '未知',
+                              '大山子', '建国门外', '朝阳门外', '东直门', '农展馆', '朝阳公园', '马甸', '燕莎',
+                              '安定门', '南中轴机场商务区', '高米店', '黄村火车站', '枣园', '黄村中', '西红门',
+                              '大兴其它', '瀛海', '天宫院', '义和庄', '大兴新机场', '科技园区', '旧宫', '观音寺',
+                              '亦庄', '亦庄开发区其它', '和义', '大兴新机场洋房别墅区', '天宫院南', '永定门', '崇文门',
+                              '东花市', '广渠门', '陶然亭', '左安门', '东四', '建国门内', '天坛', '前门', '地安门', '灯市口',
+                              '金宝街', '交道口', '朝阳门内', '蒲黄榆', '东单', '长阳', '良乡', '阎村', '城关', '燕山',
+                              '房山其它', '窦店', '青塔', '新宫', '木樨园', '花乡', '马家堡', '西罗园', '卢沟桥', '北大地',
+                              '大红门', '看丹桥', '洋桥', '玉泉营', '刘家窑', '五里店', '赵公口', '宋家庄', '右安门外', '角门',
+                              '六里桥', '七里庄', '丰台其它', '丽泽', '草桥', '北京南站', '太平桥', '菜户营', '马连道', '岳各庄',
+                              '五棵松', '广安门', '马连洼', '西山', '定慧寺', '海淀北部新区', '军博', '上地', '清河', '厂洼',
+                              '紫竹桥', '甘家口', '公主坟', '玉泉路', '田村', '小西天', '万寿路', '西直门', '二里庄', '皂君庙',
+                              '双榆树', '四季青', '新街口', '苏州桥', '颐和园', '知春路', '五道口', '圆明园', '牡丹园', '西北旺',
+                              '学院路', '万柳', '中关村', '西二旗', '杨庄', '魏公村', '世纪城', '白石桥', '北太平庄', '海淀其它',
+                              '怀柔', '大峪', '石门营', '城子', '滨河西区', '冯村', '门头沟其它', '密云其它', '平谷其它', '鲁谷',
+                              '八角', '苹果园', '石景山其它', '古城', '老山', '马坡', '顺义其它', '顺义城', '后沙峪', '天竺',
+                              '李桥', '乔庄', '北关', '万达', '临河里', '武夷花园', '果园', '玉桥', '梨园', '九棵树(家乐福)',
+                              '潞苑', '通州北苑', '通州其它', '马驹桥', '金融街', '牛街', '右安门内', '木樨地', '西单', '长椿街',
+                              '月坛', '车公庄', '阜成门', '天宁寺', '宣武门', '官园', '白纸坊', '六铺炕', '德胜门', '西四',
+                              '延庆其它']
+            for index in range(len(community_list)+1):
+                if index == 0:
+                        continue
+                else:
+                    n_community = Community(id=index, community=community_list[index-1])
+                    db.session.add(n_community)
+                    db.session.commit()
+
+        prev_posts = db.session.query(House).all()
+        dis_posts = db.session.query(District).all()
+        com_posts = db.session.query(Community).all()
+        floor_posts = db.session.query(Floor).all()
+        return render_template('house_list.html', title='record', prev_posts=prev_posts, dis_posts=dis_posts, com_posts=com_posts, floor_posts=floor_posts)
+    else:
+        flash("User needs to either login or signup first")
+        return redirect(url_for('login'))
+
+
+@app.route('/calculator', methods=['GET', 'POST'])
+def calculator():
+    form = CalculatorForm()
+    total_repayment = 'Empty'
+    total_interest = 'Empty'
+    monthly_repayment = 'Empty'
+    Total_repayment = 'Empty'
+    Total_interest = 'Empty'
+    First_month_repayment = 'Empty'
+    Monthly_decrease = 'Empty'
+    if form.validate_on_submit():
+        total_loans = form.total_loans.data  # 贷款总额
+        annualized_rate = form.annualized_rate.data  # 年化率
+        repayment_years = form.repayment_years.data  # 还款年数
+        print("qwe")
+        types = form.types.data
+        if types == 1:
+            # 等额本息
+            up = total_loans * math.pow((1 + annualized_rate / 1200), repayment_years * 12)
+            # print("UP = ", up)
+            down = 1
+            for i in range(1, repayment_years * 12):
+                down = down + math.pow((1 + annualized_rate / 1200), i)
+            A = up / down
+            total_repayment = A * repayment_years * 12  # 还款总额
+            total_interest = A * repayment_years * 12 - total_loans  # 利息总额
+            monthly_repayment = A  # 月还款
+            print(total_repayment, total_interest,monthly_repayment)
+
+        elif types == 2:
+            # 等额本金
+            A = float(total_loans) / (repayment_years * 12)
+            B = total_loans * (annualized_rate / 1200)
+            C = A * (annualized_rate / 1200)
+            D = (B + C) * repayment_years * 6
+            Total_repayment = D + total_loans  # 还款总额
+            Total_interest = D  # 利息总额
+            First_month_repayment = A + B  # 首月还款
+            Monthly_decrease = C  # 每月递减
+            print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
+
+    return render_template('calculator.html', title='Calculator', form=form, total_repayment=total_repayment,
+                           total_interest=total_interest, monthly_repayment=monthly_repayment,
+                           Total_repayment=Total_repayment, Total_interest=Total_interest,
+                           First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease)
 
 
 @app.route('/logout')

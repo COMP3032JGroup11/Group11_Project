@@ -15,12 +15,5 @@
       <jdbc-url>jdbc:sqlite:D:\Project\Group11_Project\Code\Group11_code_draf\webapp\blogdb.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="SQLiteSpy" uuid="aa9a1d02-9c83-429f-b542-60b573c7bd6e">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:F:\git\Group11_Project\Code\Group11_code_draf\webapp\SQLiteSpy.db3</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>

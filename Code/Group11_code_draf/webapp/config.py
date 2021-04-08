@@ -8,3 +8,5 @@ class Config(object):
 	'sqlite:///' + os.path.join(basedir, 'RentingHouse.db')
 
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+	PH_UPLOAD_DIR = os.path.join(basedir, 'static', 'Uploaded_PH')

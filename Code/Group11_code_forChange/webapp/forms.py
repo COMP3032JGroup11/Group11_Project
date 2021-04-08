@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
-    TextAreaField, SelectField
+    TextAreaField, SelectField, FloatField, IntegerField
 from wtforms.validators import DataRequired, EqualTo
 from flask_wtf.file import FileRequired, FileAllowed
 
@@ -41,6 +41,16 @@ class MyProfileForm(FlaskForm):
     google = StringField('Google Account', validators=[DataRequired()])
     linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
     submit = SubmitField('Save Information')
+
+
+class CalculatorForm(FlaskForm):
+    total_loans = IntegerField('Total Loans', validators=[DataRequired()])
+    annualized_rate = FloatField('Annualized Rate', validators=[DataRequired()])
+    repayment_years = IntegerField('Repayment Years', validators=[DataRequired()])
+    types = SelectField('Loan Type', validators=[DataRequired()], choices=[(1, 'Equal principal and interest'),
+                                                                           (2, 'Equal principal')], coerce=int)
+    # A = FloatField('Repayment Years', validators=[DataRequired()])
+    submit = SubmitField('Start the Calculation')
 
 
 class AddHouseForm(FlaskForm):

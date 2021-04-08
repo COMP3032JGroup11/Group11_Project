@@ -114,6 +114,12 @@ def my_profile():
         flash("User needs to either login or signup first")
     return render_template("my-profile.html", form=form)
 
+
+@app.route('/submit-new-property', methods=['GET', 'POST'])
+def submit_new_property():
+    return render_template('submit-new-property.html')
+
+
 @app.route('/change-password', methods=['GET', 'POST'])
 def change_password():
     user = {'username': 'User'}
@@ -135,6 +141,7 @@ def change_password():
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
+
 
 @app.route('/upload_house', methods=['GET', 'POST'])
 def upload():
@@ -232,6 +239,53 @@ def house_list():
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
+
+
+@app.route('/calculator', methods=['GET', 'POST'])
+def calculator():
+    form = CalculatorForm()
+    total_repayment = 'Empty'
+    total_interest = 'Empty'
+    monthly_repayment = 'Empty'
+    Total_repayment = 'Empty'
+    Total_interest = 'Empty'
+    First_month_repayment = 'Empty'
+    Monthly_decrease = 'Empty'
+    if form.validate_on_submit():
+        total_loans = form.total_loans.data  # 贷款总额
+        annualized_rate = form.annualized_rate.data  # 年化率
+        repayment_years = form.repayment_years.data  # 还款年数
+        print("qwe")
+        types = form.types.data
+        if types == 1:
+            # 等额本息
+            up = total_loans * math.pow((1 + annualized_rate / 1200), repayment_years * 12)
+            # print("UP = ", up)
+            down = 1
+            for i in range(1, repayment_years * 12):
+                down = down + math.pow((1 + annualized_rate / 1200), i)
+            A = up / down
+            total_repayment = A * repayment_years * 12  # 还款总额
+            total_interest = A * repayment_years * 12 - total_loans  # 利息总额
+            monthly_repayment = A  # 月还款
+            print(total_repayment, total_interest,monthly_repayment)
+
+        elif types == 2:
+            # 等额本金
+            A = float(total_loans) / (repayment_years * 12)
+            B = total_loans * (annualized_rate / 1200)
+            C = A * (annualized_rate / 1200)
+            D = (B + C) * repayment_years * 6
+            Total_repayment = D + total_loans  # 还款总额
+            Total_interest = D  # 利息总额
+            First_month_repayment = A + B  # 首月还款
+            Monthly_decrease = C  # 每月递减
+            print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
+
+    return render_template('calculator.html', title='Calculator', form=form, total_repayment=total_repayment,
+                           total_interest=total_interest, monthly_repayment=monthly_repayment,
+                           Total_repayment=Total_repayment, Total_interest=Total_interest,
+                           First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease)
 
 
 @app.route('/logout')

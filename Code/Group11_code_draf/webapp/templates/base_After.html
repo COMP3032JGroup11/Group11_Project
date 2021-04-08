@@ -12,8 +12,7 @@
 
 		<!-- Custom Color Option -->
 		<link href="static/assets/css/colors.css" rel="stylesheet">
-
-        {%  block other_css %}
+        {% block other_css %}
 
         {% endblock %}
     </head>
@@ -163,7 +162,8 @@
             </ul>
             {% endif %}
             {% endwith %}
-            {% block content %}{% endblock %}
+            {% block content %}
+            {% endblock %}
 
 			<!-- Video Modal -->
 			<div class="modal fade" id="popup-video" tabindex="-1" role="dialog" aria-labelledby="popup-video" aria-hidden="true">
@@ -196,6 +196,7 @@
 		<script src="static/assets/js/imagesloaded.js"></script>
 		<script src="static/assets/js/daterangepicker.js"></script>
 		<script src="static/assets/js/custom.js"></script>
+
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
 		<!-- ============================================================== -->
