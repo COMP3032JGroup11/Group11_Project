@@ -134,13 +134,13 @@
 								<li>
 									<div class="btn-group account-drop">
 										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<img src="static/assets/img/user-5.jpg" class="avater-img" alt="">Hi, Admin
+											<img src="static/assets/img/user-5.jpg" class="avater-img" alt=""> Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
 											<a href="my-profile"><i class="ti-user"></i>My Profile</a>
-											<a href="my-property.html"><i class="ti-layers"></i>Property List</a>
-											<a href="bookmark-list.html"><i class="ti-bookmark"></i>Bookmarked Listings</a>
-											<a class="active" href="change-password"><i class="ti-unlock"></i>Change Password</a>
+											<a href="my_houselist"><i class="ti-layers"></i>My Houses</a>
+											<a href="change-password"><i class="ti-unlock"></i>Change Password</a>
+                                            <a href="logout"><i class="ti-bookmark"></i>Logout</a>
 										</div>
 									</div>
 								</li>
@@ -275,18 +275,18 @@
 		<!-- ============================================================== -->
 		<!-- All Jquery -->
 		<!-- ============================================================== -->
-		<script src="static/assets/js/jquery.min.js"></script>
-		<script src="static/assets/js/popper.min.js"></script>
-		<script src="static/assets/js/bootstrap.min.js"></script>
-		<script src="static/assets/js/ion.rangeSlider.min.js"></script>
-		<script src="static/assets/js/select2.min.js"></script>
-		<script src="static/assets/js/jquery.magnific-popup.min.js"></script>
-		<script src="static/assets/js/slick.js"></script>
-		<script src="static/assets/js/slider-bg.js"></script>
-		<script src="static/assets/js/lightbox.js"></script>
-		<script src="static/assets/js/imagesloaded.js"></script>
-		<script src="static/assets/js/daterangepicker.js"></script>
-		<script src="static/assets/js/custom.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/ion.rangeSlider.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/select2.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/jquery.magnific-popup.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/slick.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/slider-bg.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/lightbox.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/daterangepicker.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
 		<!-- ============================================================== -->
