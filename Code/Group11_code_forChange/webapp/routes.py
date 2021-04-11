@@ -22,6 +22,7 @@ import pickle
 
 model = pickle.load(open('model.pkl', 'rb'))
 
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -112,7 +113,6 @@ def my_profile():
             form.twitter.data = user_in_db.twitter
             form.google.data = user_in_db.google
             form.linkedin.data = user_in_db.linkedin
-
         return render_template("my-profile.html", username=username, form=form)
 
     flash("User needs to either login or signup first")
