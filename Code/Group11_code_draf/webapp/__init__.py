@@ -11,6 +11,10 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 dropzone = Dropzone(app)
 
-
-
 from webapp import routes, models
+from flask_avatars import Avatars
+
+avatars = Avatars(app)
+
+def register_extensions(app):
+    db.init_app(app)

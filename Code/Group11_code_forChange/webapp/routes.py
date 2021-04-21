@@ -252,6 +252,15 @@ def house_list():
     return redirect(url_for('login'))
 
 
+@app.route('/base_After', methods=['GET', 'POST'])
+def base_after():
+    if not session.get("USERNAME") is None:
+        username = session.get("USERNAME")
+        return render_template('base_After.html', title='Base', username=username)
+    flash("User needs to either login or signup first")
+    return redirect(url_for('login'))
+
+
 @app.route('/calculator', methods=['GET', 'POST'])
 def calculator():
     username = session.get("USERNAME")

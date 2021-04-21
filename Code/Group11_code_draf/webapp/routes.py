@@ -79,6 +79,7 @@ def upload_pic(form_picture):
 @app.route('/my-profile', methods=['GET', 'POST'])
 # @login_required
 def my_profile():
+    username = session.get("USERNAME")
     user = {'username': 'User'}
     form = MyProfileForm()
 
@@ -114,9 +115,10 @@ def my_profile():
             form.google.data = user_in_db.google
             form.linkedin.data = user_in_db.linkedin
 
-    else:
-        flash("User needs to either login or signup first")
-    return render_template("my-profile.html", form=form)
+        return render_template("my-profile.html", username=username, form=form)
+
+    flash("User needs to either login or signup first")
+    return redirect(url_for('login'))
 
 
 @app.route('/submit-new-property', methods=['GET', 'POST'])
@@ -124,7 +126,7 @@ def submit_new_property():
     return render_template('submit-new-property.html')
 
 
-@app.route('/change_password', methods=['GET', 'POST'])
+@app.route('/change-password', methods=['GET', 'POST'])
 def change_password():
     user = {'username': 'User'}
     username = session.get("USERNAME")
@@ -143,9 +145,9 @@ def change_password():
                 db.session.commit()
                 return redirect(url_for('change_password'))
         return render_template('change-password.html', user=user, username=username, form=form)
-    else:
-        flash("User needs to either login or signup first")
-        return redirect(url_for('login'))
+
+    flash("User needs to either login or signup first")
+    return redirect(url_for('login'))
 
 
 @app.route('/upload_house', methods=['GET', 'POST'])
@@ -251,52 +253,66 @@ def house_list():
     return redirect(url_for('login'))
 
 
+@app.route('/base_After', methods=['GET', 'POST'])
+def base_after():
+    if not session.get("USERNAME") is None:
+        username = session.get("USERNAME")
+        return render_template('base_After.html', title='Base', username=username)
+    flash("User needs to either login or signup first")
+    return redirect(url_for('login'))
+
+
 @app.route('/calculator', methods=['GET', 'POST'])
 def calculator():
     username = session.get("USERNAME")
-    form = CalculatorForm()
-    total_repayment = 'Empty'
-    total_interest = 'Empty'
-    monthly_repayment = 'Empty'
-    Total_repayment = 'Empty'
-    Total_interest = 'Empty'
-    First_month_repayment = 'Empty'
-    Monthly_decrease = 'Empty'
-    if form.validate_on_submit():
-        total_loans = form.total_loans.data  # 贷款总额
-        annualized_rate = form.annualized_rate.data  # 年化率
-        repayment_years = form.repayment_years.data  # 还款年数
-        print("qwe")
-        types = form.types.data
-        if types == 1:
-            # 等额本息
-            up = total_loans * math.pow((1 + annualized_rate / 1200), repayment_years * 12)
-            # print("UP = ", up)
-            down = 1
-            for i in range(1, repayment_years * 12):
-                down = down + math.pow((1 + annualized_rate / 1200), i)
-            A = up / down
-            total_repayment = A * repayment_years * 12  # 还款总额
-            total_interest = A * repayment_years * 12 - total_loans  # 利息总额
-            monthly_repayment = A  # 月还款
-            print(total_repayment, total_interest,monthly_repayment)
+    if not session.get("USERNAME") is None:
+        username = session.get("USERNAME")
+        form = CalculatorForm()
+        total_repayment = 'Empty'
+        total_interest = 'Empty'
+        monthly_repayment = 'Empty'
+        Total_repayment = 'Empty'
+        Total_interest = 'Empty'
+        First_month_repayment = 'Empty'
+        Monthly_decrease = 'Empty'
+        if form.validate_on_submit():
+            total_loans = form.total_loans.data  # 贷款总额
+            annualized_rate = form.annualized_rate.data  # 年化率
+            repayment_years = form.repayment_years.data  # 还款年数
+            print("qwe")
+            types = form.types.data
+            if types == 1:
+                # 等额本息
+                up = total_loans * math.pow((1 + annualized_rate / 1200), repayment_years * 12)
+                # print("UP = ", up)
+                down = 1
+                for i in range(1, repayment_years * 12):
+                    down = down + math.pow((1 + annualized_rate / 1200), i)
+                A = up / down
+                total_repayment = A * repayment_years * 12  # 还款总额
+                total_interest = A * repayment_years * 12 - total_loans  # 利息总额
+                monthly_repayment = A  # 月还款
+                print(total_repayment, total_interest,monthly_repayment)
 
-        elif types == 2:
-            # 等额本金
-            A = float(total_loans) / (repayment_years * 12)
-            B = total_loans * (annualized_rate / 1200)
-            C = A * (annualized_rate / 1200)
-            D = (B + C) * repayment_years * 6
-            Total_repayment = D + total_loans  # 还款总额
-            Total_interest = D  # 利息总额
-            First_month_repayment = A + B  # 首月还款
-            Monthly_decrease = C  # 每月递减
-            print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
+            elif types == 2:
+                # 等额本金
+                A = float(total_loans) / (repayment_years * 12)
+                B = total_loans * (annualized_rate / 1200)
+                C = A * (annualized_rate / 1200)
+                D = (B + C) * repayment_years * 6
+                Total_repayment = D + total_loans  # 还款总额
+                Total_interest = D  # 利息总额
+                First_month_repayment = A + B  # 首月还款
+                Monthly_decrease = C  # 每月递减
+                print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
 
-    return render_template('calculator.html', title='Calculator', username=username, form=form, total_repayment=total_repayment,
-                           total_interest=total_interest, monthly_repayment=monthly_repayment,
-                           Total_repayment=Total_repayment, Total_interest=Total_interest,
-                           First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease)
+        return render_template('calculator.html', title='Calculator', username=username, form=form, total_repayment=total_repayment,
+                               total_interest=total_interest, monthly_repayment=monthly_repayment,
+                               Total_repayment=Total_repayment, Total_interest=Total_interest,
+                               First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease)
+
+    flash("User needs to either login or signup first")
+    return redirect(url_for('login'))
 
 
 @app.route('/my_houselist', methods=['GET', 'POST'])
