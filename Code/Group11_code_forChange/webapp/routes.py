@@ -504,6 +504,19 @@ def search():
             community_id_d = form.communityid.data
             Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
                                         House.district_id == district_id_d, House.community_id == community_id_d).all()
+            if len(Houses) < 4:
+                Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
+                                            House.district_id == district_id_d).all()
+                if len(Houses) < 4:
+                    Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d).all()
+                    if len(Houses) < 4:
+                        Houses = House.query.filter(House.rent_type == rent_type_d).all()
+                    else:
+                        pass
+                else:
+                    pass
+            else:
+                pass
             return render_template('search_house_list.html', form=form)
 
         else:
