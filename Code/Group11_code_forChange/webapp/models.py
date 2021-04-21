@@ -4,6 +4,7 @@ from flask import current_app
 from jwt import jwt
 
 from webapp import db
+from webapp import whooshee
 
 
 class User(db.Model):
@@ -23,7 +24,6 @@ class User(db.Model):
     google = db.Column(db.String(120), index=True)
     linkedin = db.Column(db.String(120), index=True)
     houses = db.relationship('House', backref='user', lazy='dynamic')
-
 
 class House(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -45,16 +45,13 @@ class House(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-
 class District(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     district = db.Column(db.Integer, index=True)
 
-
 class Community(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     community = db.Column(db.Integer, index=True)
-
 
 class Floor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
