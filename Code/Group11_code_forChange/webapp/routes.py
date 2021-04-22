@@ -444,8 +444,8 @@ def house_change(house_id):
         return render_template("house_change.html", username=username, houseid=houseid, predrictprice=predrictprice, form=form)
 
 
-@app.route('/search_house', methods=['GET', 'POST'])
-def search():
+@app.route('/search_house/<int:page>', methods=['GET', 'POST'])
+def search(page=None):
     username = session.get("USERNAME")
     form = SearchForm()
     if not session.get("USERNAME") is None:
@@ -506,7 +506,9 @@ def search():
                     n_community = Community(id=index, community=community_list[index - 1])
                     db.session.add(n_community)
                     db.session.commit()
-        prev_posts = db.session.query(House).all()
+        if not page:
+            page = 1
+        prev_posts = db.session.query(House).paginate(page=page, per_page=3)
         dis_posts = db.session.query(District).all()
         com_posts = db.session.query(Community).all()
         floor_posts = db.session.query(Floor).all()
@@ -516,29 +518,29 @@ def search():
             district_id_d = form.districtid.data
             community_id_d = form.communityid.data
             Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
-                                        House.district_id == district_id_d, House.community_id == community_id_d).all()
+                                        House.district_id == district_id_d, House.community_id == community_id_d).paginate(page=page, per_page=3)
             if len(Houses) < 4:
                 Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
-                                            House.district_id == district_id_d).all()
-                note = 'The number of houses is too small, so we recommend some relevant houses!'
+                                            House.district_id == district_id_d).paginate(page=page, per_page=3)
+                note = 'The number of suitable houses is too small, so we recommend some relevant houses!'
                 if len(Houses) < 4:
-                    Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d).all()
+                    Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d).paginate(page=page, per_page=3)
                     if len(Houses) < 4:
-                        Houses = House.query.filter(House.rent_type == rent_type_d).all()
+                        Houses = House.query.filter(House.rent_type == rent_type_d).paginate(page=page, per_page=3)
                         if len(Houses) == 0:
-                            note = 'Sorry, there is no house!'
+                            note = 'Sorry, there is no suitable house!'
                     else:
                         pass
                 else:
                     pass
             else:
                 pass
-            return render_template('search_houselist.html', form=form, username=username, Houses=Houses, dis_posts=dis_posts,
-                                   com_posts=com_posts, floor_posts=floor_posts, note=note)
+            return render_template('search_houselist.html', form=form, username=username, Houses=Houses.items, dis_posts=dis_posts,
+                                   com_posts=com_posts, floor_posts=floor_posts, note=note, pagination=Houses)
 
         else:
-            return render_template('search_houselist.html', form=form, username=username, prev_posts=prev_posts, dis_posts=dis_posts,
-                                   com_posts=com_posts, floor_posts=floor_posts)
+            return render_template('search_houselist.html', form=form, username=username, prev_posts=prev_posts.items, dis_posts=dis_posts,
+                                   com_posts=com_posts, floor_posts=floor_posts, pagination=prev_posts)
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
