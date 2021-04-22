@@ -506,6 +506,10 @@ def search():
                     n_community = Community(id=index, community=community_list[index - 1])
                     db.session.add(n_community)
                     db.session.commit()
+        prev_posts = db.session.query(House).all()
+        dis_posts = db.session.query(District).all()
+        com_posts = db.session.query(Community).all()
+        floor_posts = db.session.query(Floor).all()
         if form.validate_on_submit():
             floor_kind_d = form.floorkind.data
             rent_type_d = form.renttype.data
@@ -516,20 +520,25 @@ def search():
             if len(Houses) < 4:
                 Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
                                             House.district_id == district_id_d).all()
+                note = 'The number of houses is too small, so we recommend some relevant houses!'
                 if len(Houses) < 4:
                     Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d).all()
                     if len(Houses) < 4:
                         Houses = House.query.filter(House.rent_type == rent_type_d).all()
+                        if len(Houses) == 0:
+                            note = 'Sorry, there is no house!'
                     else:
                         pass
                 else:
                     pass
             else:
                 pass
-            return render_template('search_house_list.html', form=form)
+            return render_template('search_houselist.html', form=form, username=username, Houses=Houses, dis_posts=dis_posts,
+                                   com_posts=com_posts, floor_posts=floor_posts, note=note)
 
         else:
-            return render_template('search_house_list.html', form=form)
+            return render_template('search_houselist.html', form=form, username=username, prev_posts=prev_posts, dis_posts=dis_posts,
+                                   com_posts=com_posts, floor_posts=floor_posts)
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
