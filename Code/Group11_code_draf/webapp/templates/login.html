@@ -18,15 +18,15 @@
     <!-- <body class="yellow-skin bg-cover" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);" data-overlay="2">
  -->    
  	<body class="yellow-skinbg-cover" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);">
-	{% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
+{#	{% with messages = get_flashed_messages() %}#}
+{#        {% if messages %}#}
+{#        <ul>#}
+{#            {% for message in messages %}#}
+{#            <li>{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#        {% endif %}#}
+{#        {% endwith %}#}
 		 <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -51,7 +51,18 @@
 								<div class="row">
 								
 									<div class="col-lg-6 col-md-6">
-										<h4 class="modal-header-title text-left">Sign In</h4>
+                                        <h4 class="modal-header-title text-left">Sign In
+                                            <h5>
+                                                {% with messages = get_flashed_messages() %}
+                                                    {% if messages %}
+                                                        {% for message in messages %}
+                                                            <span style="color: red;">[{{ message }}]</span>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endwith %}
+                                            </h5>
+                                        </h4>
+
 										
 {#										<div class="social-login light single mb-3">#}
 {#											<ul>#}

@@ -145,7 +145,8 @@
                                 <li>
 									<div class="btn-group account-drop">
 										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<img src="static/assets/img/user-5.jpg" class="avater-img" alt=""> Hi, {{ username }}
+{#											<img src="static/assets/img/user-5.jpg" class="avater-img" alt=""> Hi, {{ username }}#}
+                                            <img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
 											<a href="my-profile"><i class="ti-user"></i>My Profile</a>

@@ -1,4 +1,6 @@
 import os
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
@@ -10,3 +12,5 @@ class Config(object):
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 	PH_UPLOAD_DIR = os.path.join(basedir, 'static', 'Uploaded_PH')
+
+	WHOOSHEE_DIR = os.path.join(basedir, 'static', 'whooshee')

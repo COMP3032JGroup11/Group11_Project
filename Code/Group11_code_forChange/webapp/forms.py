@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
-    TextAreaField, SelectField, FloatField, IntegerField
-from wtforms.validators import DataRequired, EqualTo
+    TextAreaField, SelectField, FloatField, IntegerField, EmailField
+from wtforms.validators import DataRequired, EqualTo, Email
 from flask_wtf.file import FileRequired, FileAllowed
 
 
@@ -14,9 +14,13 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired()])
+    user_type = SelectField('Identity', validators=[DataRequired()],
+                            choices=[
+                                (1, 'landlord'),  # 房东
+                                (2, 'Tenant')], coerce=int)  # 租客
     accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()])
     submit = SubmitField('Register')
 
@@ -262,6 +266,7 @@ class ChangeHouseForm(FlaskForm):
     imagename = FileField('Your House Photo',
                           validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
     change = SubmitField('Update Information')
+
 
 class SearchForm(FlaskForm):
     floorkind = SelectField('Floor Kind', validators=[DataRequired()],

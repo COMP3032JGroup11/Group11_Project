@@ -57,7 +57,7 @@ def register():
             flash('Passwords do not match!')
             return redirect(url_for('register'))
         passw_hash = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash)
+        user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash, user_type=form.user_type.data)
         db.session.add(user)
         db.session.commit()
         flash('User registered with username:{}'.format(form.username.data))
@@ -143,7 +143,7 @@ def change_password():
                 user_in_db.password_hash = generate_password_hash(form.new_password1.data)
                 db.session.commit()
                 return redirect(url_for('change_password'))
-        return render_template('change-password.html', user=user, username=username, form=form)
+        return render_template('change_password.html', user=user, username=username, form=form)
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
