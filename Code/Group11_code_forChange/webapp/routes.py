@@ -4,16 +4,16 @@ import numpy as np
 from flask_dropzone import random_filename
 from sqlalchemy.sql.functions import current_user
 
-from webapp import app
-from flask import render_template, request, current_app
-from flask import render_template, flash, redirect, url_for, session
+from webapp import app, db, whooshee, mail, bcrypt
+from flask import render_template, request, current_app, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from webapp import app, db, whooshee
 from webapp.forms import LoginForm, RegisterForm, ChangePasswordForm, MyProfileForm, AddHouseForm, CalculatorForm, \
-    ChangeHouseForm, SearchForm
+    ChangeHouseForm, SearchForm, RequestResetForm, ResetPasswordForm
 from webapp.models import User, House, District, Community, Floor
 from django.contrib.auth.decorators import login_required
 from webapp.config import Config
+from flask_mail import Message
+
 import os
 
 import math
@@ -57,7 +57,8 @@ def register():
             flash('Passwords do not match!')
             return redirect(url_for('register'))
         passw_hash = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash, user_type=form.user_type.data)
+        user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash,
+                    user_type=form.user_type.data)
         db.session.add(user)
         db.session.commit()
         flash('User registered with username:{}'.format(form.username.data))
@@ -65,6 +66,59 @@ def register():
         # print(session)
         return redirect(url_for('my_profile'))
     return render_template('register.html', title='Register a new user', form=form)
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request',
+                  # sender='2101282494yyd@gmail.com',
+                  sender='noreply@demo.com',
+                  recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
+    mail.send(msg)
+# username = session.get("USERNAME")
+#     form = MyProfileForm()
+#
+#     if not session.get("USERNAME") is None:
+
+
+@app.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    username = session.get("USERNAME")
+    if not session.get("USERNAME") is None:
+    # if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    # if current_user.is_authenticated:
+    if not session.get("USERNAME") is None:
+        return redirect(url_for('index'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        passw_hash = generate_password_hash(form.password.data)
+        # hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password_hash = passw_hash
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
 
 
 def upload_pic(form_picture):
@@ -114,7 +168,7 @@ def my_profile():
             form.twitter.data = user_in_db.twitter
             form.google.data = user_in_db.google
             form.linkedin.data = user_in_db.linkedin
-        return render_template("my-profile.html", username=username, form=form)
+        return render_template("my_profile.html", username=username, form=form)
 
     flash("User needs to either login or signup first")
     return redirect(url_for('login'))
@@ -122,7 +176,7 @@ def my_profile():
 
 @app.route('/submit-new-property', methods=['GET', 'POST'])
 def submit_new_property():
-    return render_template('submit-new-property.html')
+    return render_template('submit_new_property.html')
 
 
 @app.route('/change_password', methods=['GET', 'POST'])
@@ -161,19 +215,22 @@ def upload():
             file.save(os.path.join(ph_dir, filename))
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
             prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
-                            form.livingnumber.data, form.bathnumber.data, form.renttype.data,
-                            form.districtid.data, form.communityid.data]])
+                                         form.livingnumber.data, form.bathnumber.data, form.renttype.data,
+                                         form.districtid.data, form.communityid.data]])
             output = int(prediction[0])
             new_house = House(name=form.housename.data, size=form.size.data, floor_kind=form.floorkind.data,
-                              floor_number=form.floornumber.data, room_number=form.roomnumber.data, living_number=form.livingnumber.data,
-                              bath_number=form.bathnumber.data, rent_type=form.renttype.data, district_id=form.districtid.data,
-                              community_id=form.communityid.data, price=form.price.data, predicted_price=output, image_name=filename,
+                              floor_number=form.floornumber.data, room_number=form.roomnumber.data,
+                              living_number=form.livingnumber.data,
+                              bath_number=form.bathnumber.data, rent_type=form.renttype.data,
+                              district_id=form.districtid.data,
+                              community_id=form.communityid.data, price=form.price.data, predicted_price=output,
+                              image_name=filename,
                               user=user_in_db)
             db.session.add(new_house)
             db.session.commit()
             return redirect(url_for('my_profile'))
         else:
-            return render_template('upload-house.html', username=username, title='Upload House', form=form)
+            return render_template('upload_house.html', username=username, title='Upload House', form=form)
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
@@ -186,11 +243,11 @@ def house_list():
         # prev_posts = db.session.query(House, District, Community, Floor).all()
         if not db.session.query(Floor).first():
             floor_list = ['basement', 'low floor', 'mid floor', 'high floor']
-            for index in range(len(floor_list)+1):
+            for index in range(len(floor_list) + 1):
                 if index == 0:
-                        continue
+                    continue
                 else:
-                    n_floor = Floor(id=index, floor=floor_list[index-1])
+                    n_floor = Floor(id=index, floor=floor_list[index - 1])
                     db.session.add(n_floor)
                     db.session.commit()
 
@@ -198,11 +255,11 @@ def house_list():
             district_list = ['昌平', '朝阳', '大兴', '东城', '房山', '丰台', '海淀', '怀柔', '门头沟',
                              '密云', '平谷', '石景山', '顺义', '通州', '西城', '延庆', '亦庄开发区'
                              ]
-            for index in range(len(district_list)+1):
+            for index in range(len(district_list) + 1):
                 if index == 0:
-                        continue
+                    continue
                 else:
-                    n_district = District(id=index, district=district_list[index-1])
+                    n_district = District(id=index, district=district_list[index - 1])
                     db.session.add(n_district)
                     db.session.commit()
 
@@ -234,11 +291,11 @@ def house_list():
                               '潞苑', '通州北苑', '通州其它', '马驹桥', '金融街', '牛街', '右安门内', '木樨地', '西单', '长椿街',
                               '月坛', '车公庄', '阜成门', '天宁寺', '宣武门', '官园', '白纸坊', '六铺炕', '德胜门', '西四',
                               '延庆其它']
-            for index in range(len(community_list)+1):
+            for index in range(len(community_list) + 1):
                 if index == 0:
-                        continue
+                    continue
                 else:
-                    n_community = Community(id=index, community=community_list[index-1])
+                    n_community = Community(id=index, community=community_list[index - 1])
                     db.session.add(n_community)
                     db.session.commit()
 
@@ -246,7 +303,8 @@ def house_list():
         dis_posts = db.session.query(District).all()
         com_posts = db.session.query(Community).all()
         floor_posts = db.session.query(Floor).all()
-        return render_template('house_list.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts, com_posts=com_posts, floor_posts=floor_posts)
+        return render_template('house_list.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
+                               com_posts=com_posts, floor_posts=floor_posts)
 
     flash("User needs to either login or signup first")
     return redirect(url_for('login'))
@@ -289,7 +347,7 @@ def calculator():
             total_repayment = A * repayment_years * 12  # 还款总额
             total_interest = A * repayment_years * 12 - total_loans  # 利息总额
             monthly_repayment = A  # 月还款
-            print(total_repayment, total_interest,monthly_repayment)
+            print(total_repayment, total_interest, monthly_repayment)
 
         elif types == 2:
             # 等额本金
@@ -303,7 +361,8 @@ def calculator():
             Monthly_decrease = C  # 每月递减
             print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
 
-    return render_template('calculator.html', title='Calculator', username=username, form=form, total_repayment=total_repayment,
+    return render_template('calculator.html', title='Calculator', username=username, form=form,
+                           total_repayment=total_repayment,
                            total_interest=total_interest, monthly_repayment=monthly_repayment,
                            Total_repayment=Total_repayment, Total_interest=Total_interest,
                            First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease)
@@ -441,7 +500,8 @@ def house_change(house_id):
             form.imagename.data = house_in_db.image_name
         house_in_db = House.query.filter(House.id == houseid).first()
         predrictprice = house_in_db.predicted_price
-        return render_template("house_change.html", username=username, houseid=houseid, predrictprice=predrictprice, form=form)
+        return render_template("house_change.html", username=username, houseid=houseid, predrictprice=predrictprice,
+                               form=form)
 
 
 @app.route('/search_house/<int:page>', methods=['GET', 'POST'])
@@ -518,13 +578,15 @@ def search(page=None):
             district_id_d = form.districtid.data
             community_id_d = form.communityid.data
             Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
-                                        House.district_id == district_id_d, House.community_id == community_id_d).paginate(page=page, per_page=3)
+                                        House.district_id == district_id_d,
+                                        House.community_id == community_id_d).paginate(page=page, per_page=3)
             if len(Houses) < 4:
                 Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d,
                                             House.district_id == district_id_d).paginate(page=page, per_page=3)
                 note = 'The number of suitable houses is too small, so we recommend some relevant houses!'
                 if len(Houses) < 4:
-                    Houses = House.query.filter(House.floor_kind == floor_kind_d, House.rent_type == rent_type_d).paginate(page=page, per_page=3)
+                    Houses = House.query.filter(House.floor_kind == floor_kind_d,
+                                                House.rent_type == rent_type_d).paginate(page=page, per_page=3)
                     if len(Houses) < 4:
                         Houses = House.query.filter(House.rent_type == rent_type_d).paginate(page=page, per_page=3)
                         if len(Houses) == 0:
@@ -535,15 +597,18 @@ def search(page=None):
                     pass
             else:
                 pass
-            return render_template('search_houselist.html', form=form, username=username, Houses=Houses.items, dis_posts=dis_posts,
+            return render_template('search_houselist.html', form=form, username=username, Houses=Houses.items,
+                                   dis_posts=dis_posts,
                                    com_posts=com_posts, floor_posts=floor_posts, note=note, pagination=Houses)
 
         else:
-            return render_template('search_houselist.html', form=form, username=username, prev_posts=prev_posts.items, dis_posts=dis_posts,
+            return render_template('search_houselist.html', form=form, username=username, prev_posts=prev_posts.items,
+                                   dis_posts=dis_posts,
                                    com_posts=com_posts, floor_posts=floor_posts, pagination=prev_posts)
     else:
         flash("User needs to either login or signup first")
         return redirect(url_for('login'))
+
 
 @app.route('/logout')
 def logout():

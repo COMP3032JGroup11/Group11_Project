@@ -88,7 +88,7 @@
 {#										<li class=""><a href="#">User Admin<span class="submenu-indicator"></span></a>#}
 {#											<ul class="nav-dropdown nav-submenu">#}
 {#												<li><a href="dashboard.html">User Dashboard</a></li>#}
-{#												<li><a href="my-profile.html">My Profile</a></li>#}
+{#												<li><a href="my_profile.html">My Profile</a></li>#}
 {#												<li><a href="my-property.html">My Property</a></li>#}
 {#												<li><a href="bookmark-list.html">Bookmark Property</a></li>#}
 {#												<li><a href="submit-property.html">Submit Property</a></li>#}
@@ -149,10 +149,10 @@
                                             <img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
-											<a href="my-profile"><i class="ti-user"></i>My Profile</a>
+											<a href="my_profile"><i class="ti-user"></i>My Profile</a>
 											<a href="my_houselist"><i class="ti-layers"></i>My Houses</a>
-											<a href="change-password"><i class="ti-unlock"></i>Change Password</a>
-                                            <a href="logout"><i class="ti-bookmark"></i>Logout</a>
+											<a href="change_password"><i class="ti-unlock"></i>Change Password</a>
+                                            <a href="{{ url_for('logout') }}"><i class="ti-bookmark"></i>Logout</a>
 										</div>
 									</div>
 								</li>

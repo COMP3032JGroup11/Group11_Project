@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateF
     TextAreaField, SelectField, FloatField, IntegerField, EmailField
 from wtforms.validators import DataRequired, EqualTo, Email
 from flask_wtf.file import FileRequired, FileAllowed
+from webapp.models import User
 
 
 class LoginForm(FlaskForm):
@@ -10,6 +11,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
+    # def validate_email(self, email):
+    #     user = User.query.filter_by(email=email.data).first()
+    #     if user:
+    #         raise ValidationError('That email is taken. Please choose a different one.')
 
 
 class RegisterForm(FlaskForm):
@@ -351,3 +357,22 @@ class SearchForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     search = SubmitField('Search')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
