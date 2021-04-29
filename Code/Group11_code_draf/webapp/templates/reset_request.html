@@ -10,7 +10,7 @@
         <!-- Custom CSS -->
         <link href="static/assets/css/styles.css" rel="stylesheet">
 
-		<!-- Custom Color Option -->
+		<!-- Custom Color Option -->z
 		<link href="static/assets/css/colors.css" rel="stylesheet">
     </head>
 
@@ -62,16 +62,6 @@
                                             </h5>
                                         </h4>
 
-
-{#										<div class="social-login light single mb-3">#}
-{#											<ul>#}
-{#												<li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Login with Facebook</a></li>#}
-{#												<li><a href="#" class="btn connect-google"><i class="ti-google"></i>Login with Google</a></li>#}
-{#											</ul>#}
-{#										</div>#}
-{#										#}
-{#										<div class="modal-divider"><span>Or</span></div>#}
-
 										<div class="login-form">
 											<form action="" method="post" novalidate>
 												{{ form.hidden_tag() }}
@@ -83,10 +73,16 @@
 															<div class="input-with-icon">
 {#																<input type="email" class="form-control" placeholder="Enter username or email">#}
                                                                 {{ form.email.label }}<br>
-                                                                {{ form.email(size=64) }}<br>
+                                                                {{ form.email(class="form-control", placeholder="Enter email") }}
                                                                 {% for error in form.email.errors %}
                                                                     <span style="color: red;">[{{ error }}]</span>
                                                                 {% endfor %}
+{#																<i class="ti-email"></i>#}
+{#                                                                {{ form.email.label }}<br>#}
+{#                                                                {{ form.email(size=64) }}<br>#}
+{#                                                                {% for error in form.email.errors %}#}
+{#                                                                    <span style="color: red;">[{{ error }}]</span>#}
+{#                                                                {% endfor %}#}
 
 {#                                                                <div class="ti-email" style="height: 20px;width: 50px;"></div>#}
 															</div>
@@ -103,12 +99,6 @@
 											</form>
 										</div>
 
-										<div class="text-center">
-											<p class="mt-3">Don't have an account <a href="register" class="link">Register</a></p>
-										</div>
-                                    	<div class="text-center">
-											<p class="mt-3">Forgot the password <a href="reset-password" class="link">Reset</a></p>
-										</div>
                                         <div class="text-center">
 											<p class="mt-3"><a href="index" class="link">Back To Home Page</a></p>
 										</div>
