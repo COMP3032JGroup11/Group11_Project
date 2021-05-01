@@ -168,7 +168,12 @@
 			<!-- ============================================================== -->
 			<!-- Top header  -->
 			<!-- ============================================================== -->
-			
+            {% for message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ message[0] }}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message[1] }}
+                </div>
+            {% endfor %}
 			
 			<!-- ============================ Hero Banner  Start================================== -->
 			<div class="image-cover hero_banner half_banner" style="background:#3d85fd url(static/assets/img/landing-bg.png) no-repeat;" data-overlay="1">

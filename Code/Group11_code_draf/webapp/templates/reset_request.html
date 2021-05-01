@@ -10,22 +10,13 @@
         <!-- Custom CSS -->
         <link href="static/assets/css/styles.css" rel="stylesheet">
 
-		<!-- Custom Color Option -->z
+		<!-- Custom Color Option -->
 		<link href="static/assets/css/colors.css" rel="stylesheet">
     </head>
 
     <!-- <body class="yellow-skin bg-cover" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);" data-overlay="2">
  -->
  	<body class="yellow-skinbg-cover" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);">
-{#	{% with messages = get_flashed_messages() %}#}
-{#        {% if messages %}#}
-{#        <ul>#}
-{#            {% for message in messages %}#}
-{#            <li>{{ message }}</li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#        {% endif %}#}
-{#        {% endwith %}#}
 		 <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -45,21 +36,18 @@
 
 						<!-- Single Package -->
 						<div class="col-lg-10 col-md-12">
+                            {% for message in get_flashed_messages(with_categories=True) %}
+                                <div class="alert alert-{{ message[0] }}">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    {{ message[1] }}
+                                </div>
+                            {% endfor %}
 							<div class="log_box">
 
 								<div class="row">
 
 									<div class="col-lg-6 col-md-6">
                                         <h4 class="modal-header-title text-left">Reset Password
-                                            <h5>
-                                                {% with messages = get_flashed_messages() %}
-                                                    {% if messages %}
-                                                        {% for message in messages %}
-                                                            <span style="color: red;">[{{ message }}]</span>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endwith %}
-                                            </h5>
                                         </h4>
 
 										<div class="login-form">
@@ -71,20 +59,11 @@
 													<div class="col-lg-12 col-md-12">
 														<div class="form-group">
 															<div class="input-with-icon">
-{#																<input type="email" class="form-control" placeholder="Enter username or email">#}
                                                                 {{ form.email.label }}<br>
                                                                 {{ form.email(class="form-control", placeholder="Enter email") }}
                                                                 {% for error in form.email.errors %}
                                                                     <span style="color: red;">[{{ error }}]</span>
                                                                 {% endfor %}
-{#																<i class="ti-email"></i>#}
-{#                                                                {{ form.email.label }}<br>#}
-{#                                                                {{ form.email(size=64) }}<br>#}
-{#                                                                {% for error in form.email.errors %}#}
-{#                                                                    <span style="color: red;">[{{ error }}]</span>#}
-{#                                                                {% endfor %}#}
-
-{#                                                                <div class="ti-email" style="height: 20px;width: 50px;"></div>#}
 															</div>
 														</div>
 													</div>
@@ -92,7 +71,6 @@
 												</div>
 
 												<div class="form-group">
-{#													<button type="submit" class="btn btn-md full-width pop-login bg-2">Sign In</button>#}
                                                     {{ form.submit(class="btn btn-md full-width pop-login bg-2") }}
 												</div>
 

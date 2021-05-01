@@ -18,7 +18,6 @@
     </head>
 
     <body class="yellow-skin" style="background:#f4f4f4 url(static/assets/img/log-bg.jpg);" >
-
 		 <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -38,6 +37,13 @@
 					
 						<!-- Single Package -->
 						<div class="col-lg-10 col-md-12">
+
+                            {% for message in get_flashed_messages(with_categories=True) %}
+                                <div class="alert alert-{{ message[0] }}">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    {{ message[1] }}
+                                </div>
+                            {% endfor %}
 							<div class="log_box">
 								
 								<div class="row">
@@ -52,14 +58,12 @@
 													<div class="col-lg-12 col-md-12">
 														<div class="form-group">
 															<div class="input-with-icon">
-{#																<input type="text" class="form-control" placeholder="Username">#}
                                                                 {{ form.username.label }}<br>
                                                                 {{ form.username(class="form-control", placeholder="Enter username") }}
 
 			                                                    {% for error in form.username.errors %}
                                                                 <span style="color: red;">[{{ error }}]</span>
                                                                 {% endfor %}
-{#																<i class="ti-user"></i>#}
 															</div>
 														</div>
 													</div>
@@ -67,14 +71,12 @@
 													<div class="col-lg-12 col-md-12">
 														<div class="form-group">
 															<div class="input-with-icon">
-{#																<input type="email" class="form-control" placeholder="Email">#}
                                                                 {{ form.email.label }}<br>
                                                                 {{ form.email(class="form-control", placeholder="Enter email") }}
 
 			                                                    {% for error in form.email.errors %}
                                                                 <span style="color: red;">[{{ error }}]</span>
                                                                 {% endfor %}
-{#																<i class="ti-email"></i>#}
 															</div>
 														</div>
 													</div>
@@ -82,20 +84,12 @@
 													<div class="col-lg-12 col-md-12">
 														<div class="form-group">
 															<div class="input-with-icon">
-{#																<input type="password" class="form-control" placeholder="Password">#}
                                                                 {{ form.password.label }}
                                                                 {{ form.password(class="form-control", placeholder="Enter password") }}
 
 			                                                    {% for error in form.password.errors %}
                                                                 <span style="color: red;">[{{ error }}]</span>
                                                                 {% endfor %}
-                                                                {% with messages = get_flashed_messages() %}
-                                                                {% if messages %}
-                                                                    {% for message in messages %}
-                                                                    <span style="color: red;">[{{ message }}]</span>
-                                                                    {% endfor %}
-                                                                    {% endif %}
-                                                                {% endwith %}
 															</div>
 														</div>
 													</div>
@@ -103,14 +97,12 @@
 													<div class="col-lg-12 col-md-12">
 														<div class="form-group">
 															<div class="input-with-icon">
-{#																<input type="password" class="form-control" placeholder="Re-Enter password">#}
                                                                 {{ form.password2.label }}<br>
                                                                 {{ form.password2(class="form-control", placeholder="Re-Enter password") }}
 
 			                                                    {% for error in form.password2.errors %}
                                                                 <span style="color: #ff0000;">[{{ error }}]</span>
                                                                 {% endfor %}
-{#																<i class="ti-unlock"></i>#}
 															</div>
 														</div>
 													</div>
@@ -133,25 +125,10 @@
 															</div>
 														</div>
 													</div>
-
-													
-{#													<div class="col-lg-12 col-md-12">#}
-{#														<div class="form-group">#}
-{#															<div class="simple-input">#}
-{#																<select id="role" class="form-control">#}
-{#																	<option value=""></option>#}
-{#																	<option value="1">User</option>#}
-{#																	<option value="2">Developer</option>#}
-{#																	<option value="3">Agent</option>#}
-{#																</select>#}
-{#															</div>#}
-{#														</div>#}
-{#													</div>#}
 													
 												</div>
 												
 												<div class="form-group">
-{#													<button type="submit" class="btn btn-md full-width pop-login bg-2">Sign Up</button>#}
                                                     {{ form.submit(class="btn btn-md full-width pop-login bg-2") }}
 												</div>
 											

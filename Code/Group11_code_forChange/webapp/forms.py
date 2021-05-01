@@ -12,11 +12,6 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
-    # def validate_email(self, email):
-    #     user = User.query.filter_by(email=email.data).first()
-    #     if user:
-    #         raise ValidationError('That email is taken. Please choose a different one.')
-
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -33,8 +28,7 @@ class RegisterForm(FlaskForm):
 
 class ChangePasswordForm(FlaskForm):
     password = PasswordField('Origin Password', validators=[DataRequired()])
-    new_password1 = PasswordField('New Password',
-                                  validators=[DataRequired(), EqualTo('new_password2', message='Passwords must match')])
+    new_password1 = PasswordField('New Password', validators=[DataRequired()])
     new_password2 = PasswordField('Repeat New Password', validators=[DataRequired()])
     submit = SubmitField('Reset')
 
@@ -363,11 +357,6 @@ class RequestResetForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
-
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user is None:
-            raise ValidationError('There is no account with that email. You must register first.')
 
 
 class ResetPasswordForm(FlaskForm):
