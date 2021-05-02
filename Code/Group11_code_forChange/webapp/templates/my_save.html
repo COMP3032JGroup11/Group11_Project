@@ -5,7 +5,6 @@
 {% endif %}
 
 {% block content %}
-
 <!-- ============================ All Property ================================== -->
 
             <section>
@@ -13,8 +12,10 @@
                 <div class="container">
 
                     <div class="row">
-                        {% if prev_posts %}
+                        {% if save %}
+                        {% for house in save %}
                         {% for post in prev_posts %}
+                        {% if post.id == house.house_id %}
                         <!-- Single Property -->
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="single_property_style property_style_2 modern">
@@ -87,20 +88,20 @@
 
                                 <script>
                                     function house_delete(id){
-                                        var res=confirm('Are you sure to delete this House?');
+                                        var res=confirm('Are you sure to delete this Save?');
                                         if(res==true){
                                             var s = id;
                                             var data = {'s': s};
                                             $.ajax({
-                                                url:'/deleteHouse',
+                                                url:'/deleteSave',
                                                 type:"post",
                                                 data:data,
                                                 dataType:'json',
                                                 traditional:true,
                                                 async:false,
                                                 success:function(d){
-                                                    alert('You have deleted house: ID='+d);
-                                                    window.location.href='{{ url_for('my_houselist') }}';
+                                                    alert('You have deleted Save: House ID='+d);
+                                                    window.location.href='{{ url_for('my_save') }}';
                                                 },
                                                 error:function (e){
                                                     alert("error"+e);
@@ -112,41 +113,18 @@
                                 </script>
                             </div>
                         </div>
+                        {% endif %}
+                        {% endfor %}
                         {% endfor %}
                         {% else %}
-                        <h3>There is no house in your account, you can <a href="upload_house" class="active" style="color: #1c9cea">UPLOAD</a> your houses.</h3>
+                        <h3>There is no saving house in your account, you can <a href="{{ url_for('search', page=1) }}" class="active" style="color: #1c9cea">SEARCH</a> what you like.</h3>
                         {% endif %}
                     </div>
 
-{#					<!-- Pagination -->#}
-{#					<div class="row">#}
-{#						<div class="col-lg-12 col-md-12 col-sm-12">#}
-{#							<ul class="pagination p-center">#}
-{#								<li class="page-item">#}
-{#								  <a class="page-link" href="#" aria-label="Previous">#}
-{#									<span class="ti-arrow-left"></span>#}
-{#									<span class="sr-only">Previous</span>#}
-{#								  </a>#}
-{#								</li>#}
-{#								<li class="page-item"><a class="page-link" href="#">1</a></li>#}
-{#								<li class="page-item"><a class="page-link" href="#">2</a></li>#}
-{#								<li class="page-item active"><a class="page-link" href="#">3</a></li>#}
-{#								<li class="page-item"><a class="page-link" href="#">...</a></li>#}
-{#								<li class="page-item"><a class="page-link" href="#">18</a></li>#}
-{#								<li class="page-item">#}
-{#								  <a class="page-link" href="#" aria-label="Next">#}
-{#									<span class="ti-arrow-right"></span>#}
-{#									<span class="sr-only">Next</span>#}
-{#								  </a>#}
-{#								</li>#}
-{#							</ul>#}
-{#						</div>#}
-{#					</div>#}
 
                 </div>
             </section>
 
             <!-- ============================ All Property ================================== -->
-
 
 {% endblock %}

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
-    TextAreaField, SelectField, FloatField, IntegerField, EmailField
-from wtforms.validators import DataRequired, EqualTo, Email
+    TextAreaField, SelectField, FloatField, IntegerField
+from wtforms.validators import DataRequired, EqualTo, Email, ValidationError
 from flask_wtf.file import FileRequired, FileAllowed
 from webapp.models import User
 
@@ -11,6 +11,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
+    # def validate_email(self, email):
+    #     user = User.query.filter_by(email=email.data).first()
+    #     if user:
+    #         raise ValidationError('That email is taken. Please choose a different one.')
 
 
 class RegisterForm(FlaskForm):
@@ -28,7 +33,8 @@ class RegisterForm(FlaskForm):
 
 class ChangePasswordForm(FlaskForm):
     password = PasswordField('Origin Password', validators=[DataRequired()])
-    new_password1 = PasswordField('New Password', validators=[DataRequired()])
+    new_password1 = PasswordField('New Password',
+                                  validators=[DataRequired(), EqualTo('new_password2', message='Passwords must match')])
     new_password2 = PasswordField('Repeat New Password', validators=[DataRequired()])
     submit = SubmitField('Reset')
 
@@ -169,6 +175,7 @@ class AddHouseForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
+    description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo',
                           validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
     upload = SubmitField('Upload House')
@@ -263,6 +270,7 @@ class ChangeHouseForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
+    description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo',
                           validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
     change = SubmitField('Update Information')
@@ -358,6 +366,11 @@ class RequestResetForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
 
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
+
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
@@ -365,3 +378,10 @@ class ResetPasswordForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
 
+
+class MessageForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone = StringField('Phone Number', validators=[DataRequired()])
+    information = TextAreaField('Message Information', validators=[DataRequired()])
+    submit = SubmitField('Send')

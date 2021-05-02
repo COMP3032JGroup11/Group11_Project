@@ -1,10 +1,14 @@
-{% extends "base_Before.html" %}
+{% if usertype == "1" %}
+    {% extends "base_BeforeO.html" %}
+{% else %}
+    {% extends "base_Before.html" %}
+{% endif %}
 
 {% block content %}
 <!-- ============================ partner Start ================================== -->
 <section class="gray-simple pt-4 pb-4">
     <div class="container align-content-center">
-        <h2>Interface -- Rent House Without Agency Fee!</h2>
+        <h2 align="center">Interface -- Rent House Without Agency Fee!</h2>
     </div>
 </section>
 <div class="clearfix"></div>
@@ -85,7 +89,7 @@
 											<img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-fluid" alt="">
 										</div>
 										<div class="sides_list_property_detail">
-											<h4><a href="single-property-1.html">{{post.name}}  . {{post.size}} m²</a></h4>
+											<h4><a href="{{ url_for('house_detail',house_id=post.id) }}">{{post.name}}  . {{post.size}} m²</a></h4>
 											<span><i class="ti-location-pin"></i>
                                             {% for communitys in com_posts %}
                                                 {% if communitys.id == post.community_id %}
@@ -144,7 +148,7 @@
 											<img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-fluid" alt="">
 										</div>
 										<div class="sides_list_property_detail">
-											<h4><a href="single-property-1.html">{{post.name}}  . {{post.size}} m²</a></h4>
+											<h4><a href="{{ url_for('house_detail',house_id=post.id) }}">{{post.name}}  . {{post.size}} m²</a></h4>
 											<span><i class="ti-location-pin"></i>
                                             {% for communitys in com_posts %}
                                                 {% if communitys.id == post.community_id %}
