@@ -36,96 +36,28 @@
 					<nav id="navigation" class="navigation navigation-landscape">
 						<div class="nav-header">
 							<a class="nav-brand" href="#">
-								<img src="static/assets/img/logo.png" class="logo" alt="" />
+								<img src="{{ url_for('static', filename='assets/img/logo.png') }}" class="logo" alt="" />
 							</a>
 							<div class="nav-toggle"></div>
 						</div>
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
 
-{#								<li class="active"><a href="#">Home<span class="submenu-indicator"></span></a>#}
-{#									<ul class="nav-dropdown nav-submenu">#}
-{#										<li><a href="index.html">Home 1</a></li>#}
-{#										<li><a href="home-2.html">Home 2</a></li>#}
-{#										<li><a href="home-3.html">Home 3</a></li>#}
-{#										<li><a href="home-4.html">Home 4</a></li>#}
-{#										<li><a href="home-5.html">Home 5</a></li>#}
-{#										<li><a href="home-6.html">Home 6</a></li>#}
-{#										<li><a href="home-7.html">Home 7</a></li>#}
-{#										<li><a href="home-8.html">Home 8</a></li>#}
-{#									</ul>#}
-{#								</li>#}
-{#								<li><a href="#">Listings<span class="submenu-indicator"></span></a>#}
-{#									<ul class="nav-dropdown nav-submenu">#}
-{#										<li><a href="#">Listing Grid<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="grid-layout-with-sidebar.html">Grid Style 1</a></li>#}
-{#												<li><a href="grid-layout-2.html">Grid Style 2</a></li>#}
-{#												<li><a href="grid-layout-3.html">Grid Style 3</a></li>#}
-{#												<li><a href="grid-layout-4.html">Grid Style 4</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="#">Listing List<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="list-layout-with-sidebar.html">List Style 1</a></li>#}
-{#												<li><a href="list-layout-with-map-2.html">List Style 2</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="#">Listing Map<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="half-map.html">Half Map</a></li>#}
-{#												<li><a href="list-layout-with-map.html">List Sidebar Map</a></li>#}
-{#												<li><a href="grid-layout-with-map.html">Grid Sidebar Map</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="agents.html">Find Agents</a></li>#}
-{#										<li><a href="agencies.html">Find Agencies</a></li>#}
-{#									</ul>#}
-{#								</li>#}
-{#								#}
-{#								<li><a href="#">Property<span class="submenu-indicator"></span></a>#}
-{#									<ul class="nav-dropdown nav-submenu">#}
-{#										<li class=""><a href="#">User Admin<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="dashboard.html">User Dashboard</a></li>#}
-{#												<li><a href="my_profile.html">My Profile</a></li>#}
-{#												<li><a href="my-property.html">My Property</a></li>#}
-{#												<li><a href="bookmark-list.html">Bookmark Property</a></li>#}
-{#												<li><a href="submit-property.html">Submit Property</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="#">Single Property<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu" style="display: none;">#}
-{#												<li><a href="single-property-1.html">Single Property 1</a></li>#}
-{#												<li><a href="single-property-2.html">Single Property 2</a></li>#}
-{#												<li><a href="single-property-3.html">Single Property 3</a></li>#}
-{#												<li><a href="single-property-4.html">Single Property 4</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="compare-property.html">Compare Property</a></li>#}
-{#									</ul>#}
-{#								</li>#}
-{#								#}
-{#								<li><a href="#">Pages<span class="submenu-indicator"></span></a>#}
-{#									<ul class="nav-dropdown nav-submenu" style="right: auto; display: none;">#}
-{#										<li><a href="blog.html">Blog Style</a></li>#}
-{#										<li><a href="blog-detail.html">Blog Detail</a></li>#}
-{#										<li><a href="pricing.html">Pricing</a></li>#}
-{#										<li><a href="404.html">404 Page</a></li>#}
-{#										<li><a href="checkout.html">Checkout</a></li>#}
-{#										<li><a href="register.html">Register</a></li>#}
-{#										<li><a href="login.html">Log In</a></li>#}
-{#										<li><a href="component.html">Elements</a></li>#}
-{#										<li><a href="privacy.html">Privacy Policy</a></li>#}
-{#										<li><a href="faq.html">FAQs</a></li>#}
-{#									</ul>#}
-{#								</li>#}
-                                <li class="active"><a href="#">Home</a></li>
-                                <li><a href="#">Chose House</a></li>
-                                <li><a href="#">Appraise Value</a></li>
-                                <li><a href="#">Manage Information</a></li>
-                                <li><a href="my-profile">Personal Information</a></li>
-								<li><a href="#">Contacts</a></li>
+                                {% if nav_tittle == "customer_index" %}
+                                <li class="active"><a href="{{ url_for('customer_index') }}">Home</a></li>
+                                {% else %}
+                                <li><a href="{{ url_for('customer_index') }}">Home</a></li>
+                                {% endif %}
+
+                                {% if nav_tittle == "search_houselist" %}
+                                <li class="active"><a href="{{ url_for('search', page=1) }}">Listings</a></li>
+                                {% else %}
+                                <li><a href="{{ url_for('search', page=1) }}">Listings</a></li>
+                                {% endif %}
+
+                                <li><a href="{{ url_for('my_profile') }}">Property</a></li>
+
+                                <li><a href="contact.html">Contacts</a></li>
 
 							</ul>
 
@@ -134,13 +66,14 @@
 								<li>
 									<div class="btn-group account-drop">
 										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<img src="{{ avatars.default() }}" height="50" width="50">&nbsp; Hi, Please login First
+											<img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
-											<a href="my-profile"><i class="ti-user"></i>My Profile</a>
-											<a href="my_houselist"><i class="ti-layers"></i>My Houses</a>
-											<a href="change-password"><i class="ti-unlock"></i>Change Password</a>
-                                            <a href="logout"><i class="ti-bookmark"></i>Logout</a>
+											<a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a>
+											<a href="{{ url_for('my_save') }}"><i class="ti-layers"></i>My Save</a>
+                                            <a href="{{ url_for('calculator') }}"><i class="ti-layers"></i>Calculator</a>
+											<a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a>
+                                            <a href="{{ url_for('logout') }}"><i class="ti-bookmark"></i>Logout</a>
 										</div>
 									</div>
 								</li>
@@ -155,7 +88,7 @@
 			<!-- ============================================================== -->
 			<!-- Top header  -->
 			<!-- ============================================================== -->
-            {% for message in get_flashed_messages(with_categories=True) %}
+			{% for message in get_flashed_messages(with_categories=True) %}
                 <div class="alert alert-{{ message[0] }}">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ message[1] }}
@@ -163,8 +96,6 @@
             {% endfor %}
             {% block content %}
             {% endblock %}
-
-
 
 			<!-- ============================ Footer Start ================================== -->
 			<footer class="dark-footer skin-dark-footer style-2">
@@ -175,13 +106,13 @@
 
 							<div class="col-lg-4 col-md-4">
 								<div class="footer_widget">
-									<div class="footlogo"><img src="static/assets/img/logo-light.png" class="img-fluid mb-3" alt="" /></div>
+									<div class="footlogo"><img src="{{ url_for('static', filename='assets/img/logo.png') }}" class="img-fluid mb-3" alt="" /></div>
 									<p>2512, New Market Eliza Road, Sincher 80<br>Montreal Central Canada,<br>USA QHVK1254</p>
 									<ul class="footer-bottom-social">
-										<li><a href="#"><i class="ti-facebook"></i></a></li>
-										<li><a href="#"><i class="ti-twitter"></i></a></li>
-										<li><a href="#"><i class="ti-instagram"></i></a></li>
-										<li><a href="#"><i class="ti-linkedin"></i></a></li>
+										<li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
+										<li><a href="https://twitter.com/"><i class="ti-twitter"></i></a></li>
+										<li><a href="https://www.google.com/"><i class="ti-google"></i></a></li>
+										<li><a href="https://www.linkedin.com/start/join"><i class="ti-linkedin"></i></a></li>
 									</ul>
 								</div>
 							</div>
@@ -243,7 +174,7 @@
 						<div class="row align-items-center">
 
 							<div class="col-lg-12 col-md-12">
-								<p class="mb-0">© 2020 Verio. Designd By <a href="http://www.bootstrapmb.com/">bootstrapmb</a></p>
+								<p class="mb-0">© 2021 Interface</p>
 							</div>
 
 						</div>

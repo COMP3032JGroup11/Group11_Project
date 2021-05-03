@@ -36,22 +36,18 @@
 
 						<!-- Single Package -->
 						<div class="col-lg-10 col-md-12">
+							{% for message in get_flashed_messages(with_categories=True) %}
+                                <div class="alert alert-{{ message[0] }}">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    {{ message[1] }}
+                                </div>
+                            {% endfor %}
 							<div class="log_box">
 
 								<div class="row">
 
 									<div class="col-lg-6 col-md-6">
-                                        <h4 class="modal-header-title text-left">Reset Password
-                                            <h5>
-                                                {% with messages = get_flashed_messages() %}
-                                                    {% if messages %}
-                                                        {% for message in messages %}
-                                                            <span style="color: red;">[{{ message }}]</span>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endwith %}
-                                            </h5>
-                                        </h4>
+                                        <h4 class="modal-header-title text-left">Reset Password</h4>
 
 										<div class="login-form">
 											<form action="" method="post" novalidate>

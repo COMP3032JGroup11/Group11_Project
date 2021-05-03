@@ -1,4 +1,8 @@
-{% extends "base_Before.html" %}
+{% if usertype == "1" %}
+    {% extends "base_AfterO.html" %}
+{% else %}
+    {% extends "base_After.html" %}
+{% endif %}
 
 {% block content %}
 

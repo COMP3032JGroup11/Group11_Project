@@ -23,6 +23,8 @@ import pickle
 
 model = pickle.load(open('model.pkl', 'rb'))
 
+#  ‘success’、‘info’、‘warning’、‘danger’ for flash format
+
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -94,11 +96,9 @@ def index():
         dis_posts = db.session.query(District).all()
         com_posts = db.session.query(Community).all()
         floor_posts = db.session.query(Floor).all()
-        return render_template('index.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
-                               com_posts=com_posts, floor_posts=floor_posts, usertype=usertype)
 
-    flash("User needs to either login or signup first")
-    return redirect(url_for('login'))
+    return render_template('index.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
+                           com_posts=com_posts, floor_posts=floor_posts, usertype=usertype)
 
 
 @app.route('/customer_index', methods=['GET', 'POST'])
@@ -184,15 +184,15 @@ def login():
     if form.validate_on_submit():
         user_in_db = User.query.filter(User.username == form.username.data).first()
         if not user_in_db:
-            flash('No user found with username: {}'.format(form.username.data))
+            flash('No user found with username: {}'.format(form.username.data), 'warning')
             return redirect(url_for('login'))
-        if check_password_hash(user_in_db.password_hash, form.password.data):
-            flash('Login success!')
+        elif check_password_hash(user_in_db.password_hash, form.password.data):
+            flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
             session["USERNAME"] = user_in_db.username
             return redirect(url_for('customer_index'))
-        flash('Incorrect Password')
-
-        return redirect(url_for('login'))
+        else:
+            flash('Incorrect Password', 'warning')
+            return redirect(url_for('login'))
     return render_template('login.html', title='Sign In', form=form)
 
 
@@ -200,18 +200,24 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if form.password.data != form.password2.data:
-            flash('Passwords do not match!')
+        if User.query.filter_by(username=form.username.data).first():
+            flash('Username already exists! Please choose another username.', 'danger')
             return redirect(url_for('register'))
-        passw_hash = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash,
-                    user_type=form.user_type.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('User registered with username:{}'.format(form.username.data))
-        session["USERNAME"] = user.username
-        # print(session)
-        return redirect(url_for('my_profile'))
+        elif User.query.filter_by(email=form.email.data).first():
+            flash('This email already exists! Please check again.', 'danger')
+            return redirect(url_for('register'))
+        elif form.password.data != form.password2.data:
+            flash('Passwords do not match! Please check again.', 'danger')
+            return redirect(url_for('register'))
+        else:
+            passw_hash = generate_password_hash(form.password.data)
+            user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash,
+                        user_type=form.user_type.data)
+            db.session.add(user)
+            db.session.commit()
+            session["USERNAME"] = user.username
+            flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
+            return redirect(url_for('my_profile'))
     return render_template('register.html', title='Register a new user', form=form)
 
 
@@ -233,20 +239,23 @@ If you did not make this request then simply ignore this email and no changes wi
 def reset_request():
     username = session.get("USERNAME")
     if not session.get("USERNAME") is None:
-    # if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
-        flash('An email has been sent with instructions to reset your password.', 'info')
-        return redirect(url_for('login'))
+        if User.query.filter_by(email=form.email.data).first():
+            user = User.query.filter_by(email=form.email.data).first()
+            send_reset_email(user)
+            flash('An email has been sent with instructions to reset your password.', 'info')
+            return redirect(url_for('login'))
+        else:
+            flash('This email does not exists! Please check again.', 'danger')
+            return redirect(url_for('reset_request'))
+
     return render_template('reset_request.html', title='Reset Password', form=form)
 
 
 @app.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
-    # if current_user.is_authenticated:
     if not session.get("USERNAME") is None:
         return redirect(url_for('index'))
     user = User.verify_reset_token(token)
@@ -256,7 +265,6 @@ def reset_token(token):
     form = ResetPasswordForm()
     if form.validate_on_submit():
         passw_hash = generate_password_hash(form.password.data)
-        # hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password_hash = passw_hash
         db.session.commit()
         flash('Your password has been updated! You are now able to log in', 'success')
@@ -275,30 +283,35 @@ def upload_pic(form_picture):
 
 
 @app.route('/my_profile', methods=['GET', 'POST'])
-# @login_required
 def my_profile():
     username = session.get("USERNAME")
     form = MyProfileForm()
 
     if not session.get("USERNAME") is None:
-        user_db = User.query.filter(User.username == session.get("USERNAME")).first()
+        user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
         usertype = user_db.user_type
         if form.validate_on_submit():
-            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
-            user_in_db.nickname = form.nickname.data
-            user_in_db.phone = form.phone.data
-            user_in_db.address = form.address.data
-            user_in_db.city = form.city.data
-            user_in_db.email = form.email.data
-            user_in_db.zip = form.zip.data
-            user_in_db.about = form.about.data
-            user_in_db.facebook = form.facebook.data
-            user_in_db.twitter = form.twitter.data
-            user_in_db.google = form.google.data
-            user_in_db.linkedin = form.linkedin.data
-            db.session.commit()
-            flash('personal information saved')
-            return redirect(url_for('my_profile'))
+            if User.query.filter_by(email=form.email.data).first() and form.email.data != user_in_db.email:
+                flash('This email already exists! Please check again.', 'danger')
+                return redirect(url_for('my_profile'))
+            elif User.query.filter_by(phone=form.phone.data).first() and form.phone.data != user_in_db.phone:
+                flash('This phone number already exists! Please check again.', 'danger')
+                return redirect(url_for('my_profile'))
+            else:
+                user_in_db.nickname = form.nickname.data
+                user_in_db.phone = form.phone.data
+                user_in_db.address = form.address.data
+                user_in_db.city = form.city.data
+                user_in_db.email = form.email.data
+                user_in_db.zip = form.zip.data
+                user_in_db.about = form.about.data
+                user_in_db.facebook = form.facebook.data
+                user_in_db.twitter = form.twitter.data
+                user_in_db.google = form.google.data
+                user_in_db.linkedin = form.linkedin.data
+                db.session.commit()
+                flash('personal information saved', 'success')
+                return redirect(url_for('my_profile'))
 
         elif request.method == 'GET':
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
@@ -313,10 +326,9 @@ def my_profile():
             form.twitter.data = user_in_db.twitter
             form.google.data = user_in_db.google
             form.linkedin.data = user_in_db.linkedin
-        return render_template("my_profile.html", username=username, form=form, usertype=usertype,
-                               dash_tittle="my_profile")
+        return render_template("my_profile.html", username=username, form=form, usertype=usertype, dash_tittle="my_profile")
 
-    flash("User needs to either login or signup first")
+    flash('User needs to either login or signup first', 'danger')
     return redirect(url_for('login'))
 
 
@@ -336,19 +348,20 @@ def change_password():
         if form.validate_on_submit():
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
             if not (check_password_hash(user_in_db.password_hash, form.password.data)):
-                flash('Incorrect Password')
+                flash('Incorrect Password! Please check again.', 'warning')
                 return redirect(url_for('change_password'))
-            if form.new_password1.data != form.new_password2.data:
-                flash('Passwords do not match!')
+            elif form.new_password1.data != form.new_password2.data:
+                flash('Passwords do not match! Please check again.', 'warning')
                 return redirect(url_for('change_password'))
             else:
+                flash('Password changed successfully!', 'success')
                 user_in_db.password_hash = generate_password_hash(form.new_password1.data)
                 db.session.commit()
                 return redirect(url_for('change_password'))
         return render_template('change_password.html', user=user, username=username, form=form,
                                usertype=usertype, dash_tittle="change_password")
     else:
-        flash("User needs to either login or signup first")
+        flash("User needs to either login or signup first", 'danger')
         return redirect(url_for('login'))
 
 
@@ -469,7 +482,7 @@ def base_after():
     if not session.get("USERNAME") is None:
         username = session.get("USERNAME")
         return render_template('base_After.html', title='Base', username=username)
-    flash("User needs to either login or signup first")
+    flash("User needs to either login or signup first", 'danger')
     return redirect(url_for('login'))
 
 
@@ -490,7 +503,6 @@ def calculator():
         total_loans = form.total_loans.data  # 贷款总额
         annualized_rate = form.annualized_rate.data  # 年化率
         repayment_years = form.repayment_years.data  # 还款年数
-        print("qwe")
         types = form.types.data
         if types == 1:
             # 等额本息
@@ -778,12 +790,6 @@ def search(page=None):
         return redirect(url_for('login'))
 
 
-@app.route('/logout')
-def logout():
-    session.pop("USERNAME", None)
-    return redirect(url_for('index'))
-
-
 @app.route('/house_detail/<house_id>', methods=['GET', 'POST'])
 def house_detail(house_id):
     form = MessageForm()
@@ -922,3 +928,10 @@ def my_save():
                                dash_tittle="my_save", save=save)
     flash("User needs to either login or signup first")
     return redirect(url_for('login'))
+
+
+@app.route('/logout')
+def logout():
+    session.pop("USERNAME", None)
+    flash('Logout Success', 'success')
+    return redirect(url_for('index'))

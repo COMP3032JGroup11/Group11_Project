@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
-    TextAreaField, SelectField, FloatField, IntegerField
+    TextAreaField, SelectField, FloatField, IntegerField, EmailField
 from wtforms.validators import DataRequired, EqualTo, Email, ValidationError
 from flask_wtf.file import FileRequired, FileAllowed
 from webapp.models import User
@@ -11,11 +11,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
-
-    # def validate_email(self, email):
-    #     user = User.query.filter_by(email=email.data).first()
-    #     if user:
-    #         raise ValidationError('That email is taken. Please choose a different one.')
 
 
 class RegisterForm(FlaskForm):
@@ -33,8 +28,7 @@ class RegisterForm(FlaskForm):
 
 class ChangePasswordForm(FlaskForm):
     password = PasswordField('Origin Password', validators=[DataRequired()])
-    new_password1 = PasswordField('New Password',
-                                  validators=[DataRequired(), EqualTo('new_password2', message='Passwords must match')])
+    new_password1 = PasswordField('New Password', validators=[DataRequired()])
     new_password2 = PasswordField('Repeat New Password', validators=[DataRequired()])
     submit = SubmitField('Reset')
 

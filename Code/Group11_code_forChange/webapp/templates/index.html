@@ -4,29 +4,29 @@
 		<meta charset="utf-8" />
 		<meta name="author" content="Drizvato" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		
+
         <title>Interface-Index</title>
-		 
+
         <!-- Custom CSS -->
         <link href="{{ url_for('static', filename='assets/css/styles.css') }}" rel="stylesheet">
-		
+
 		<!-- Custom Color Option -->
 		<link href="{{ url_for('static', filename='assets/css/colors.css') }}" rel="stylesheet">
-		
+
     </head>
-	
+
     <body class="yellow-skin">
-	
+
 		 <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
        <div class="preloader"></div>
-		
+
         <!-- ============================================================== -->
         <!-- Main wrapper - style you can find in pages.scss -->
         <!-- ============================================================== -->
         <div id="main-wrapper">
-		
+
             <!-- ============================================================== -->
             <!-- Top header  -->
             <!-- ============================================================== -->
@@ -50,9 +50,9 @@
                                 <li><a href="{{ url_for('my_profile') }}">Property</a></li>
 
                                 <li><a href="contact.html">Contacts</a></li>
-								
+
 							</ul>
-							
+
 							<ul class="nav-menu nav-menu-social align-to-right dhsbrd">
 								{% if not username %}
 								<li>
@@ -69,7 +69,6 @@
                                 <li>
 									<div class="btn-group account-drop">
 										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-{#											<img src="static/assets/img/user-5.jpg" class="avater-img" alt=""> Hi, {{ username }}#}
                                             <img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
@@ -81,7 +80,7 @@
 								</li>
                                 {% endif %}
 							</ul>
-							
+
 						</div>
 					</nav>
 				</div>
@@ -91,84 +90,89 @@
 			<!-- ============================================================== -->
 			<!-- Top header  -->
 			<!-- ============================================================== -->
-			
-			
+			{% for message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ message[0] }}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message[1] }}
+                </div>
+            {% endfor %}
+
 			<!-- ============================ Hero Banner  Start================================== -->
 			<div class="image-cover hero_banner half_banner" style="background:#3d85fd url(static/assets/img/landing-bg.png) no-repeat;" data-overlay="1">
 				<div class="container">
-	
+
 						<div class="row justify-content-center">
 							<div class="col-lg-8 col-md-10 text-center">
 								<h2 class="small-header-capt mb-1">Rent Homes Without Agency Fee!</h2>
 								<span class="sb_title">We help you find the most verified trusted homes </span>
 
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- ============================ Hero Banner End ================================== -->
-			
+
 			<!-- ============================ partner Start ================================== -->
 			<section class="gray-simple pt-4 pb-4">
 				<div class="container">
-					
+
 					<div class="row">
-						
+
 						<!-- Single Partner -->
 						<div class="col-md-3 col-sm-4 col-lg">
 							<div class="partner-grid">
 								<img src="static/assets/img/brand-1.png" class="img-fluid" alt="" />
 							</div>
 						</div>
-						
+
 						<!-- Single Partner -->
 						<div class="col-md-3 col-sm-4 col-lg">
 							<div class="partner-grid">
 								<img src="static/assets/img/brand-2.png" class="img-fluid" alt="" />
 							</div>
 						</div>
-						
+
 						<!-- Single Partner -->
 						<div class="col-md-3 col-sm-4 col-lg">
 							<div class="partner-grid">
 								<img src="static/assets/img/brand-3.png" class="img-fluid" alt="" />
 							</div>
 						</div>
-						
+
 						<!-- Single Partner -->
 						<div class="col-md-3 col-sm-4 col-lg">
 							<div class="partner-grid">
 								<img src="static/assets/img/brand-4.png" class="img-fluid" alt="" />
 							</div>
 						</div>
-						
+
 						<!-- Single Partner -->
 						<div class="col-md-3 col-sm-4 col-lg">
 							<div class="partner-grid">
 								<img src="static/assets/img/brand-5.png" class="img-fluid" alt="" />
 							</div>
 						</div>
-						
+
 						<!-- Single Partner -->
 						<div class="col-md-3 col-sm-4 col-lg">
 							<div class="partner-grid">
 								<img src="static/assets/img/brand-6.png" class="img-fluid" alt="" />
 							</div>
 						</div>
-						
+
 					</div>
-					
+
 				</div>
 			</section>
 			<div class="clearfix"></div>
 			<!-- ============================ partner End ================================== -->
-			
+
 			<!-- ============================ Featured Property Start ================================== -->
 			<section>
 				<div class="container">
-					
+
 					<div class="row justify-content-center">
 						<div class="col-lg-7 col-md-8">
 							<div class="sec-heading center">
@@ -177,7 +181,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="row">
 					{% if prev_posts %}
                     {% for post in prev_posts %}
@@ -226,23 +230,23 @@
                         <h4>There is no home now, please wait someone submit houses.</h4>
                     {% endif %}
 					</div>
-					
+
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 text-center">
 							<a href="{{ url_for('search', page=1) }}" class="btn btn-theme arrow-btn bg-2">Browse All Property<span><i class="ti-arrow-right"></i></span></a>
 						</div>
 					</div>
-					
+
 				</div>
 			</section>
 			<div class="clearfix"></div>
 			<!-- ============================ Featured Property End ================================== -->
 
-			
+
 			<!-- ============================ Property Location Start ================================== -->
 			<section  class="gray min">
 				<div class="container">
-					
+
 					<div class="row justify-content-center">
 						<div class="col-lg-7 col-md-8">
 							<div class="sec-heading center">
@@ -251,28 +255,28 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="row">
-					
+
 						<!-- Single Agent -->
 						<div class="col-lg-4 col-md-4 col-sm-12">
 							<div class="grid_agents style-2">
-								
+
 								<div class="grid_agents-wrap">
-									
+
 									<div class="fr-grid-thumb">
 										<a href="agent-page.html">
 											<img src="static/assets/img/team-1.jpg" class="img-fluid mx-auto" alt="" />
 										</a>
 									</div>
-									
-									<div class="fr-grid-deatil">	
+
+									<div class="fr-grid-deatil">
 										<h5 class="fr-can-name"><a href="#">Jannat Apartment</a></h5>
 										<div class="mt-1">22 Properties</div>
 									</div>
-									
+
 								</div>
-								
+
 								<div class="grid_fr_info mb-5">
 									<ul>
 										<li><a href="#" class="cl-fb"><i class="ti-facebook"></i></a></li>
@@ -281,7 +285,7 @@
 										<li><a href="#" class="cl-tw"><i class="ti-twitter"></i></a></li>
 									</ul>
 								</div>
-								
+
 								<div class="grid_agents_footer">
 									<div class="agent_grid_footer_first">
 										<i class="lni-phone-handset mr-1"></i>(123) 123-456
@@ -290,29 +294,29 @@
 										<a href="agency-page.html" class="agf_properties">View Agent</a>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
-						
+
 						<!-- Single Agent -->
 						<div class="col-lg-4 col-md-4 col-sm-12">
 							<div class="grid_agents style-2">
-								
+
 								<div class="grid_agents-wrap">
-									
+
 									<div class="fr-grid-thumb">
 										<a href="agent-page.html">
 											<img src="static/assets/img/team-2.jpg" class="img-fluid mx-auto" alt="" />
 										</a>
 									</div>
-									
-									<div class="fr-grid-deatil">	
+
+									<div class="fr-grid-deatil">
 										<h5 class="fr-can-name"><a href="#">Jannat Apartment</a></h5>
 										<div class="mt-1">22 properties</div>
 									</div>
-									
+
 								</div>
-								
+
 								<div class="grid_fr_info mb-5">
 									<ul>
 										<li><a href="#" class="cl-fb"><i class="ti-facebook"></i></a></li>
@@ -321,7 +325,7 @@
 										<li><a href="#" class="cl-tw"><i class="ti-twitter"></i></a></li>
 									</ul>
 								</div>
-								
+
 								<div class="grid_agents_footer">
 									<div class="agent_grid_footer_first">
 										<i class="lni-phone-handset mr-1"></i>(123) 123-456
@@ -330,29 +334,29 @@
 										<a href="agency-page.html" class="agf_properties">View Agent</a>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
-						
+
 						<!-- Single Agent -->
 						<div class="col-lg-4 col-md-4 col-sm-12">
 							<div class="grid_agents style-2">
-								
+
 								<div class="grid_agents-wrap">
-									
+
 									<div class="fr-grid-thumb">
 										<a href="agent-page.html">
 											<img src="static/assets/img/team-3.jpg" class="img-fluid mx-auto" alt="" />
 										</a>
 									</div>
-									
-									<div class="fr-grid-deatil">	
+
+									<div class="fr-grid-deatil">
 										<h5 class="fr-can-name"><a href="#">Jannat Apartment</a></h5>
 										<div class="mt-1">102 Properties</div>
 									</div>
-									
+
 								</div>
-								
+
 								<div class="grid_fr_info mb-5">
 									<ul>
 										<li><a href="#" class="cl-fb"><i class="ti-facebook"></i></a></li>
@@ -361,7 +365,7 @@
 										<li><a href="#" class="cl-tw"><i class="ti-twitter"></i></a></li>
 									</ul>
 								</div>
-								
+
 								<div class="grid_agents_footer">
 									<div class="agent_grid_footer_first">
 										<i class="lni-phone-handset mr-1"></i>(123) 123-456
@@ -370,24 +374,24 @@
 										<a href="agency-page.html" class="agf_properties">View Agent</a>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
-						
+
 					</div>
-					
+
 				</div>
 			</section>
 			<!-- ============================ Property Location End ================================== -->
 
-			
+
 			<!-- ============================ Footer Start ================================== -->
 			<footer class="dark-footer skin-dark-footer style-2">
-				
+
 				<div class="footer-middle">
 					<div class="container">
 						<div class="row">
-							
+
 							<div class="col-lg-4 col-md-4">
 								<div class="footer_widget">
 									<div class="footlogo"><img src="static/assets/img/logo-light.png" class="img-fluid mb-3" alt="" /></div>
@@ -400,7 +404,7 @@
 									</ul>
 								</div>
 							</div>
-									
+
 							<div class="col-lg-2 col-md-2">
 								<div class="footer_widget">
 									<h4 class="widget_title">My Homes</h4>
@@ -412,7 +416,7 @@
 									</ul>
 								</div>
 							</div>
-									
+
 							<div class="col-lg-2 col-md-2">
 								<div class="footer_widget">
 									<h4 class="widget_title">About Us</h4>
@@ -424,7 +428,7 @@
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="col-lg-2 col-md-2">
 								<div class="footer_widget">
 									<h4 class="widget_title">News</h4>
@@ -436,7 +440,7 @@
 									</ul>
 								</div>
 							</div>
-							
+
 							<div class="col-lg-2 col-md-2">
 								<div class="footer_widget">
 									<h4 class="widget_title">Help</h4>
@@ -448,208 +452,25 @@
 									</ul>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="footer-bottom">
 					<div class="container">
 						<div class="row align-items-center">
-							
+
 							<div class="col-lg-12 col-md-12">
 								<p class="mb-0">© 2020 Verio. Designd By <a href="http://www.bootstrapmb.com/">bootstrapmb</a></p>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
 			</footer>
 			<!-- ============================ Footer End ================================== -->
-			
-{#			<!-- Log In Modal -->#}
-{#			<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">#}
-{#				<div class="modal-dialog modal-dialog-centered login-pop-form" role="document">#}
-{#					<header class="modal_content_header">#}
-{#						<div class="hm_nav">#}
-{#							<h3 class="hm_nav_title">Log In</h3>#}
-{#							<span class="mod-close" data-dismiss="modal" aria-hidden="true"><i class="ti-close"></i></span>#}
-{#							<span class="hm_nav_clear">Clear</span>#}
-{#						</div>#}
-{#					</header>#}
-{#					<div class="modal-content" id="registermodal">#}
-{#						<div class="modal-body">#}
-{#							<div class="login-form">#}
-{#								<form>#}
-{#								#}
-{#									<div class="form-group">#}
-{#										<label>User Name</label>#}
-{#										<div class="input-with-icon">#}
-{#											<input type="text" class="form-control" placeholder="Username">#}
-{#                                            {{ form.username.label }}<br>#}
-{#                                            {{ form1.username(class="form-control", placeholder="Username") }}#}
-{##}
-{#                                            {% for error in form1.username.errors %}#}
-{#                                            <span style="color: #ff0000;">[{{ error }}]</span>#}
-{#                                            {% endfor %}#}
-{#											<i class="ti-user"></i>#}
-{#										</div>#}
-{#									</div>#}
-{#									#}
-{#									<div class="form-group">#}
-{#										<label>Password</label>#}
-{#										<div class="input-with-icon">#}
-{#											<input type="password" class="form-control" placeholder="*******">#}
-{#                                            {{ form1.password.label }}<br>#}
-{#                                            {{ form1.password(class="form-control", placeholder="*******") }}#}
-{##}
-{#                                            {% for error in form1.password.errors %}#}
-{#                                            <span style="color: red;">[{{ error }}]</span>#}
-{#                                            {% endfor %}#}
-{#											<i class="ti-unlock"></i>#}
-{#										</div>#}
-{#									</div>#}
-{#									#}
-{#									<div class="form-group">#}
-{#										<button type="submit" class="btn btn-md full-width pop-login bg-2">Login</button>#}
-{#                                        {{ form1.submit(class="btn btn-md full-width pop-login bg-2") }}#}
-{#									</div>#}
-{#								#}
-{#								</form>#}
-{#							</div>#}
-{#							<div class="modal-divider"><span>Or login via</span></div>#}
-{#							<div class="social-login mb-3">#}
-{#								<ul>#}
-{#									<li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Facebook</a></li>#}
-{#									<li><a href="#" class="btn connect-twitter"><i class="ti-twitter"></i>Twitter</a></li>#}
-{#								</ul>#}
-{#							</div>#}
-{#							#}
-{#							<div class="social-login mb-3">#}
-{#								<ul>#}
-{#									<li>#}
-{#										<input id="reg" class="checkbox-custom" name="reg" type="checkbox">#}
-{#										<label for="reg" class="checkbox-custom-label">Save Password</label>#}
-{#									</li>#}
-{#									<li><a href="#" class="theme-cl">Forget Password?</a></li>#}
-{#								</ul>#}
-{#							</div>#}
-{#							#}
-{#							<div class="text-center">#}
-{#								<p class="mt-2">Haven't Any Account? <a href="{{ url_for('register') }}" class="link">Click here</a></p>#}
-{#							</div>#}
-{#						</div>#}
-{#					</div>#}
-{#				</div>#}
-{#			</div>#}
-{#			<!-- End Modal -->#}
-{#			#}
-{#			<!-- Sign Up Modal -->#}
-{#			<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="sign-up" aria-hidden="true">#}
-{#				<div class="modal-dialog modal-dialog-centered login-pop-form" role="document">#}
-{#					<header class="modal_content_header">#}
-{#						<div class="hm_nav">#}
-{#							<h3 class="hm_nav_title">Sign Up</h3>#}
-{#							<span class="mod-close" data-dismiss="modal" aria-hidden="true"><i class="ti-close"></i></span>#}
-{#							<span class="hm_nav_clear">Clear</span>#}
-{#						</div>#}
-{#					</header>#}
-{#					<div class="modal-content" id="sign-up">#}
-{#						<div class="modal-body">#}
-{#							<div class="login-form">#}
-{#								<form>#}
-{#									#}
-{#									<div class="row">#}
-{#										#}
-{#										<div class="col-lg-12 col-md-12">#}
-{#											<div class="form-group">#}
-{#												<label>User Name</label>#}
-{#												<div class="input-with-icon">#}
-{#                                                    {{ form2.username.label }}<br>#}
-{#                                                    {{ form2.username(class="form-control", placeholder="Username") }}#}
-{##}
-{#                                                    {% for error in form2.username.errors %}#}
-{#                                                        <span style="color: red;">[{{ error }}]</span>#}
-{#                                                    {% endfor %}#}
-{#													<input type="text" class="form-control" placeholder="Full Name">#}
-{#													<i class="ti-user"></i>#}
-{#												</div>#}
-{#											</div>#}
-{#										</div>#}
-{#										#}
-{#										<div class="col-lg-12 col-md-12">#}
-{#											<div class="form-group">#}
-{#												<label>Email</label>#}
-{#												<div class="input-with-icon">#}
-{#													<input type="email" class="form-control" placeholder="Email">#}
-{#                                                    {{ form2.email.label }}<br>#}
-{#                                                    {{ form2.email(class="form-control", placeholder="Email") }}#}
-{##}
-{#                                                    {% for error in form2.email.errors %}#}
-{#                                                    <span style="color: red;">[{{ error }}]</span>#}
-{#                                                    {% endfor %}#}
-{#													<i class="ti-email"></i>#}
-{#												</div>#}
-{#											</div>#}
-{#										</div>#}
-{#										#}
-{#										<div class="col-lg-12 col-md-12">#}
-{#											<div class="form-group">#}
-{#												<label>Password</label>#}
-{#												<div class="input-with-icon">#}
-{#                                                    {{ form2.password.label }}<br>#}
-{#                                                    {{ form2.password(class="form-control", placeholder="*******") }}#}
-{##}
-{#                                                    {% for error in form2.password.errors %}#}
-{#                                                    <span style="color: red;">[{{ error }}]</span>#}
-{#                                                    {% endfor %}#}
-{#													<input type="password" class="form-control" placeholder="*******">#}
-{#													<i class="ti-unlock"></i>#}
-{#												</div>#}
-{#											</div>#}
-{#										</div>#}
-{##}
-{#                                        <div class="col-lg-12 col-md-12">#}
-{#											<div class="form-group">#}
-{#												<label>Re-Enter Password</label>#}
-{#												<div class="input-with-icon">#}
-{#													<input type="text" class="form-control" placeholder="Re-Enter Password">#}
-{#                                                    {{ form2.password2.label }}<br>#}
-{#                                                    {{ form2.password2(class="form-control", placeholder="Re-Enter Password") }}#}
-{##}
-{#                                                    {% for error in form2.password2.errors %}#}
-{#                                                    <span style="color: #ff0000;">[{{ error }}]</span>#}
-{#                                                    {% endfor %}#}
-{#													<i class="ti-user"></i>#}
-{#												</div>#}
-{#											</div>#}
-{#										</div>#}
-{#										#}
-{#									</div>#}
-{#									#}
-{#									<div class="form-group">#}
-{#										<button type="submit" class="btn btn-md full-width pop-login bg-2">Create Account</button>#}
-{#                                        {{ form2.submit(class="btn btn-md full-width pop-login bg-2") }}#}
-{#									</div>#}
-{#								#}
-{#								</form>#}
-{#							</div>#}
-{#							<div class="modal-divider"><span>Or Signup via</span></div>#}
-{#							<div class="social-login mb-3">#}
-{#								<ul>#}
-{#									<li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Facebook</a></li>#}
-{#									<li><a href="#" class="btn connect-twitter"><i class="ti-twitter"></i>Twitter</a></li>#}
-{#								</ul>#}
-{#							</div>#}
-{#							<div class="text-center">#}
-{#								<p class="mt-3"><i class="ti-user mr-1"></i>Already Have An Account? <a href="{{ url_for('login') }}" class="link">Go For LogIn</a></p>#}
-{#							</div>#}
-{#						</div>#}
-{#					</div>#}
-{#				</div>#}
-{#			</div>#}
-			<!-- End Modal -->
-			
+
 			<!-- Video Modal -->
 			<div class="modal fade" id="popup-video" tabindex="-1" role="dialog" aria-labelledby="popup-video" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
@@ -657,9 +478,9 @@
 				</div>
 			</div>
 			<!-- End Video Modal -->
-			
+
 			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
-			
+
 
 		</div>
 		<!-- ============================================================== -->
