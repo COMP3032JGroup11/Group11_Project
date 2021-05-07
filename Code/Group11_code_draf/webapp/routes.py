@@ -394,7 +394,7 @@ def upload():
             return render_template('upload_house.html', username=username, title='Upload House', form=form,
                                    usertype=usertype, dash_tittle="upload_house")
     else:
-        flash("User needs to either login or signup first")
+        flash("User needs to either login or signup first", 'danger')
         return redirect(url_for('login'))
 
 
@@ -470,7 +470,7 @@ def house_list():
         return render_template('house_list.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
                                com_posts=com_posts, floor_posts=floor_posts, usertype=usertype)
 
-    flash("User needs to either login or signup first")
+    flash("User needs to either login or signup first", 'danger')
     return redirect(url_for('login'))
 
 
@@ -607,7 +607,7 @@ def my_houselist():
         return render_template('my_houselist.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
                                com_posts=com_posts, floor_posts=floor_posts, usertype=usertype,
                                dash_tittle="my_houselist")
-    flash("User needs to either login or signup first")
+    flash("User needs to either login or signup first", 'danger')
     return redirect(url_for('login'))
 
 
@@ -783,7 +783,7 @@ def search(page=None):
                                    com_posts=com_posts, floor_posts=floor_posts, pagination=prev_posts,
                                    nav_tittle="search_houselist")
     else:
-        flash("User needs to either login or signup first")
+        flash("User needs to either login or signup first", 'danger')
         return redirect(url_for('login'))
 
 
@@ -806,13 +806,13 @@ def house_detail(house_id):
                                      detail=form.information.data, user_id=owner_in_db.id)
             db.session.add(new_message)
             db.session.commit()
-            flash('Message has been sent!')
+            flash('Message has been sent!', 'success')
             return redirect(url_for('house_detail', house_id=houseid))
         return render_template("house_detail.html", username=username, houseid=houseid, house_in_db=house_in_db,
                                owner_in_db=owner_in_db, form=form, usertype=usertype, dash_tittle="house_detail",
                                uid=uid, dis_posts=dis_posts, com_posts=com_posts, floor_posts=floor_posts)
     else:
-        flash("User needs to either login or signup first")
+        flash("User needs to either login or signup first", 'danger')
         return redirect(url_for('login'))
 
 
@@ -846,7 +846,7 @@ def my_message():
         return render_template('my_message.html', username=username, message=message,
                                usertype=usertype, dash_tittle="my_message")
     else:
-        flash("User needs to either login or signup first")
+        flash("User needs to either login or signup first", 'danger')
         return redirect(url_for('login'))
 
 
@@ -924,7 +924,7 @@ def my_save():
         return render_template('my_save.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
                                com_posts=com_posts, floor_posts=floor_posts, usertype=usertype,
                                dash_tittle="my_save", save=save)
-    flash("User needs to either login or signup first")
+    flash("User needs to either login or signup first", 'danger')
     return redirect(url_for('login'))
 
 
@@ -933,3 +933,13 @@ def logout():
     session.pop("USERNAME", None)
     flash('Logout Success', 'success')
     return redirect(url_for('index'))
+
+
+@app.errorhandler(500)
+def error(e):
+    return render_template('error.html')
+
+
+@app.errorhandler(404)
+def error(e):
+    return render_template('error.html')
