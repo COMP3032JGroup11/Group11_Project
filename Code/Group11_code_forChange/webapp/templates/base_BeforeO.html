@@ -49,9 +49,9 @@
                                 {% endif %}
 
                                 {% if nav_tittle == "search_houselist" %}
-                                <li class="active"><a href="{{ url_for('search', page=1) }}">Listings</a></li>
+                                <li class="active"><a href="{{ url_for('search') }}">Listings</a></li>
                                 {% else %}
-                                <li><a href="{{ url_for('search', page=1) }}">Listings</a></li>
+                                <li><a href="{{ url_for('search') }}">Listings</a></li>
                                 {% endif %}
 
                                 <li><a href="{{ url_for('my_profile') }}">Property</a></li>
@@ -105,7 +105,7 @@
 
 							<div class="col-lg-4 col-md-4">
 								<div class="footer_widget">
-                                    <div class="footlogo"><img src="{{ url_for('static', filename='assets/img/logo.png') }}" class="img-fluid mb-3" alt="" /></div>
+                                    <div class="footlogo"><img src="{{ url_for('static', filename='assets/img/logo-light.png') }}" class="img-fluid mb-3" alt="" /></div>
 									<p>School headquarters: No.100 pingleyuan, Chaoyang District, Beijing<br><br>Tongzhou Campus: No.89 Luyuan South Street, Tongzhou District, Beijing</p>
 									<ul class="footer-bottom-social">
 										<li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>

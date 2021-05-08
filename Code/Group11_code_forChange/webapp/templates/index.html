@@ -45,7 +45,7 @@
 
                                 <li class="active"><a href="#">Home</a></li>
 
-                                <li><a href="{{ url_for('search', page=1) }}">Listings</a></li>
+                                <li><a href="{{ url_for('search') }}">Listings</a></li>
 
                                 <li><a href="{{ url_for('my_profile') }}">Property</a></li>
 
@@ -233,7 +233,7 @@
 
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 text-center">
-							<a href="{{ url_for('search', page=1) }}" class="btn btn-theme arrow-btn bg-2">Browse All Property<span><i class="ti-arrow-right"></i></span></a>
+							<a href="{{ url_for('search') }}" class="btn btn-theme arrow-btn bg-2">Browse All Property<span><i class="ti-arrow-right"></i></span></a>
 						</div>
 					</div>
 
@@ -420,7 +420,7 @@
 
 							<div class="col-lg-4 col-md-4">
 								<div class="footer_widget">
-                                    <div class="footlogo"><img src="{{ url_for('static', filename='assets/img/logo.png') }}" class="img-fluid mb-3" alt="" /></div>
+                                    <div class="footlogo"><img src="{{ url_for('static', filename='assets/img/logo-light.png') }}" class="img-fluid mb-3" alt="" /></div>
 									<p>School headquarters: No.100 pingleyuan, Chaoyang District, Beijing<br><br>Tongzhou Campus: No.89 Luyuan South Street, Tongzhou District, Beijing</p>
 									<ul class="footer-bottom-social">
 										<li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
