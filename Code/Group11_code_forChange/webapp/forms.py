@@ -49,7 +49,7 @@ class MyProfileForm(FlaskForm):
 
 
 class CalculatorForm(FlaskForm):
-    total_loans = IntegerField('Total Loans', validators=[DataRequired()])
+    total_loans = StringField('Total Loans', validators=[DataRequired()])
     annualized_rate = SelectField('Annualized Rate', validators=[DataRequired()],
                                   choices=[
                                       (1, 'Annual interest rate 1%'),
@@ -72,7 +72,7 @@ class CalculatorForm(FlaskForm):
                                       (9.5, 'Annual interest rate 9.5%'),
                                       (10, 'Annual interest rate 10%')], coerce=int)
 
-    repayment_years = IntegerField('Repayment Years', validators=[DataRequired()])
+    repayment_years = StringField('Repayment Years', validators=[DataRequired()])
 
     types = SelectField('Loan Type', validators=[DataRequired()], choices=[(1, 'Equal principal and interest'),
                                                                            (2, 'Equal principal')], coerce=int)

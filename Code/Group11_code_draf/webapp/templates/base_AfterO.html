@@ -48,7 +48,7 @@
 
 								<li><a href="customer_index">Home</a></li>
 
-								<li><a href="{{ url_for('search', page=1) }}">Listings</a></li>
+								<li><a id="listing_button" title="Here!" href="{{ url_for('search', page=1) }}"> Listings</a></li>
 
 								<li class="active"><a href="{{ url_for('my_profile') }}">Property</a></li>
 
@@ -67,7 +67,6 @@
 											<a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a>
 											<a href="{{ url_for('my_houselist') }}"><i class="ti-bookmark"></i>House Renting</a>
                                             <a href="{{ url_for('my_message') }}"><i class="ti-layers"></i>My Message</a>
-                                            <a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a>
                                             <a href="{{ url_for('upload') }}"><i class="ti-pencil-alt"></i>Upload New House</a>
 											<a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a>
                                             <a href="{{ url_for('logout') }}"><i class="ti-bookmark"></i>Logout</a>
@@ -124,11 +123,11 @@
                                             <li><a href="{{ url_for('my_message') }}"><i class="ti-layers"></i>My Message</a></li>
                                             {% endif %}
 
-                                            {% if dash_tittle == "my_save" %}
-                                            <li class="active"><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>
-                                            {% else %}
-                                            <li><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>
-                                            {% endif %}
+{#                                            {% if dash_tittle == "my_save" %}#}
+{#                                            <li class="active"><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>#}
+{#                                            {% else %}#}
+{#                                            <li><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>#}
+{#                                            {% endif %}#}
 
                                             {% if dash_tittle == "upload_house" %}
                                             <li class="active"><a href="{{ url_for('upload') }}"><i class="ti-pencil-alt"></i>Upload New House</a></li>
@@ -203,6 +202,19 @@
 		<script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
 		<script src="{{ url_for('static', filename='assets/js/daterangepicker.js') }}"></script>
 		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+{#        <script >#}
+{#            (function(){#}
+{#                var btn = document.getElementById('listing_button');#}
+{#                let box = "asdasdsa";#}
+{#                btn.onmouseover =  function (){#}
+{#                    box.style.display="block"#}
+{#                }#}
+{#                btn,onmouseout =  function (){#}
+{#                    box.style.display="none"#}
+{#                }#}
+{##}
+{#            })();#}
+{#        </script>#}
 
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
