@@ -15,12 +15,5 @@
       <jdbc-url>jdbc:sqlite:D:\Project\Group11_Project\Code\Group11_code_draf\webapp\blogdb.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="RentingHouse" uuid="e914a0ab-0555-4e8d-ae40-fd5ab74a8539">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:F:\git\Group11_Project\Code\Group11_code_draf\webapp\RentingHouse.db</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>
