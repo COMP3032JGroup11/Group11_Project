@@ -46,51 +46,13 @@
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
 
-								<li><a href="house_list">Home</a>
-{#									<ul class="nav-dropdown nav-submenu">#}
-{#										<li><a href="index">Home Page</a></li>#}
-{#										<li><a href="home-2.html">Home 2</a></li>#}
-{#										<li><a href="home-3.html">Home 3</a></li>#}
-{#										<li><a href="home-4.html">Home 4</a></li>#}
-{#										<li><a href="home-5.html">Home 5</a></li>#}
-{#										<li><a href="home-6.html">Home 6</a></li>#}
-{#										<li><a href="home-7.html">Home 7</a></li>#}
-{#										<li><a href="home-8.html">Home 8</a></li>#}
-{#									</ul>#}
-								</li>
+								<li><a href="customer_index">Home</a></li>
 
-								<li><a href="house_list">Listings</a>
-{#									<ul class="nav-dropdown nav-submenu">#}
-{#										<li><a href="#">Listing Grid<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="grid-layout-with-sidebar.html">Grid Style 1</a></li>#}
-{#												<li><a href="grid-layout-2.html">Grid Style 2</a></li>#}
-{#												<li><a href="grid-layout-3.html">Grid Style 3</a></li>#}
-{#												<li><a href="grid-layout-4.html">Grid Style 4</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="#">Listing List<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="list-layout-with-sidebar.html">List Style 1</a></li>#}
-{#												<li><a href="list-layout-with-map-2.html">List Style 2</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="#">Listing Map<span class="submenu-indicator"></span></a>#}
-{#											<ul class="nav-dropdown nav-submenu">#}
-{#												<li><a href="half-map.html">Half Map</a></li>#}
-{#												<li><a href="list-layout-with-map.html">List Sidebar Map</a></li>#}
-{#												<li><a href="grid-layout-with-map.html">Grid Sidebar Map</a></li>#}
-{#											</ul>#}
-{#										</li>#}
-{#										<li><a href="agents.html">Find Agents</a></li>#}
-{#										<li><a href="agencies.html">Find Agencies</a></li>#}
-{#									</ul>#}
-								</li>
+								<li><a href="{{ url_for('search') }}">Listings</a></li>
 
-								<li><a href="#">Property</a></li>
+								<li class="active"><a href="{{ url_for('my_profile') }}">Property</a></li>
 
 								<li><a href="contact.html">Contacts</a></li>
-
 							</ul>
 
 							<ul class="nav-menu nav-menu-social align-to-right dhsbrd">
@@ -98,11 +60,12 @@
 								<li>
 									<div class="btn-group account-drop">
 										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<img src="{{ url_for('static', filename='assets/img/user-5.jpg') }}" class="avater-img" alt="">Hi, {{ username }}
+											<img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
 											<a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a>
-											<a href="{{ url_for('my_houselist') }}"><i class="ti-layers"></i>My Houses</a>
+											<a href="{{ url_for('my_save') }}"><i class="ti-layers"></i>My Save</a>
+                                            <a href="{{ url_for('calculator') }}"><i class="ti-layers"></i>Calculator</a>
 											<a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a>
                                             <a href="{{ url_for('logout') }}"><i class="ti-bookmark"></i>Logout</a>
 										</div>
@@ -118,18 +81,77 @@
 			<!-- ============================================================== -->
 			<!-- Top header  -->
 			<!-- ============================================================== -->
+            {% for message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ message[0] }}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message[1] }}
+                </div>
+            {% endfor %}
+            <!-- ============================ User Dashboard ================================== -->
+			<section class="gray p-0">
+				<div class="container-fluid p-0">
 
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% endwith %}
-            {% block content %}
-            {% endblock %}
+					<div class="row">
+
+						<div class="col-lg-3 col-md-4 col-sm-12">
+							<div class="property_dashboard_navbar" style="background: #3b5a9a">
+
+								<div class="dash_user_menues">
+									<ul>
+										<li><h4 style="color: #0c97cc" align="center"><i class="ti-dashboard"></i> TENANT</h4></li>
+										{% if dash_tittle == "my_profile" %}
+                                        <li class="active"><a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a></li>
+                                        {% else %}
+                                        <li><a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a></li>
+                                        {% endif %}
+
+                                        {% if dash_tittle == "my_save" %}
+                                        <li class="active"><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>
+                                        {% else %}
+                                        <li><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>
+                                        {% endif %}
+
+                                        {% if dash_tittle == "calculator" %}
+                                        <li class="active"><a href="{{ url_for('calculator') }}"><i class="ti-layers"></i>Calculator</a></li>
+                                        {% else %}
+                                        <li><a href="{{ url_for('calculator') }}"><i class="ti-layers"></i>Calculator</a></li>
+                                        {% endif %}
+
+                                        {% if dash_tittle == "change_password" %}
+                                        <li class="active"><a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a></li>
+                                        {% else %}
+                                        <li><a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a></li>
+                                        {% endif %}
+
+										<li><a href="{{ url_for('logout') }}"><i class="ti-power-off"></i>Log Out</a></li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-lg-9 col-md-8 col-sm-12">
+							<div class="dashboard-body">
+                                <div class="dashboard-wraper">
+                                    {% block content %}
+                                    {% endblock %}
+                                </div>
+								<div class="row">
+									<div class="col-md-12 col-lg-12 mt-4">
+										<footer class="text-center">
+											<p class="mb-0">© 2021 Interface</p>
+										</footer>
+									</div>
+								</div>
+								<!-- row -->
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<!-- ============================ User Dashboard End ================================== -->
 
 			<!-- Video Modal -->
 			<div class="modal fade" id="popup-video" tabindex="-1" role="dialog" aria-labelledby="popup-video" aria-hidden="true">

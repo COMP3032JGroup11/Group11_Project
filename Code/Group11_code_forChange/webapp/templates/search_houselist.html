@@ -1,0 +1,235 @@
+{% if usertype == "1" %}
+    {% extends "base_BeforeO.html" %}
+{% else %}
+    {% extends "base_Before.html" %}
+{% endif %}
+
+{% block content %}
+<!-- ============================ partner Start ================================== -->
+<section class="gray-simple pt-4 pb-4">
+    <div class="container align-content-center">
+        <h2 align="center">Interface -- Rent House Without Agency Fee!</h2>
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ partner End ================================== -->
+<!-- ============================ All Property ================================== -->
+			<section>
+				<div class="container">
+
+					<div class="row">
+
+						<!-- property Sidebar -->
+						<div class="col-lg-4 col-md-12 col-sm-12">
+							<div class="hidden-md-down">
+
+								<div class="page-sidebar">
+
+									<!-- Find New Property -->
+									<div class="sidebar-widgets">
+
+										<form action="" method="post" enctype="multipart/form-data">
+                                            {{ form.hidden_tag() }}
+                                        <div class="form-group">
+                                            <div class="simple-input">
+                                                <h4>Floor Kind</h4>
+                                                {{ form.floorkind (class="form-control", id="bathrooms") }}
+                                            </div>
+										</div>
+
+										<div class="form-group">
+                                            <div class="simple-input">
+                                                <h4>Rent Type</h4>
+                                                {{ form.renttype (class="form-control", id="ptypes") }}
+                                            </div>
+										</div>
+
+										<div class="form-group">
+											<div class="simple-input">
+                                                <h4>District</h4>
+												{{ form.districtid (class="form-control" ,id="ptype") }}
+											</div>
+										</div>
+
+                                        <div class="form-group">
+											<div class="simple-input">
+                                                <h4>Community</h4>
+												{{ form.communityid (class="form-control" ,id="role") }}
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="simple-input">
+												{{ form.search(class="btn btn-md full-width pop-login bg-2") }}
+											</div>
+										</div>
+                                        </form>
+
+
+									</div>
+
+								</div>
+							</div>
+							<!-- Sidebar End -->
+
+						</div>
+
+						<div class="col-lg-8 col-md-12 col-sm-12">
+
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 list-layout">
+                                {% if Houses %}
+                                    {% if note %}
+                                    <h4>{{ note }}</h4>
+                                    {% endif %}
+                                {% for post in Houses %}
+									<!-- Single Property Start -->
+									<div class="sides_list_property large">
+										<div class="sides_list_property_thumb">
+											<img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-fluid" alt="">
+										</div>
+										<div class="sides_list_property_detail">
+											<h4><a href="{{ url_for('house_detail',house_id=post.id) }}">{{post.name}}  . {{post.size}} m²</a></h4>
+											<span><i class="ti-location-pin"></i>
+                                            {% for communitys in com_posts %}
+                                                {% if communitys.id == post.community_id %}
+
+                                                    {{communitys.community}},
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% for districts in dis_posts %}
+                                                {% if districts.id == post.district_id %}
+
+                                                    {{districts.district}}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </span>
+
+											<div class="lists_property_types mt-1">
+                                                {% if post.rent_type == 1 %}
+                                                    <div class="property_types_vlix sale">Whole</div>
+                                                {% else %}
+                                                    <div class="property_types_vlix buy">Share</div>
+                                                {% endif %}
+
+											</div>
+											<div class="lists_property_price">
+												<div class="lists_property_price_value first">
+													<h4>¥ {{ post.price }}</h4>
+												</div>
+
+                                                <div class="modern_property_footer">
+                                                    <div class="property-lists flex-1">
+                                                        <ul>
+                                                            <li><span class="flatcons"><img src="static/assets/img/bed.svg" alt=""></span>{{post.room_number}} Rooms</li>
+                                                            <li><span class="flatcons"><img src="static/assets/img/bath.svg" alt=""></span>{{post.bath_number}} Baths</li>
+                                                            <li><span class="flatcons"><img src="static/assets/img/living.png" alt=""></span>{{post.living_number}} Livings</li>
+                                                            {% for floors in floor_posts %}
+                                                                {% if floors.id == post.floor_kind %}
+
+                                                                    <li><span class="flatcons"><img src="static/assets/img/floors.jpg" alt=""></span>{{floors.floor}}</li>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+											</div>
+										</div>
+									</div>
+                                {% endfor %}
+                                {% else %}
+                                    {% for post in prev_posts %}
+									<!-- Single Property Start -->
+									<div class="sides_list_property large">
+										<div class="sides_list_property_thumb">
+											<img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-fluid" alt="">
+										</div>
+										<div class="sides_list_property_detail">
+											<h4><a href="{{ url_for('house_detail',house_id=post.id) }}">{{post.name}}  . {{post.size}} m²</a></h4>
+											<span><i class="ti-location-pin"></i>
+                                            {% for communitys in com_posts %}
+                                                {% if communitys.id == post.community_id %}
+
+                                                    {{communitys.community}},
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% for districts in dis_posts %}
+                                                {% if districts.id == post.district_id %}
+
+                                                    {{districts.district}}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </span>
+
+											<div class="lists_property_types mt-1">
+                                                {% if post.rent_type == 1 %}
+                                                    <div class="property_types_vlix sale">Whole</div>
+                                                {% else %}
+                                                    <div class="property_types_vlix buy">Share</div>
+                                                {% endif %}
+
+											</div>
+											<div class="lists_property_price">
+												<div class="lists_property_price_value first">
+													<h4>¥ {{ post.price }}</h4>
+												</div>
+{#												<div class="lists_property_added">#}
+{#													<ul>#}
+{#                                                        <li><span class="flatcons"><img src="static/assets/img/bed.svg" alt=""></span>{{post.room_number}} Rooms</li>#}
+{#                                                        <li><span class="flatcons"><img src="static/assets/img/bath.svg" alt=""></span>{{post.bath_number}} Baths</li>#}
+{#                                                        <li><span class="flatcons"><img src="static/assets/img/living.png" alt=""></span>{{post.living_number}} Livings</li>#}
+{#                                                        {% for floors in floor_posts %}#}
+{#                                                            {% if floors.id == post.floor_kind %}#}
+{##}
+{#                                                                <li><span class="flatcons"><img src="static/assets/img/floors.jpg" alt=""></span>{{floors.floor}}</li>#}
+{#                                                            {% endif %}#}
+{#                                                        {% endfor %}#}
+{##}
+{#                                                    </ul>#}
+{#												</div>#}
+                                                <div class="modern_property_footer">
+                                                    <div class="property-lists flex-1">
+                                                        <ul>
+                                                            <li><span class="flatcons"><img src="static/assets/img/bed.svg" alt=""></span>{{post.room_number}} Rooms</li>
+                                                            <li><span class="flatcons"><img src="static/assets/img/bath.svg" alt=""></span>{{post.bath_number}} Baths</li>
+                                                            <li><span class="flatcons"><img src="static/assets/img/living.png" alt=""></span>{{post.living_number}} Livings</li>
+                                                            {% for floors in floor_posts %}
+                                                                {% if floors.id == post.floor_kind %}
+
+                                                                    <li><span class="flatcons"><img src="static/assets/img/floors.jpg" alt=""></span>{{floors.floor}}</li>
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+											</div>
+										</div>
+									</div>
+                                    {% endfor %}
+                                    {% endif %}
+								</div>
+							</div>
+
+{#							<!-- Pagination -->#}
+{#							<div class="row">#}
+{#								<div class="col-lg-12 col-md-12 col-sm-12">#}
+{#                                    {% import 'pages.html' as pg %}#}
+{#                                    {{ pg.my_paginate(pagination, 'search') }}#}
+{#								</div>#}
+{#							</div>#}
+
+						</div>
+
+
+					</div>
+				</div>
+			</section>
+			<!-- ============================ All Property ================================== -->
+
+{% endblock %}

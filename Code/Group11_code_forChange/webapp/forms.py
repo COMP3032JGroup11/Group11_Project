@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, RadioField, FileField, \
     TextAreaField, SelectField, FloatField, IntegerField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms.validators import DataRequired, EqualTo, Email, ValidationError
 from flask_wtf.file import FileRequired, FileAllowed
+from webapp.models import User
 
 
 class LoginForm(FlaskForm):
@@ -14,17 +15,20 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired()])
+    user_type = SelectField('Identity', validators=[DataRequired()],
+                            choices=[
+                                (1, 'landlord'),  # 房东
+                                (2, 'Tenant')], coerce=int)  # 租客
     accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()])
     submit = SubmitField('Register')
 
 
 class ChangePasswordForm(FlaskForm):
     password = PasswordField('Origin Password', validators=[DataRequired()])
-    new_password1 = PasswordField('New Password',
-                                  validators=[DataRequired(), EqualTo('new_password2', message='Passwords must match')])
+    new_password1 = PasswordField('New Password', validators=[DataRequired()])
     new_password2 = PasswordField('Repeat New Password', validators=[DataRequired()])
     submit = SubmitField('Reset')
 
@@ -45,7 +49,7 @@ class MyProfileForm(FlaskForm):
 
 
 class CalculatorForm(FlaskForm):
-    total_loans = IntegerField('Total Loans', validators=[DataRequired()])
+    total_loans = StringField('Total Loans', validators=[DataRequired()])
     annualized_rate = SelectField('Annualized Rate', validators=[DataRequired()],
                                   choices=[
                                       (1, 'Annual interest rate 1%'),
@@ -68,7 +72,7 @@ class CalculatorForm(FlaskForm):
                                       (9.5, 'Annual interest rate 9.5%'),
                                       (10, 'Annual interest rate 10%')], coerce=int)
 
-    repayment_years = IntegerField('Repayment Years', validators=[DataRequired()])
+    repayment_years = StringField('Repayment Years', validators=[DataRequired()])
 
     types = SelectField('Loan Type', validators=[DataRequired()], choices=[(1, 'Equal principal and interest'),
                                                                            (2, 'Equal principal')], coerce=int)
@@ -165,6 +169,7 @@ class AddHouseForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
+    description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo',
                           validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
     upload = SubmitField('Upload House')
@@ -259,9 +264,11 @@ class ChangeHouseForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
+    description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo',
                           validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
     change = SubmitField('Update Information')
+
 
 class SearchForm(FlaskForm):
     floorkind = SelectField('Floor Kind', validators=[DataRequired()],
@@ -346,3 +353,29 @@ class SearchForm(FlaskForm):
                                        (238, '西四'), (239, '延庆其它')],
                               coerce=int)
     search = SubmitField('Search')
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
+
+class MessageForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone = StringField('Phone Number', validators=[DataRequired()])
+    information = TextAreaField('Message Information', validators=[DataRequired()])
+    submit = SubmitField('Send')

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="author" content="Drizvato" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <title>Interface</title>
+
+        <!-- Custom CSS -->
+        <link href="{{ url_for('static', filename='assets/css/styles.css') }}" rel="stylesheet">
+
+		<!-- Custom Color Option -->
+		<link href="{{ url_for('static', filename='assets/css/colors.css') }}" rel="stylesheet">
+
+
+        {% block other_css %}
+
+        {% endblock %}
+    </head>
+
+    <body class="yellow-skin">
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+       <div class="preloader"></div>
+
+        <!-- ============================================================== -->
+        <!-- Main wrapper - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <div id="main-wrapper">
+
+			<!-- ============================================================== -->
+            <!-- Top header  -->
+            <!-- ============================================================== -->
+            <!-- Start Navigation -->
+			<div class="header header-light head-border">
+				<div class="container">
+					<nav id="navigation" class="navigation navigation-landscape">
+						<div class="nav-header">
+							<a class="nav-brand" href="#">
+								<img src="{{ url_for('static', filename='assets/img/logo.png') }}" class="logo" alt="" />
+							</a>
+							<div class="nav-toggle"></div>
+						</div>
+						<div class="nav-menus-wrapper" style="transition-property: none;">
+							<ul class="nav-menu">
+
+								<li><a href="customer_index">Home</a></li>
+
+								<li><a id="listing_button" title="Here!" href="{{ url_for('search', page=1) }}"> Listings</a></li>
+
+								<li class="active"><a href="{{ url_for('my_profile') }}">Property</a></li>
+
+								<li><a href="contact.html">Contacts</a></li>
+
+							</ul>
+
+							<ul class="nav-menu nav-menu-social align-to-right dhsbrd">
+
+								<li>
+									<div class="btn-group account-drop">
+										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
+										</button>
+										<div class="dropdown-menu pull-right animated flipInX">
+											<a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a>
+											<a href="{{ url_for('my_houselist') }}"><i class="ti-bookmark"></i>House Renting</a>
+                                            <a href="{{ url_for('my_message') }}"><i class="ti-layers"></i>My Message</a>
+                                            <a href="{{ url_for('upload') }}"><i class="ti-pencil-alt"></i>Upload New House</a>
+											<a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a>
+                                            <a href="{{ url_for('logout') }}"><i class="ti-bookmark"></i>Logout</a>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+			<!-- End Navigation -->
+			<div class="clearfix"></div>
+			<!-- ============================================================== -->
+			<!-- Top header  -->
+			<!-- ============================================================== -->
+            {% for message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ message[0] }}">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message[1] }}
+                </div>
+            {% endfor %}
+            <!-- ============================ User Dashboard ================================== -->
+			<section class="gray p-0">
+				<div class="container-fluid p-0">
+
+					<div class="row">
+
+						<div class="col-lg-3 col-md-4 col-sm-12">
+							<div class="property_dashboard_navbar" >
+
+								<div class="dash_user_menues">
+									<ul>
+										<li><h4 style="color: #0c97cc" align="center"><i class="ti-dashboard"></i> OWNER</h4></li>
+                                        {% if dash_tittle == "house_change" %}
+                                            <li class="active"><a href="{{ url_for('house_change', house_id=houseid) }}"><i class="ti-pencil-alt"></i>House Change</a></li>
+                                            <li><a href="{{ url_for('my_houselist') }}"><i class="fas fa-arrow-alt-circle-right mr-1"></i>Back</a></li>
+                                        {% else %}
+                                            {% if dash_tittle == "my_profile" %}
+                                            <li class="active"><a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a></li>
+                                            {% else %}
+                                            <li><a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a></li>
+                                            {% endif %}
+
+                                            {% if dash_tittle == "my_houselist" %}
+                                            <li class="active"><a href="{{ url_for('my_houselist') }}"><i class="ti-bookmark"></i>House Renting</a></li>
+                                            {% else %}
+                                            <li><a href="{{ url_for('my_houselist') }}"><i class="ti-bookmark"></i>House Renting</a></li>
+                                            {% endif %}
+
+                                            {% if dash_tittle == "my_message" %}
+                                            <li class="active"><a href="{{ url_for('my_message') }}"><i class="ti-layers"></i>My Message</a></li>
+                                            {% else %}
+                                            <li><a href="{{ url_for('my_message') }}"><i class="ti-layers"></i>My Message</a></li>
+                                            {% endif %}
+
+{#                                            {% if dash_tittle == "my_save" %}#}
+{#                                            <li class="active"><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>#}
+{#                                            {% else %}#}
+{#                                            <li><a href="{{ url_for('my_save') }}"><i class="ti-bookmark"></i>Saving Houses</a></li>#}
+{#                                            {% endif %}#}
+
+                                            {% if dash_tittle == "upload_house" %}
+                                            <li class="active"><a href="{{ url_for('upload') }}"><i class="ti-pencil-alt"></i>Upload New House</a></li>
+                                            {% else %}
+                                            <li><a href="{{ url_for('upload') }}"><i class="ti-pencil-alt"></i>Upload New House</a></li>
+                                            {% endif %}
+
+                                            {% if dash_tittle == "change_password" %}
+                                            <li class="active"><a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a></li>
+                                            {% else %}
+                                            <li><a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a></li>
+                                            {% endif %}
+                                        {% endif %}
+										<li><a href="{{ url_for('logout') }}"><i class="ti-power-off"></i>Log Out</a></li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-lg-9 col-md-8 col-sm-12">
+							<div class="dashboard-body">
+                                <div class="dashboard-wraper">
+                                    {% block content %}
+                                    {% endblock %}
+                                </div>
+								<div class="row">
+									<div class="col-md-12 col-lg-12 mt-4">
+										<footer class="text-center">
+											<p class="mb-0">© 2021 Interface</p>
+										</footer>
+									</div>
+								</div>
+								<!-- row -->
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<!-- ============================ User Dashboard End ================================== -->
+
+			<!-- Video Modal -->
+			<div class="modal fade" id="popup-video" tabindex="-1" role="dialog" aria-labelledby="popup-video" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<iframe class="embed-responsive-item" width="100%" height="480" src="" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</div>
+			<!-- End Video Modal -->
+
+			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+
+
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Wrapper -->
+		<!-- ============================================================== -->
+
+		<!-- ============================================================== -->
+		<!-- All Jquery -->
+		<!-- ============================================================== -->
+		<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/ion.rangeSlider.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/select2.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/jquery.magnific-popup.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/slick.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/slider-bg.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/lightbox.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/daterangepicker.js') }}"></script>
+		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+{#        <script >#}
+{#            (function(){#}
+{#                var btn = document.getElementById('listing_button');#}
+{#                let box = "asdasdsa";#}
+{#                btn.onmouseover =  function (){#}
+{#                    box.style.display="block"#}
+{#                }#}
+{#                btn,onmouseout =  function (){#}
+{#                    box.style.display="none"#}
+{#                }#}
+{##}
+{#            })();#}
+{#        </script>#}
+
+		<!-- ============================================================== -->
+		<!-- This page plugins -->
+		<!-- ============================================================== -->
+    {% block script %}
+
+    {% endblock %}
+	</body>
+
+</html>
