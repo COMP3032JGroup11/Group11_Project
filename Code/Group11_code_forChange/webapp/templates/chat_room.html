@@ -1,0 +1,68 @@
+{% extends "base_After.html" %}
+{% block script %}
+<script src="{{ url_for('static', filename='assets/js/f_chat_room.js') }}"></script>
+{% endblock %}
+
+{% block other_css %}
+<link href="{{ url_for('static', filename='assets/css/f_chat_room.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- ============================ User Dashboard ================================== -->
+			<section class="gray p-0">
+				<div class="container-fluid p-0">
+
+					<div class="row">
+
+						<div class="col-lg-3 col-md-4 col-sm-12">
+							<div class="property_dashboard_navbar">
+
+								<div class="dash_user_menues">
+									<ul>
+										<li><a href="dashboard.html"><i class="ti-dashboard"></i>Dashboard</a></li>
+										<li><a href="my-profile"><i class="ti-user"></i>My Profile</a></li>
+										<li><a href="my_houselist"><i class="ti-bookmark"></i>House Renting</a></li>
+                                        <li><a href="calculator"><i class="ti-bookmark"></i>House Calculator</a></li>
+										<li><a href="my-property.html"><i class="ti-layers"></i>My Properties</a></li>
+										<li><a href="choose-package.html"><i class="ti-gift"></i>Choose Package</a></li>
+										<li class="active"><a href="upload_house"><i class="ti-pencil-alt"></i>Upload New House</a></li>
+										<li><a href="change-password"><i class="ti-unlock"></i>Change Password</a></li>
+										<li><a href="#"><i class="ti-power-off"></i>Log Out</a></li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="col-lg-9 col-md-8 col-sm-12">
+							<div class="dashboard-body">
+
+                                <div class="chat_room">
+                                    <h2  style="text-align: center;">ChatRoom</h2>
+                                    <div class="li">
+                                        <div id="chat" class="content" >
+                                        </div>
+                                    </div>
+                                    <div class="send">
+                                        <textarea class="text" type="text" id="inp"></textarea>
+                                        <button id="user" value="{{ username }}" type="button" style="float: right" onclick="send_inp()">Send</button>
+                                    </div>
+                                </div>
+
+								<div class="row">
+									<div class="col-md-12 col-lg-12 mt-4">
+										<footer class="text-center">
+											<p class="mb-0">© 2020 Verio. Designd By <a href="#">Pexel Experts</a> All Rights Reserved</p>
+										</footer>
+									</div>
+								</div>
+								<!-- row -->
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<!-- ============================ User Dashboard End ================================== -->
+{% endblock%}

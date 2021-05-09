@@ -546,25 +546,25 @@ $(function() {
 	// Select Bathrooms
 	$('#bathrooms').select2({
 		placeholder: "Bathrooms",
-		allowClear: true
+		allowClear: false
 	});
 	
 	// Select Property Types
 	$('#ptypes').select2({
-		placeholder: "Property Types",
-		allowClear: true
+		placeholder: "Rent Types",
+		allowClear: false
 	});
-	
+
 	// Select User Role
 	$('#role').select2({
 		placeholder: "Select Role",
-		allowClear: true
+		allowClear: false
 	});
 	
 	// Select Property Types
 	$('#ptype').select2({
 		placeholder: "Property Types",
-		allowClear: true
+		allowClear: false
 	});
 	
 	// Looking For

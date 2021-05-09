@@ -10,9 +10,7 @@
         {{ form.hidden_tag() }}
         <!-- Basic Information -->
         <div class="frm_submit_block">
-            <h3>Change Information House: ID= {{ houseid }}</h3>
-            <br>
-            <h4>The Predict Price is {{ predrictprice }}</h4>
+            <h4>My House</h4>
             <div class="frm_submit_wrap">
                 <div class="form-row">
 
@@ -68,7 +66,7 @@
 
                     <div class="form-group col-md-12">
                         {{ form.description.label }}<br>
-                        {{ form.description (class="form-control")}}
+                        {{ form.description (class="form-control", placeholder="Please decrsipt your house.")}}
                     </div>
 
                 </div>
@@ -100,7 +98,7 @@
 
         </div>
         <div class="form-group col-lg-12 col-md-12">
-            {{ form.change(class="btn btn-md full-width pop-login bg-2") }}
+            {{ form.upload(class="btn btn-md full-width pop-login bg-2") }}
         </div>
     </form>
 {% endblock %}
