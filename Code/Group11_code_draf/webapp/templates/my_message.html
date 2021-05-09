@@ -1,0 +1,42 @@
+{% if usertype == "1" %}
+    {% extends "base_AfterO.html" %}
+{% else %}
+    {% extends "base_After.html" %}
+{% endif %}
+
+{% block content %}
+<!-- ============================ All Property ================================== -->
+            <h2>Messages</h2>
+            <section>
+                <div class="container">
+
+                    <div class="row">
+                        {% if message %}
+                        {% for post in message %}
+                                            <!-- Single Block Wrap -->
+                        <div class="article_detail_wrapss single_article_wrap format-standard" style="background: #d1ecf1">
+
+                            <div >
+                                <h4 class="property_block_title"><i class="fas fa-user-circle mr-1"></i> {{ post.name }}</h4>
+                            </div>
+                            <div class="panel-collapse collapse show" >
+                            <div class="block-body">
+                                <p><i class="ti-email mr-1"></i>{{ post.email }}</p>
+                                <p><i class="ti-mobile mr-1"></i>{{ post.phone }}</p>
+                                <p>{{ post.detail }}</p>
+                            </div>
+                        </div>
+
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <h3>There is no message for you, you can check it later.</h3>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================ All Property ================================== -->
+
+{% endblock %}

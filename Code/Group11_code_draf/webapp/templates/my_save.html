@@ -1,0 +1,130 @@
+{% if usertype == "1" %}
+    {% extends "base_AfterO.html" %}
+{% else %}
+    {% extends "base_After.html" %}
+{% endif %}
+
+{% block content %}
+<!-- ============================ All Property ================================== -->
+
+            <section>
+
+                <div class="container">
+
+                    <div class="row">
+                        {% if save %}
+                        {% for house in save %}
+                        {% for post in prev_posts %}
+                        {% if post.id == house.house_id %}
+                        <!-- Single Property -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="single_property_style property_style_2 modern">
+
+                                <div class="listing_thumb_wrapper">
+                                    <div class="property_gallery_slide-thumb">
+                                        <a href="{{ url_for('house_detail',house_id=post.id) }}"><img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}"/> </a>
+                                    </div>
+{#									<div class="uilist_view_thumb">#}
+{#										<a href="#" class="uilist-btn text-warning" data-toggle="tooltip" data-original-title="304 Views"><i class="ti-eye"></i></a>#}
+{#										<a href="#" class="uilist-btn text-success" data-toggle="tooltip" data-original-title="Compare Property"><i class="lni lni-shuffle"></i></a>#}
+{#										<a href="#" class="uilist-btn text-danger" data-toggle="tooltip" data-original-title="Save Property"><i class="ti-heart"></i></a>#}
+{#									</div>#}
+                                </div>
+
+                                <div class="property_caption_wrappers pb-0">
+                                    <div class="property_short_detail">
+                                        <div class="pr_type_status">
+                                            <h4 class="pr-property_title mb-1"><a href="{{ url_for('house_detail',house_id=post.id) }}">{{post.name}}  . {{post.size}} m²</a></h4>
+                                            <div class="listing-location-name">
+                                            {% for communitys in com_posts %}
+                                                {% if communitys.id == post.community_id %}
+
+                                                    <a href="{{ url_for('house_detail',house_id=post.id) }}">{{communitys.community}}, </a>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% for districts in dis_posts %}
+                                                {% if districts.id == post.district_id %}
+
+                                                    <a href="{{ url_for('house_detail',house_id=post.id) }}">{{districts.district}}</a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </div>
+{#											<div class="listing-location-name"><a href="single-property-1.html">{{post.community_id}}, {{post.district_id}}</a></div>#}
+                                            <script>
+
+                                            </script>
+
+                                        </div>
+                                        <div class="property-real-price"><a href="{{ url_for('house_detail',house_id=post.id) }}" class="cl-blue">Your Price: ¥ {{post.price}}<span class="price_status">/mo</span></a></div>
+                                        <div class="property-real-price"><a href="{{ url_for('house_detail',house_id=post.id) }}" class="cl-blue">Predict Price: ¥ {{post.predicted_price}}<span class="price_status">/mo</span></a></div>
+                                    </div>
+                                </div>
+
+                                <div class="modern_property_footer">
+                                    <div class="property-lists flex-1">
+                                        <ul>
+                                            <li><span class="flatcons"><img src="static/assets/img/bed.svg" alt=""></span>{{post.room_number}} Rooms</li>
+                                            <li><span class="flatcons"><img src="static/assets/img/bath.svg" alt=""></span>{{post.bath_number}} Baths</li>
+                                            <li><span class="flatcons"><img src="static/assets/img/living.png" alt=""></span>{{post.living_number}} Livings</li>
+                                            {% for floors in floor_posts %}
+                                                {% if floors.id == post.floor_kind %}
+
+                                                    <li><span class="flatcons"><img src="static/assets/img/floors.jpg" alt=""></span>{{floors.floor}}</li>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                    {% if post.rent_type == 1 %}
+                                        <div class="fp_types">Whole</div>
+                                    {% else %}
+                                        <div class="fp_types">Sharing</div>
+                                    {% endif %}
+                                <form action="" method="post" novalidate>
+                                <button onclick="house_delete('{{ post.id }}')" class="btn btn-theme btn-rounded">Delete</button>
+                                </form>
+                                </div>
+
+                                <script>
+                                    function house_delete(id){
+                                        var res=confirm('Are you sure to delete this Save?');
+                                        if(res==true){
+                                            var s = id;
+                                            var data = {'s': s};
+                                            $.ajax({
+                                                url:'/deleteSave',
+                                                type:"post",
+                                                data:data,
+                                                dataType:'json',
+                                                traditional:true,
+                                                async:false,
+                                                success:function(d){
+                                                    alert('You have deleted Save: House ID='+d);
+                                                    window.location.href='{{ url_for('my_save') }}';
+                                                },
+                                                error:function (e){
+                                                    alert("error"+e);
+                                                }
+                                        });
+                                        }
+
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                        {% else %}
+                        <h3>There is no saving house in your account, you can <a href="{{ url_for('search', page=1) }}" class="active" style="color: #1c9cea">SEARCH</a> what you like.</h3>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </section>
+
+            <!-- ============================ All Property ================================== -->
+
+{% endblock %}
