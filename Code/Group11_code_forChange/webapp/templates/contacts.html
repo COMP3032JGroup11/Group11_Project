@@ -5,7 +5,7 @@
 		<meta name="author" content="Drizvato" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-        <title>Interface</title>
+        <title>Interface-Index</title>
 
         <!-- Custom CSS -->
         <link href="{{ url_for('static', filename='assets/css/styles.css') }}" rel="stylesheet">
@@ -36,47 +36,49 @@
 					<nav id="navigation" class="navigation navigation-landscape">
 						<div class="nav-header">
 							<a class="nav-brand" href="#">
-								<img src="{{ url_for('static', filename='assets/img/logo.png') }}" class="logo" alt="" />
+								<img src="static/assets/img/logo.png" class="logo" alt="" />
 							</a>
 							<div class="nav-toggle"></div>
 						</div>
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
-                                {% if nav_tittle == "customer_index" %}
-                                <li class="active"><a href="{{ url_for('customer_index') }}">Home</a></li>
-                                {% else %}
-                                <li><a href="{{ url_for('customer_index') }}">Home</a></li>
-                                {% endif %}
 
-                                {% if nav_tittle == "search_houselist" %}
-                                <li class="active"><a href="{{ url_for('search') }}">Listings</a></li>
-                                {% else %}
+                                <li><a href="{{ url_for('index') }}">Home</a></li>
+
                                 <li><a href="{{ url_for('search') }}">Listings</a></li>
-                                {% endif %}
 
                                 <li><a href="{{ url_for('my_profile') }}">Property</a></li>
 
-                                <li><a href="{{ url_for('contacts') }}">Contacts</a></li>
+                                <li class="active"><a href="#">Contacts</a></li>
 
 							</ul>
 
 							<ul class="nav-menu nav-menu-social align-to-right dhsbrd">
-
+								{% if not username %}
 								<li>
+									<a href="login.html" data-toggle="modal" data-target="#login" class="text-muted", onclick="location.href='login'">
+                                        <i class="fas fa-user-circle mr-1"></i><span class="dn-lg">Login</span>
+									</a>
+								</li>
+								<li class="add-listing bg-info">
+									<a href="#" data-toggle="modal" data-target="#signup" class="theme-cl", onclick="location.href='register'">
+										 <i class="fas fa-arrow-alt-circle-right mr-1"></i>Sign Up
+									</a>
+								</li>
+                                {% else %}
+                                <li>
 									<div class="btn-group account-drop">
 										<button type="button" class="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
+                                            <img src="{{ avatars.gravatar(username) }}" height="50" width="50">&nbsp; Hi, {{ username }}
 										</button>
 										<div class="dropdown-menu pull-right animated flipInX">
 											<a href="{{ url_for('my_profile') }}"><i class="ti-user"></i>My Profile</a>
-											<a href="{{ url_for('my_houselist') }}"><i class="ti-bookmark"></i>House Renting</a>
-                                            <a href="{{ url_for('my_message') }}"><i class="ti-layers"></i>My Message</a>
-                                            <a href="{{ url_for('upload') }}"><i class="ti-pencil-alt"></i>Upload New House</a>
 											<a href="{{ url_for('change_password') }}"><i class="ti-unlock"></i>Change Password</a>
                                             <a href="{{ url_for('logout') }}"><i class="ti-bookmark"></i>Logout</a>
 										</div>
 									</div>
 								</li>
+                                {% endif %}
 							</ul>
 
 						</div>
@@ -88,14 +90,138 @@
 			<!-- ============================================================== -->
 			<!-- Top header  -->
 			<!-- ============================================================== -->
-            {% for message in get_flashed_messages(with_categories=True) %}
+			{% for message in get_flashed_messages(with_categories=True) %}
                 <div class="alert alert-{{ message[0] }}">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ message[1] }}
                 </div>
             {% endfor %}
-            {% block content %}
-            {% endblock %}
+
+<!-- ============================ Property Location Start ================================== -->
+			<section  class="gray min">
+				<div class="container">
+
+					<div class="row justify-content-center">
+						<div class="col-lg-7 col-md-8">
+							<div class="sec-heading center">
+								<h2>You can get touch with our agents!</h2>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<!-- Single Agent -->
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<div class="grid_agents style-2">
+
+								<div class="grid_agents-wrap">
+
+									<div class="fr-grid-thumb">
+											<img src="static/assets/img/wuxiulin.jpg" class="img-fluid mx-auto" alt="" />
+									</div>
+
+									<div class="fr-grid-deatil">
+										<h5 class="fr-can-name">Xiulin Wu</h5>
+										<div class="mt-1">17205981</div>
+									</div>
+
+								</div>
+
+								<div class="grid_agents_footer">
+									<div class="agent_grid_footer_first">
+										<i class="ti-email mr-1"></i>xiulin.wu@ucdconnect.ie
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- Single Agent -->
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<div class="grid_agents style-2">
+
+								<div class="grid_agents-wrap">
+
+									<div class="fr-grid-thumb">
+											<img src="static/assets/img/zhengzhi.jpg" class="img-fluid mx-auto" alt="" />
+									</div>
+
+									<div class="fr-grid-deatil">
+										<h5 class="fr-can-name">Zhi Zheng</h5>
+										<div class="mt-1">17206148</div>
+									</div>
+
+								</div>
+
+								<div class="grid_agents_footer">
+									<div class="agent_grid_footer_first">
+										<i class="ti-email mr-1"></i>zhi.zheng@ucdconnect.ie
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+                        <!-- Single Agent -->
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<div class="grid_agents style-2">
+
+								<div class="grid_agents-wrap">
+
+									<div class="fr-grid-thumb">
+											<img src="static/assets/img/yangyadi.jpg" class="img-fluid mx-auto" alt="" />
+									</div>
+
+									<div class="fr-grid-deatil">
+										<h5 class="fr-can-name">Yadi Yang</h5>
+										<div class="mt-1">17206155</div>
+									</div>
+
+								</div>
+
+								<div class="grid_agents_footer">
+									<div class="agent_grid_footer_first">
+										<i class="ti-email mr-1"></i>yadi.yang@ucdconnect.ie
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<!-- Single Agent -->
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<div class="grid_agents style-2">
+
+								<div class="grid_agents-wrap">
+
+									<div class="fr-grid-thumb">
+											<img src="static/assets/img/lizhensheng.jpg" class="img-fluid mx-auto" alt="" />
+									</div>
+
+									<div class="fr-grid-deatil">
+										<h5 class="fr-can-name">Zhensheng Li</h5>
+										<div class="mt-1">17206174</div>
+									</div>
+
+								</div>
+
+								<div class="grid_agents_footer">
+									<div class="agent_grid_footer_first">
+										<i class="ti-email mr-1"></i>zhensheng.li@ucdconnect.ie
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+                </div>
+            </section>
+			<!-- ============================ Property Location End ================================== -->
+
+
 			<!-- ============================ Footer Start ================================== -->
 			<footer class="dark-footer skin-dark-footer style-2">
 
@@ -116,7 +242,7 @@
 								</div>
 							</div>
 
-                            <div class="col-lg-2 col-md-6">
+							<div class="col-lg-2 col-md-6">
 								<div class="footer_widget">
                                     <p>School headquarters: No.100 pingleyuan, Chaoyang District, Beijing</p>
 
@@ -145,7 +271,7 @@
 						<div class="row align-items-center">
 
 							<div class="col-lg-12 col-md-12">
-								<p class="mb-0">© 2021 Interface</p>
+								<p class="mb-0">© 2021 Interface </p>
 							</div>
 
 						</div>
@@ -153,7 +279,6 @@
 				</div>
 			</footer>
 			<!-- ============================ Footer End ================================== -->
-
 
 			<!-- Video Modal -->
 			<div class="modal fade" id="popup-video" tabindex="-1" role="dialog" aria-labelledby="popup-video" aria-hidden="true">
@@ -174,18 +299,18 @@
 		<!-- ============================================================== -->
 		<!-- All Jquery -->
 		<!-- ============================================================== -->
-		<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/ion.rangeSlider.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/select2.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/jquery.magnific-popup.min.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/slick.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/slider-bg.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/lightbox.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/imagesloaded.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/daterangepicker.js') }}"></script>
-		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+		<script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+		<script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/ion.rangeSlider.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/select2.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/slick.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/slider-bg.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/lightbox.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/imagesloaded.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/daterangepicker.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/custom.js') }}"></script>
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
 		<!-- ============================================================== -->

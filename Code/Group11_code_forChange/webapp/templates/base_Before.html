@@ -57,7 +57,7 @@
 
                                 <li><a href="{{ url_for('my_profile') }}">Property</a></li>
 
-                                <li><a href="contact.html">Contacts</a></li>
+                                <li><a href="{{ url_for('contacts') }}">Contacts</a></li>
 
 							</ul>
 
@@ -107,7 +107,7 @@
 							<div class="col-lg-4 col-md-4">
 								<div class="footer_widget">
                                     <div class="footlogo"><img src="{{ url_for('static', filename='assets/img/logo-light.png') }}" class="img-fluid mb-3" alt="" /></div>
-									<p>School headquarters: No.100 pingleyuan, Chaoyang District, Beijing<br><br>Tongzhou Campus: No.89 Luyuan South Street, Tongzhou District, Beijing</p>
+{#									<p>School headquarters: No.100 pingleyuan, Chaoyang District, Beijing<br><br>Tongzhou Campus: No.89 Luyuan South Street, Tongzhou District, Beijing</p>#}
 									<ul class="footer-bottom-social">
 										<li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
 										<li><a href="https://twitter.com/"><i class="ti-twitter"></i></a></li>
@@ -116,35 +116,23 @@
 									</ul>
 								</div>
 							</div>
-                            <div class="col-lg-2 col-md-2">
+                            <div class="col-lg-2 col-md-6">
 								<div class="footer_widget">
+                                    <p>School headquarters: No.100 pingleyuan, Chaoyang District, Beijing</p>
+
 								</div>
 							</div>
-                            <div class="col-lg-2 col-md-2">
+
+							<div class="col-lg-2 col-md-6">
 								<div class="footer_widget">
-								</div>
-							</div>
-							<div class="col-lg-2 col-md-2">
-								<div class="footer_widget">
-									<h4 class="widget_title">Contact Us</h4>
-									<ul class="footer-menu">
-                                        <li><a href="https://www.facebook.com/">Facebook</a></li>
-                                        <li><a href="https://twitter.com/">Twitter</a></li>
-                                        <li><a href="https://www.google.com/">Google</a></li>
-                                        <li><a href="https://www.linkedin.com/start/join">Linkedin</a></li>
-									</ul>
+{#                                    <p>Tongzhou Campus: No.89 Luyuan South Street, Tongzhou District, Beijing</p>#}
+
 								</div>
 							</div>
 
 							<div class="col-lg-2 col-md-2">
 								<div class="footer_widget">
-									<h4 class="widget_title">Property</h4>
-									<ul class="footer-menu">
-										<li><a href="{{ url_for('my_profile') }}">My Profile</a></li>
-										<li><a href="{{ url_for('my_save') }}">Saving Houses</a></li>
-										<li><a href="{{ url_for('calculator') }}">Calculator</a></li>
-										<li><a href="{{ url_for('change_password') }}">Change Password</a></li>
-									</ul>
+									<p>Tongzhou Campus: No.89 Luyuan South Street, Tongzhou District, Beijing</p>
 								</div>
 							</div>
 
