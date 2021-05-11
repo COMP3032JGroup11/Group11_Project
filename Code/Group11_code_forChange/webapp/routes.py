@@ -962,17 +962,13 @@ def logout():
 @app.errorhandler(500)
 def error(e):
     username = session.get("USERNAME")
-    user_db = User.query.filter(User.username == session.get("USERNAME")).first()
-    usertype = user_db.user_type
-    return render_template('error.html', username=username, usertype=usertype)
+    return render_template('error.html', username=username)
 
 
 @app.errorhandler(404)
 def error(e):
     username = session.get("USERNAME")
-    user_db = User.query.filter(User.username == session.get("USERNAME")).first()
-    usertype = user_db.user_type
-    return render_template('error.html', username=username, usertype=usertype)
+    return render_template('error.html', username=username)
 
 
 @app.route('/contacts', methods=['GET', 'POST'])
