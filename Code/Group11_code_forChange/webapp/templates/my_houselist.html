@@ -33,19 +33,19 @@
                                 <div class="property_caption_wrappers pb-0">
                                     <div class="property_short_detail">
                                         <div class="pr_type_status">
-                                            <h4 class="pr-property_title mb-1"><a href="single-property-1.html">{{post.name}}  . {{post.size}} m²</a></h4>
+                                            <h4 class="pr-property_title mb-1"><a>{{post.name}}  . {{post.size}} m²</a></h4>
                                             <div class="listing-location-name">
                                             {% for communitys in com_posts %}
                                                 {% if communitys.id == post.community_id %}
 
-                                                    <a href="single-property-1.html">{{communitys.community}}, </a>
+                                                    <a>{{communitys.community}}, </a>
                                                 {% endif %}
                                             {% endfor %}
 
                                             {% for districts in dis_posts %}
                                                 {% if districts.id == post.district_id %}
 
-                                                    <a href="single-property-1.html">{{districts.district}}</a>
+                                                    <a>{{districts.district}}</a>
                                                 {% endif %}
                                             {% endfor %}
                                             </div>
@@ -55,8 +55,8 @@
                                             </script>
 
                                         </div>
-                                        <div class="property-real-price"><a href="single-property-1.html" class="cl-blue">Your Price: ¥ {{post.price}}<span class="price_status">/mo</span></a></div>
-                                        <div class="property-real-price"><a href="single-property-1.html" class="cl-blue">Predict Price: ¥ {{post.predicted_price}}<span class="price_status">/mo</span></a></div>
+                                        <div class="property-real-price"><a class="cl-blue">Your Price: ¥ {{post.price}}<span class="price_status">/mo</span></a></div>
+                                        <div class="property-real-price"><a class="cl-blue">Predict Price: ¥ {{post.predicted_price}}<span class="price_status">/mo</span></a></div>
                                     </div>
                                 </div>
 
@@ -76,9 +76,9 @@
                                         </ul>
                                     </div>
                                     {% if post.rent_type == 1 %}
-                                        <div class="fp_types">Whole</div>
+                                        <div class="property_types_vlix sale">Whole</div>
                                     {% else %}
-                                        <div class="fp_types">Sharing</div>
+                                        <div class="property_types_vlix buy">Share</div>
                                     {% endif %}
                                 <form action="" method="post" novalidate>
                                 <button onclick="house_delete('{{ post.id }}')" class="btn btn-theme btn-rounded">Delete</button>

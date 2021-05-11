@@ -33,18 +33,32 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField('Reset')
 
 
+# class MyProfileForm(FlaskForm):
+#     nickname = StringField('Your Nickname', validators=[DataRequired()])
+#     phone = StringField('Phone Number', validators=[DataRequired()])
+#     address = StringField('Your Address', validators=[DataRequired()])
+#     city = StringField('Your City', validators=[DataRequired()])
+#     email = StringField('Email', validators=[DataRequired()])
+#     zip = StringField('Zip of Your Area', validators=[DataRequired()])
+#     about = TextAreaField('Your Information', validators=[DataRequired()])
+#     facebook = StringField('Facebook Account', validators=[DataRequired()])
+#     twitter = StringField('Twitter Account', validators=[DataRequired()])
+#     google = StringField('Google Account', validators=[DataRequired()])
+#     linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
+#     submit = SubmitField('Save Information')
+
 class MyProfileForm(FlaskForm):
-    nickname = StringField('Your Nickname', validators=[DataRequired()])
-    phone = StringField('Phone Number', validators=[DataRequired()])
-    address = StringField('Your Address', validators=[DataRequired()])
-    city = StringField('Your City', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
-    zip = StringField('Zip of Your Area', validators=[DataRequired()])
-    about = TextAreaField('Your Information', validators=[DataRequired()])
-    facebook = StringField('Facebook Account', validators=[DataRequired()])
-    twitter = StringField('Twitter Account', validators=[DataRequired()])
-    google = StringField('Google Account', validators=[DataRequired()])
-    linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
+    nickname = StringField('Your Nickname')
+    phone = StringField('Phone Number')
+    address = StringField('Your Address')
+    city = StringField('Your City')
+    email = StringField('Email')
+    zip = StringField('Zip of Your Area')
+    about = TextAreaField('Your Information')
+    facebook = StringField('Facebook Account')
+    twitter = StringField('Twitter Account')
+    google = StringField('Google Account')
+    linkedin = StringField('LinkedIn Account')
     submit = SubmitField('Save Information')
 
 

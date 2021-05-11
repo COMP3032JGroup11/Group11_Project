@@ -3,6 +3,7 @@ import os
 import numpy as np
 
 from flask import Flask
+from flask_whooshee import Whooshee
 from flask_bcrypt import Bcrypt
 from webapp.config import Config
 from flask_sqlalchemy import SQLAlchemy

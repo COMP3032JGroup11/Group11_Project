@@ -15,7 +15,7 @@ from webapp.config import Config
 from flask_mail import Message
 
 import os
-
+import re
 import math
 
 from flask import Flask, request, jsonify, render_template
@@ -170,7 +170,7 @@ def customer_index():
                                com_posts=com_posts, floor_posts=floor_posts, usertype=usertype,
                                nav_tittle="customer_index")
 
-    flash("User needs to either login or signup first",  'warning')
+    flash("User needs to either login or signup first", 'warning')
     return redirect(url_for('login'))
 
 
@@ -287,7 +287,14 @@ def my_profile():
         user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
         usertype = user_in_db.user_type
         if form.validate_on_submit():
-            if User.query.filter_by(email=form.email.data).first() and form.email.data != user_in_db.email:
+            print(form.email.data)
+            if form.email.data == '':
+                flash('Please enter your email address, it can’t be empty', 'danger')
+                return redirect(url_for('my_profile'))
+            elif not re.match(r'^[\w]+[\w._]*@\w+\.[a-zA-Z]+$', form.email.data):
+                flash('Please enter the correct email format', 'danger')
+                return redirect(url_for('my_profile'))
+            elif User.query.filter_by(email=form.email.data).first() and form.email.data != user_in_db.email:
                 flash('This email already exists! Please check again.', 'danger')
                 return redirect(url_for('my_profile'))
             elif User.query.filter_by(phone=form.phone.data).first() and form.phone.data != user_in_db.phone:
@@ -540,11 +547,11 @@ def calculator():
                 print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
 
     return render_template('calculator.html', title='Calculator', username=username, form=form,
-                               total_repayment=total_repayment,
-                               total_interest=total_interest, monthly_repayment=monthly_repayment,
-                               Total_repayment=Total_repayment, Total_interest=Total_interest,
-                               First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease,
-                               usertype=usertype, dash_tittle="calculator")
+                           total_repayment=total_repayment,
+                           total_interest=total_interest, monthly_repayment=monthly_repayment,
+                           Total_repayment=Total_repayment, Total_interest=Total_interest,
+                           First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease,
+                           usertype=usertype, dash_tittle="calculator")
 
 
 @app.route('/my_houselist', methods=['GET', 'POST'])
