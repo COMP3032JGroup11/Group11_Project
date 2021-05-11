@@ -87,7 +87,11 @@
                 <div class="col-lg-7 col-md-8">
                     <div class="sec-heading center">
                         <h2>Recent Added Property</h2>
-                        <p>There are up to six newly released partial listings, if you want to see more, please click the button below.</p>
+                        {% if usertype == "1" %}
+                            <p>There are up to six newly released partial listings.</p>
+                        {% else %}
+                            <p>There are up to six newly released partial listings, if you want to see more, please click the button below.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -100,12 +104,20 @@
                     <div class="list-slide-box">
                         <div class="modern-list">
                             <div class="grid-category-thumb">
-                                <a href="{{ url_for('house_detail',house_id=post.id) }}" class="overlay-cate"><img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive" alt=""></a>
+                                {% if usertype == "1" %}
+                                    <img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive" alt="">
+                                {% else %}
+                                    <a href="{{ url_for('house_detail',house_id=post.id) }}" class="overlay-cate"><img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive" alt=""></a>
+                                {% endif %}
                             </div>
                             <div class="modern-list-content">
 
                                 <div class="listing-content-wrap smalls">
-                                    <h4 class="lst-title"><a href="{{ url_for('house_detail',house_id=post.id) }}">{{ post.name }}</a></h4>
+                                    <h4 class="lst-title">
+                                        {% if usertype == "2" %}
+                                            <a href="{{ url_for('house_detail',house_id=post.id) }}">{{ post.name }}</a>
+                                        {% endif %}
+                                    </h4>
                                     <p>
                                     {% for communitys in com_posts %}
                                         {% if communitys.id == post.community_id %}
@@ -141,11 +153,13 @@
             {% endif %}
             </div>
 
+            {% if usertype == "2" %}
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 text-center">
                     <a href="{{ url_for('search') }}" class="btn btn-theme arrow-btn bg-2">Browse All Property<span><i class="ti-arrow-right"></i></span></a>
                 </div>
             </div>
+            {% endif %}
 
         </div>
     </section>
