@@ -17,6 +17,7 @@ from flask_mail import Message
 from PIL import Image
 
 import os
+import re
 
 import math
 
@@ -215,7 +216,7 @@ def register():
             db.session.commit()
             session["USERNAME"] = user.username
             flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
-            return redirect(url_for('my_profile'))
+            return redirect(url_for('customer_index'))
     return render_template('register.html', title='Register a new user', form=form)
 
 
@@ -289,7 +290,14 @@ def my_profile():
         user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
         usertype = user_in_db.user_type
         if form.validate_on_submit():
-            if User.query.filter_by(email=form.email.data).first() and form.email.data != user_in_db.email:
+            print(form.email.data)
+            if form.email.data == '':
+                flash('Please enter your email address, it can’t be empty', 'danger')
+                return redirect(url_for('my_profile'))
+            elif not re.match(r'^[\w]+[\w._]*@\w+\.[a-zA-Z]+$', form.email.data):
+                flash('Please enter the correct email format', 'danger')
+                return redirect(url_for('my_profile'))
+            elif User.query.filter_by(email=form.email.data).first() and form.email.data != user_in_db.email:
                 flash('This email already exists! Please check again.', 'danger')
                 return redirect(url_for('my_profile'))
             elif User.query.filter_by(phone=form.phone.data).first() and form.phone.data != user_in_db.phone:
@@ -394,7 +402,7 @@ def upload():
                               user=user_in_db)
             db.session.add(new_house)
             db.session.commit()
-            return redirect(url_for('my_profile'))
+            return redirect(url_for('my_houselist'))
         else:
             return render_template('upload_house.html', username=username, title='Upload House', form=form,
                                    usertype=usertype, dash_tittle="upload_house")

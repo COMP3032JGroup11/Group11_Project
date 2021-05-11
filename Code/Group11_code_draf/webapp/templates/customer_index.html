@@ -87,7 +87,11 @@
                 <div class="col-lg-7 col-md-8">
                     <div class="sec-heading center">
                         <h2>Recent Added Property</h2>
-                        <p>There are up to six newly released partial listings, if you want to see more, please click the button below.</p>
+                        {% if usertype == "1" %}
+                            <p>There are up to six newly released partial listings.</p>
+                        {% else %}
+                            <p>There are up to six newly released partial listings, if you want to see more, please click the button below.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -100,12 +104,20 @@
                     <div class="list-slide-box">
                         <div class="modern-list">
                             <div class="grid-category-thumb">
-                                <a href="{{ url_for('house_detail',house_id=post.id) }}" class="overlay-cate"><img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive" alt=""></a>
+                                {% if usertype == "1" %}
+                                    <img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive" alt="">
+                                {% else %}
+                                    <a href="{{ url_for('house_detail',house_id=post.id) }}" class="overlay-cate"><img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive" alt=""></a>
+                                {% endif %}
                             </div>
                             <div class="modern-list-content">
 
                                 <div class="listing-content-wrap smalls">
-                                    <h4 class="lst-title"><a href="{{ url_for('house_detail',house_id=post.id) }}">{{ post.name }}</a></h4>
+                                    <h4 class="lst-title">
+                                        {% if usertype == "2" %}
+                                            <a href="{{ url_for('house_detail',house_id=post.id) }}">{{ post.name }}</a>
+                                        {% endif %}
+                                    </h4>
                                     <p>
                                     {% for communitys in com_posts %}
                                         {% if communitys.id == post.community_id %}
@@ -141,11 +153,13 @@
             {% endif %}
             </div>
 
+            {% if usertype == "2" %}
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 text-center">
                     <a href="{{ url_for('search') }}" class="btn btn-theme arrow-btn bg-2">Browse All Property<span><i class="ti-arrow-right"></i></span></a>
                 </div>
             </div>
+            {% endif %}
 
         </div>
     </section>
@@ -174,31 +188,19 @@
                         <div class="grid_agents-wrap">
 
                             <div class="fr-grid-thumb">
-{#                                <a href="agent-page.html">#}
-                                <a>
-                                    <img src="static/assets/img/team-1.jpg" class="img-fluid mx-auto" alt="" />
-                                </a>
+                                    <img src="static/assets/img/wuxiulin.jpg" class="img-fluid mx-auto" alt="" />
                             </div>
 
                             <div class="fr-grid-deatil">
-                                <h5 class="fr-can-name">Jannat Apartment</h5>
-                                <div class="mt-1">22 Properties</div>
+                                <h5 class="fr-can-name">Xiulin Wu</h5>
+                                <div class="mt-1">17205981</div>
                             </div>
 
-                        </div>
-
-                        <div class="grid_fr_info mb-5">
-                            <ul>
-                                <li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
-                                <li><a href="https://twitter.com/"><i class="ti-twitter"></i></a></li>
-                                <li><a href="https://www.google.com/"><i class="ti-google"></i></a></li>
-                                <li><a href="https://www.linkedin.com/start/join"><i class="ti-linkedin"></i></a></li>
-                            </ul>
                         </div>
 
                         <div class="grid_agents_footer">
                             <div class="agent_grid_footer_first">
-                                <i class="lni-phone-handset mr-1"></i>(+86) 131-5667-6990
+                                <i class="ti-email mr-1"></i>xiulin.wu@ucdconnect.ie
                             </div>
                         </div>
 
@@ -212,30 +214,19 @@
                         <div class="grid_agents-wrap">
 
                             <div class="fr-grid-thumb">
-                                <a href="agent-page.html">
-                                    <img src="static/assets/img/team-2.jpg" class="img-fluid mx-auto" alt="" />
-                                </a>
+                                    <img src="static/assets/img/zhengzhi.jpg" class="img-fluid mx-auto" alt="" />
                             </div>
 
                             <div class="fr-grid-deatil">
-                                <h5 class="fr-can-name"><a href="#">Jannat Apartment</a></h5>
-                                <div class="mt-1">22 properties</div>
+                                <h5 class="fr-can-name">Zhi Zheng</h5>
+                                <div class="mt-1">17206148</div>
                             </div>
 
-                        </div>
-
-                        <div class="grid_fr_info mb-5">
-                            <ul>
-                                <li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
-                                <li><a href="https://twitter.com/"><i class="ti-twitter"></i></a></li>
-                                <li><a href="https://www.google.com/"><i class="ti-google"></i></a></li>
-                                <li><a href="https://www.linkedin.com/start/join"><i class="ti-linkedin"></i></a></li>
-                            </ul>
                         </div>
 
                         <div class="grid_agents_footer">
                             <div class="agent_grid_footer_first">
-                                <i class="lni-phone-handset mr-1"></i>(123) 123-456
+                                <i class="ti-email mr-1"></i>zhi.zheng@ucdconnect.ie
                             </div>
                         </div>
 
@@ -249,30 +240,19 @@
                         <div class="grid_agents-wrap">
 
                             <div class="fr-grid-thumb">
-                                <a href="agent-page.html">
-                                    <img src="static/assets/img/team-2.jpg" class="img-fluid mx-auto" alt="" />
-                                </a>
+                                    <img src="static/assets/img/yangyadi.jpg" class="img-fluid mx-auto" alt="" />
                             </div>
 
                             <div class="fr-grid-deatil">
-                                <h5 class="fr-can-name"><a href="#">Jannat Apartment</a></h5>
-                                <div class="mt-1">22 properties</div>
+                                <h5 class="fr-can-name">Yadi Yang</h5>
+                                <div class="mt-1">17206155</div>
                             </div>
 
-                        </div>
-
-                        <div class="grid_fr_info mb-5">
-                            <ul>
-                                <li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
-                                <li><a href="https://twitter.com/"><i class="ti-twitter"></i></a></li>
-                                <li><a href="https://www.google.com/"><i class="ti-google"></i></a></li>
-                                <li><a href="https://www.linkedin.com/start/join"><i class="ti-linkedin"></i></a></li>
-                            </ul>
                         </div>
 
                         <div class="grid_agents_footer">
                             <div class="agent_grid_footer_first">
-                                <i class="lni-phone-handset mr-1"></i>(123) 123-456
+                                <i class="ti-email mr-1"></i>yadi.yang@ucdconnect.ie
                             </div>
                         </div>
 
@@ -286,30 +266,19 @@
                         <div class="grid_agents-wrap">
 
                             <div class="fr-grid-thumb">
-                                <a href="agent-page.html">
-                                    <img src="static/assets/img/team-3.jpg" class="img-fluid mx-auto" alt="" />
-                                </a>
+                                    <img src="static/assets/img/lizhensheng.jpg" class="img-fluid mx-auto" alt="" />
                             </div>
 
                             <div class="fr-grid-deatil">
-                                <h5 class="fr-can-name"><a href="#">Jannat Apartment</a></h5>
-                                <div class="mt-1">102 Properties</div>
+                                <h5 class="fr-can-name">Zhensheng Li</h5>
+                                <div class="mt-1">17206174</div>
                             </div>
 
-                        </div>
-
-                        <div class="grid_fr_info mb-5">
-                            <ul>
-                                <li><a href="https://www.facebook.com/"><i class="ti-facebook"></i></a></li>
-								<li><a href="https://twitter.com/"><i class="ti-twitter"></i></a></li>
-								<li><a href="https://www.google.com/"><i class="ti-google"></i></a></li>
-								<li><a href="https://www.linkedin.com/start/join"><i class="ti-linkedin"></i></a></li>
-                            </ul>
                         </div>
 
                         <div class="grid_agents_footer">
                             <div class="agent_grid_footer_first">
-                                <i class="lni-phone-handset mr-1"></i>(123) 123-456
+                                <i class="ti-email mr-1"></i>zhensheng.li@ucdconnect.ie
                             </div>
                         </div>
 

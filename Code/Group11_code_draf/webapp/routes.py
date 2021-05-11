@@ -14,8 +14,11 @@ from django.contrib.auth.decorators import login_required
 from webapp.config import Config
 from flask_mail import Message
 
+from PIL import Image
+
 import os
 import re
+
 import math
 
 from flask import Flask, request, jsonify, render_template
@@ -170,7 +173,7 @@ def customer_index():
                                com_posts=com_posts, floor_posts=floor_posts, usertype=usertype,
                                nav_tittle="customer_index")
 
-    flash("User needs to either login or signup first", 'warning')
+    flash("User needs to either login or signup first",  'warning')
     return redirect(url_for('login'))
 
 
@@ -213,7 +216,7 @@ def register():
             db.session.commit()
             session["USERNAME"] = user.username
             flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
-            return redirect(url_for('my_profile'))
+            return redirect(url_for('customer_index'))
     return render_template('register.html', title='Register a new user', form=form)
 
 
@@ -381,6 +384,9 @@ def upload():
             file = form.imagename.data
             filename = random_filename(file.filename)
             file.save(os.path.join(ph_dir, filename))
+            sImg = Image.open(os.path.join(ph_dir, filename))
+            dImg = sImg.resize((int(320), int(320)), Image.ANTIALIAS)
+            dImg.save(os.path.join(ph_dir, filename))
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
             prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
                                          form.livingnumber.data, form.bathnumber.data, form.renttype.data,
@@ -396,7 +402,7 @@ def upload():
                               user=user_in_db)
             db.session.add(new_house)
             db.session.commit()
-            return redirect(url_for('my_profile'))
+            return redirect(url_for('my_houselist'))
         else:
             return render_template('upload_house.html', username=username, title='Upload House', form=form,
                                    usertype=usertype, dash_tittle="upload_house")
@@ -547,11 +553,11 @@ def calculator():
                 print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
 
     return render_template('calculator.html', title='Calculator', username=username, form=form,
-                           total_repayment=total_repayment,
-                           total_interest=total_interest, monthly_repayment=monthly_repayment,
-                           Total_repayment=Total_repayment, Total_interest=Total_interest,
-                           First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease,
-                           usertype=usertype, dash_tittle="calculator")
+                               total_repayment=total_repayment,
+                               total_interest=total_interest, monthly_repayment=monthly_repayment,
+                               Total_repayment=Total_repayment, Total_interest=Total_interest,
+                               First_month_repayment=First_month_repayment, Monthly_decrease=Monthly_decrease,
+                               usertype=usertype, dash_tittle="calculator")
 
 
 @app.route('/my_houselist', methods=['GET', 'POST'])
@@ -955,9 +961,26 @@ def logout():
 
 @app.errorhandler(500)
 def error(e):
-    return render_template('error.html')
+    username = session.get("USERNAME")
+    user_db = User.query.filter(User.username == session.get("USERNAME")).first()
+    usertype = user_db.user_type
+    return render_template('error.html', username=username, usertype=usertype)
 
 
 @app.errorhandler(404)
 def error(e):
-    return render_template('error.html')
+    username = session.get("USERNAME")
+    user_db = User.query.filter(User.username == session.get("USERNAME")).first()
+    usertype = user_db.user_type
+    return render_template('error.html', username=username, usertype=usertype)
+
+
+@app.route('/contacts', methods=['GET', 'POST'])
+def contacts():
+    username = session.get("USERNAME")
+    return render_template('contacts.html', username=username)
+
+@app.route('/rule', methods=['GET', 'POST'])
+def rule():
+    username = session.get("USERNAME")
+    return render_template('rule.html', username=username)

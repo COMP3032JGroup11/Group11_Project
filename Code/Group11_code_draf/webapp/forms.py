@@ -22,7 +22,7 @@ class RegisterForm(FlaskForm):
                             choices=[
                                 (1, 'landlord'),  # 房东
                                 (2, 'Tenant')], coerce=int)  # 租客
-    accept_rules = BooleanField('I accept the site rules', validators=[DataRequired()])
+    accept_rules = BooleanField('I accept the site', validators=[DataRequired()])
     submit = SubmitField('Register')
 
 
@@ -32,20 +32,6 @@ class ChangePasswordForm(FlaskForm):
     new_password2 = PasswordField('Repeat New Password', validators=[DataRequired()])
     submit = SubmitField('Reset')
 
-
-# class MyProfileForm(FlaskForm):
-#     nickname = StringField('Your Nickname', validators=[DataRequired()])
-#     phone = StringField('Phone Number', validators=[DataRequired()])
-#     address = StringField('Your Address', validators=[DataRequired()])
-#     city = StringField('Your City', validators=[DataRequired()])
-#     email = StringField('Email', validators=[DataRequired()])
-#     zip = StringField('Zip of Your Area', validators=[DataRequired()])
-#     about = TextAreaField('Your Information', validators=[DataRequired()])
-#     facebook = StringField('Facebook Account', validators=[DataRequired()])
-#     twitter = StringField('Twitter Account', validators=[DataRequired()])
-#     google = StringField('Google Account', validators=[DataRequired()])
-#     linkedin = StringField('LinkedIn Account', validators=[DataRequired()])
-#     submit = SubmitField('Save Information')
 
 class MyProfileForm(FlaskForm):
     nickname = StringField('Your Nickname')
@@ -184,8 +170,8 @@ class AddHouseForm(FlaskForm):
                               coerce=int)
     price = StringField('Price', validators=[DataRequired()])
     description = TextAreaField('House Description', validators=[DataRequired()])
-    imagename = FileField('Your House Photo',
-                          validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
+    imagename = FileField('Your House Photo(Only JPG and PNG)',
+                          validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Only JPG and PNG files please')])
     upload = SubmitField('Upload House')
 
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -43,7 +43,7 @@
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
 
-                                <li class="active"><a href="#">Home</a></li>
+                                <li><a href="{{ url_for('index') }}">Home</a></li>
 
                                 <li><a href="{{ url_for('search') }}">Listings</a></li>
 
@@ -97,274 +97,88 @@
                 </div>
             {% endfor %}
 
-			<!-- ============================ Hero Banner  Start================================== -->
-			<div class="image-cover hero_banner half_banner" style="background:#3d85fd url(static/assets/img/landing-bg.png) no-repeat;" data-overlay="1">
-				<div class="container">
-
-						<div class="row justify-content-center">
-							<div class="col-lg-8 col-md-10 text-center">
-								<h2 class="small-header-capt mb-1">Rent Homes Without Agency Fee!</h2>
-								<span class="sb_title">We help you find the most verified trusted homes </span>
-
-							</div>
-
-						</div>
-					</div>
-				</div>
+<!-- ============================ Page Title Start================================== -->
+			<div class="page-header" >
+                <h2 class="breadcrumb-title" align="center">Rules - Terms & Policy</h2>
 			</div>
-			<!-- ============================ Hero Banner End ================================== -->
+			<!-- ============================ Page Title End ================================== -->
 
-			<!-- ============================ partner Start ================================== -->
-			<section class="gray-simple pt-4 pb-4">
+			<!-- ============================ Agency List Start ================================== -->
+			<section class="gray-simple">
+
 				<div class="container">
 
+					<!-- row Start -->
 					<div class="row">
 
-						<!-- Single Partner -->
-						<div class="col-md-3 col-sm-4 col-lg">
-							<div class="partner-grid">
-								<img src="static/assets/img/brand-1.png" class="img-fluid" alt="" />
+						<div class="col-lg-10 col-md-12">
+
+							<!-- Single Block Wrap -->
+							<div class="property_block_wrap style-2">
+
+								<div class="property_block_wrap_header">
+									<a data-toggle="collapse" data-parent="#temp" href="#clOne" aria-expanded="true"><h4 class="property_block_title">Template Licensing & Usage</h4></a>
+								</div>
+								<div id="clOne" class="panel-collapse collapse show" aria-expanded="true">
+									<div class="block-body">
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+									</div>
+								</div>
 							</div>
+
+							<!-- Single Block Wrap -->
+							<div class="property_block_wrap style-2">
+
+								<div class="property_block_wrap_header">
+									<a data-toggle="collapse" data-parent="#brw" href="#clTwo" aria-expanded="true"><h4 class="property_block_title">Browser Compatibility</h4></a>
+								</div>
+								<div id="clTwo" class="panel-collapse collapse show" aria-expanded="true">
+									<div class="block-body">
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Single Block Wrap -->
+							<div class="property_block_wrap style-2">
+
+								<div class="property_block_wrap_header">
+									<a data-toggle="collapse" data-parent="#srpt" href="#clThree" aria-expanded="true"><h4 class="property_block_title">Support & Updates</h4></a>
+								</div>
+								<div id="clThree" class="panel-collapse collapse show" aria-expanded="true">
+									<div class="block-body">
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Single Block Wrap -->
+							<div class="property_block_wrap style-2">
+
+								<div class="property_block_wrap_header">
+									<a data-toggle="collapse" data-parent="#dlv" href="#clFour" aria-expanded="true"><h4 class="property_block_title">Delivery & Payment</h4></a>
+								</div>
+								<div id="clFour" class="panel-collapse collapse show" aria-expanded="true">
+									<div class="block-body">
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+									</div>
+								</div>
+							</div>
+
 						</div>
 
-						<!-- Single Partner -->
-						<div class="col-md-3 col-sm-4 col-lg">
-							<div class="partner-grid">
-								<img src="static/assets/img/brand-2.png" class="img-fluid" alt="" />
-							</div>
-						</div>
-
-						<!-- Single Partner -->
-						<div class="col-md-3 col-sm-4 col-lg">
-							<div class="partner-grid">
-								<img src="static/assets/img/brand-3.png" class="img-fluid" alt="" />
-							</div>
-						</div>
-
-						<!-- Single Partner -->
-						<div class="col-md-3 col-sm-4 col-lg">
-							<div class="partner-grid">
-								<img src="static/assets/img/brand-4.png" class="img-fluid" alt="" />
-							</div>
-						</div>
-
-						<!-- Single Partner -->
-						<div class="col-md-3 col-sm-4 col-lg">
-							<div class="partner-grid">
-								<img src="static/assets/img/brand-5.png" class="img-fluid" alt="" />
-							</div>
-						</div>
-
-						<!-- Single Partner -->
-						<div class="col-md-3 col-sm-4 col-lg">
-							<div class="partner-grid">
-								<img src="static/assets/img/brand-6.png" class="img-fluid" alt="" />
-							</div>
-						</div>
 
 					</div>
+					<!-- /row -->
 
 				</div>
+
 			</section>
-			<div class="clearfix"></div>
-			<!-- ============================ partner End ================================== -->
-
-			<!-- ============================ Featured Property Start ================================== -->
-			<section>
-				<div class="container">
-
-					<div class="row justify-content-center">
-						<div class="col-lg-7 col-md-8">
-							<div class="sec-heading center">
-								<h2>Recent Added Property</h2>
-                                <p>There are up to six newly released partial listings, if you want to see more, please click the button below.</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-					{% if prev_posts %}
-                    {% for post in prev_posts %}
-						<!-- Single Property -->
-						<div class="col-lg-4 col-md-6 col-sm-12">
-							<div class="list-slide-box">
-								<div class="modern-list">
-									<div class="grid-category-thumb">
-										<a href="{{ url_for('house_detail',house_id=post.id) }}" class="overlay-cate"><img src="{{ url_for('static',filename='Uploaded_PH/'+post.image_name) }}" class="img-responsive mx-auto" alt=""></a>
-									</div>
-									<div class="modern-list-content">
-
-										<div class="listing-content-wrap smalls">
-											<h4 class="lst-title"><a href="{{ url_for('house_detail',house_id=post.id) }}">{{ post.name }}</a></h4>
-											<p>
-                                            {% for communitys in com_posts %}
-                                                {% if communitys.id == post.community_id %}
-
-                                                    {{communitys.community}},
-                                                {% endif %}
-                                            {% endfor %}
-
-                                            {% for districts in dis_posts %}
-                                                {% if districts.id == post.district_id %}
-
-                                                    {{districts.district}}
-                                                {% endif %}
-                                            {% endfor %}
-                                            </p>
-										</div>
-										<div class="listing-footer-wrap property-lists mt-2">
-											<div class="property-lists flex-1">
-												<ul>
-													<li><span class="flatcons"><img src="static/assets/img/color-bed.svg" alt=""></span>{{ post.room_number }} Beds</li>
-													<li><span class="flatcons"><img src="static/assets/img/color-bathroom.svg" alt=""></span>{{ post.bath_number }} Baths</li>
-												</ul>
-											</div>
-											<h4 class="mdr-price">￥ {{ post.price }}</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-                    {% endfor %}
-                    {% else %}
-                        <h4>There is no home now, please wait someone submit houses.</h4>
-                    {% endif %}
-					</div>
-
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 text-center">
-							<a href="{{ url_for('search') }}" class="btn btn-theme arrow-btn bg-2">Browse All Property<span><i class="ti-arrow-right"></i></span></a>
-						</div>
-					</div>
-
-				</div>
-			</section>
-			<div class="clearfix"></div>
-			<!-- ============================ Featured Property End ================================== -->
-
-
-			<!-- ============================ Property Location Start ================================== -->
-			<section  class="gray min">
-				<div class="container">
-
-					<div class="row justify-content-center">
-						<div class="col-lg-7 col-md-8">
-							<div class="sec-heading center">
-								<h2>Agents in Your City</h2>
-						</div>
-					</div>
-
-					<div class="row">
-
-						<!-- Single Agent -->
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="grid_agents style-2">
-
-								<div class="grid_agents-wrap">
-
-									<div class="fr-grid-thumb">
-											<img src="static/assets/img/wuxiulin.jpg" class="img-fluid mx-auto" alt="" />
-									</div>
-
-									<div class="fr-grid-deatil">
-										<h5 class="fr-can-name">Xiulin Wu</h5>
-										<div class="mt-1">17205981</div>
-									</div>
-
-								</div>
-
-								<div class="grid_agents_footer">
-									<div class="agent_grid_footer_first">
-										<i class="ti-email mr-1"></i>xiulin.wu@ucdconnect.ie
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-						<!-- Single Agent -->
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="grid_agents style-2">
-
-								<div class="grid_agents-wrap">
-
-									<div class="fr-grid-thumb">
-											<img src="static/assets/img/zhengzhi.jpg" class="img-fluid mx-auto" alt="" />
-									</div>
-
-									<div class="fr-grid-deatil">
-										<h5 class="fr-can-name">Zhi Zheng</h5>
-										<div class="mt-1">17206148</div>
-									</div>
-
-								</div>
-
-								<div class="grid_agents_footer">
-									<div class="agent_grid_footer_first">
-										<i class="ti-email mr-1"></i>zhi.zheng@ucdconnect.ie
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-                        <!-- Single Agent -->
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="grid_agents style-2">
-
-								<div class="grid_agents-wrap">
-
-									<div class="fr-grid-thumb">
-											<img src="static/assets/img/yangyadi.jpg" class="img-fluid mx-auto" alt="" />
-									</div>
-
-									<div class="fr-grid-deatil">
-										<h5 class="fr-can-name">Yadi Yang</h5>
-										<div class="mt-1">17206155</div>
-									</div>
-
-								</div>
-
-								<div class="grid_agents_footer">
-									<div class="agent_grid_footer_first">
-										<i class="ti-email mr-1"></i>yadi.yang@ucdconnect.ie
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-						<!-- Single Agent -->
-						<div class="col-lg-3 col-md-3 col-sm-12">
-							<div class="grid_agents style-2">
-
-								<div class="grid_agents-wrap">
-
-									<div class="fr-grid-thumb">
-											<img src="static/assets/img/lizhensheng.jpg" class="img-fluid mx-auto" alt="" />
-									</div>
-
-									<div class="fr-grid-deatil">
-										<h5 class="fr-can-name">Zhensheng Li</h5>
-										<div class="mt-1">17206174</div>
-									</div>
-
-								</div>
-
-								<div class="grid_agents_footer">
-									<div class="agent_grid_footer_first">
-										<i class="ti-email mr-1"></i>zhensheng.li@ucdconnect.ie
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-					</div>
-
-				</div>
-			</section>
-			<!-- ============================ Property Location End ================================== -->
+			<!-- ============================ Agency List End ================================== -->
 
 
 			<!-- ============================ Footer Start ================================== -->
