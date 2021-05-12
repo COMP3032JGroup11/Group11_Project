@@ -266,7 +266,7 @@ class ChangeHouseForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
     description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo',
-                          validators=[FileRequired(), FileAllowed(['jpg'], 'Only JPG files please')])
+                          validators=[FileAllowed(['jpg'], 'Only JPG files please')])
     change = SubmitField('Update Information')
 
 

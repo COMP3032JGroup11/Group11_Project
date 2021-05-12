@@ -656,32 +656,60 @@ def house_change(house_id):
         houseid = house_id
         ph_dir = Config.PH_UPLOAD_DIR
         if form.validate_on_submit():
-            file = form.imagename.data
-            filename = random_filename(file.filename)
-            file.save(os.path.join(ph_dir, filename))
-            user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
-            prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
-                                         form.livingnumber.data, form.bathnumber.data, form.renttype.data,
-                                         form.districtid.data, form.communityid.data]])
-            output = int(prediction[0])
-            house_in_db = House.query.filter(House.id == houseid).first()
-            house_in_db.name = form.housename.data
-            house_in_db.size = form.size.data
-            house_in_db.floor_kind = form.floorkind.data
-            house_in_db.floor_number = form.floornumber.data
-            house_in_db.room_number = form.roomnumber.data
-            house_in_db.living_number = form.livingnumber.data
-            house_in_db.bath_number = form.bathnumber.data
-            house_in_db.rent_type = form.renttype.data
-            house_in_db.district_id = form.districtid.data
-            house_in_db.community_id = form.communityid.data
-            house_in_db.price = form.price.data
-            house_in_db.predicted_price = output
-            house_in_db.image_name = filename
-            house_in_db.description = form.description.data
-            house_in_db.user_id = user_in_db.id
-            db.session.commit()
-            return redirect(url_for('my_houselist'))
+            if form.imagename.data.filename == '':
+                user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+                prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
+                                             form.livingnumber.data, form.bathnumber.data, form.renttype.data,
+                                             form.districtid.data, form.communityid.data]])
+                output = int(prediction[0])
+                house_in_db = House.query.filter(House.id == houseid).first()
+                house_in_db.name = form.housename.data
+                house_in_db.size = form.size.data
+                house_in_db.floor_kind = form.floorkind.data
+                house_in_db.floor_number = form.floornumber.data
+                house_in_db.room_number = form.roomnumber.data
+                house_in_db.living_number = form.livingnumber.data
+                house_in_db.bath_number = form.bathnumber.data
+                house_in_db.rent_type = form.renttype.data
+                house_in_db.district_id = form.districtid.data
+                house_in_db.community_id = form.communityid.data
+                house_in_db.price = form.price.data
+                house_in_db.predicted_price = output
+                house_in_db.image_name = house_in_db.image_name
+                house_in_db.description = form.description.data
+                house_in_db.user_id = user_in_db.id
+                db.session.commit()
+                return redirect(url_for('my_houselist'))
+            else:
+                file = form.imagename.data
+                filename = random_filename(file.filename)
+                file.save(os.path.join(ph_dir, filename))
+                user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+                prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
+                                             form.livingnumber.data, form.bathnumber.data, form.renttype.data,
+                                             form.districtid.data, form.communityid.data]])
+                output = int(prediction[0])
+                house_in_db = House.query.filter(House.id == houseid).first()
+                print(house_in_db.image_name)
+                a = form.imagename.data
+                print(a.filename)
+                house_in_db.name = form.housename.data
+                house_in_db.size = form.size.data
+                house_in_db.floor_kind = form.floorkind.data
+                house_in_db.floor_number = form.floornumber.data
+                house_in_db.room_number = form.roomnumber.data
+                house_in_db.living_number = form.livingnumber.data
+                house_in_db.bath_number = form.bathnumber.data
+                house_in_db.rent_type = form.renttype.data
+                house_in_db.district_id = form.districtid.data
+                house_in_db.community_id = form.communityid.data
+                house_in_db.price = form.price.data
+                house_in_db.predicted_price = output
+                house_in_db.image_name = filename
+                house_in_db.description = form.description.data
+                house_in_db.user_id = user_in_db.id
+                db.session.commit()
+                return redirect(url_for('my_houselist'))
         else:
             house_in_db = House.query.filter(House.id == houseid).first()
             form.housename.data = house_in_db.name
