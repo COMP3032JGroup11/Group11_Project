@@ -154,21 +154,33 @@
                                     <div class="col-lg-12 col-md-12 col-sm-6">
                                         <div class="form-group">
                                             {{ form.name (class="form-control" ,placeholder="Your Name") }}
+                                            {% for error in form.name.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-6">
                                         <div class="form-group">
                                             {{ form.email (class="form-control" ,placeholder="Email Address") }}
+                                            {% for error in form.email.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="form-group">
                                             {{ form.phone (class="form-control" ,placeholder="Contact Number") }}
+                                            {% for error in form.phone.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="form-group">
                                             {{ form.information (class="form-control" ,placeholder="Type Message") }}
+                                            {% for error in form.information.errors %}
+                                                <span style="color: red;">[{{ error }}]</span>
+                                            {% endfor %}
                                         </div>
                                     </div>
 

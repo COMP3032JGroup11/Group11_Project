@@ -171,7 +171,7 @@ class AddHouseForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
     description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo(Only JPG and PNG)',
-                          validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Only JPG and PNG files please')])
+                          validators=[FileRequired(message=u'Only JPG and PNG files please'), FileAllowed(['jpg', 'png'] )])
     upload = SubmitField('Upload House')
 
 
@@ -266,7 +266,7 @@ class ChangeHouseForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
     description = TextAreaField('House Description', validators=[DataRequired()])
     imagename = FileField('Your House Photo(Only JPG and PNG)',
-                          validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Only JPG and PNG files please')])
+                          validators=[FileAllowed(['jpg', 'png'], message=u'Only JPG and PNG files please')])
     change = SubmitField('Update Information')
 
 
@@ -375,7 +375,7 @@ class ResetPasswordForm(FlaskForm):
 
 class MessageForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(message=u'邮箱格式不正确'), Email()])
     phone = StringField('Phone Number', validators=[DataRequired()])
     information = TextAreaField('Message Information', validators=[DataRequired()])
     submit = SubmitField('Send')
