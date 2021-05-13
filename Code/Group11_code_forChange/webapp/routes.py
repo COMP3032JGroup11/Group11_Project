@@ -684,6 +684,9 @@ def house_change(house_id):
                 file = form.imagename.data
                 filename = random_filename(file.filename)
                 file.save(os.path.join(ph_dir, filename))
+                sImg = Image.open(os.path.join(ph_dir, filename))
+                dImg = sImg.resize((int(320), int(320)), Image.ANTIALIAS)
+                dImg.save(os.path.join(ph_dir, filename))
                 user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
                 prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
                                              form.livingnumber.data, form.bathnumber.data, form.renttype.data,
