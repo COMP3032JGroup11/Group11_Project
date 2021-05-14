@@ -538,7 +538,6 @@ def calculator():
                 total_repayment = A * repayment_years * 12  # 还款总额
                 total_interest = A * repayment_years * 12 - total_loans  # 利息总额
                 monthly_repayment = A  # 月还款
-                print(total_repayment, total_interest, monthly_repayment)
 
             elif types == 2:
                 # 等额本金
@@ -550,7 +549,6 @@ def calculator():
                 Total_interest = D  # 利息总额
                 First_month_repayment = A + B  # 首月还款
                 Monthly_decrease = C  # 每月递减
-                print(Total_repayment, Total_interest, First_month_repayment, Monthly_decrease)
 
     return render_template('calculator.html', title='Calculator', username=username, form=form,
                                total_repayment=total_repayment,
