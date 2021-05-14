@@ -79,7 +79,7 @@
 
                     <div class="form-group col-md-6">
                         {{ form.districtid.label }}<br>
-                        {{ form.districtid (class="form-control")}}
+                        {{ form.districtid (class="form-control", id="bathrooms")}}
 
                         {% for error in form.districtid.errors %}
                             <span style="color: red;">[{{ error }}]</span>
@@ -88,7 +88,7 @@
 
                     <div class="form-group col-md-6">
                         {{ form.communityid.label }}<br>
-                        {{ form.communityid (class="form-control")}}
+                        {{ form.communityid (class="form-control", id="ptypes")}}
 
                         {% for error in form.communityid.errors %}
                             <span style="color: red;">[{{ error }}]</span>

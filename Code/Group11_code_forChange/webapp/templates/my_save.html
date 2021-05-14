@@ -12,10 +12,10 @@
                 <div class="container">
 
                     <div class="row">
-                        {% if save %}
-                        {% for house in save %}
+                        {% if hid %}
+                        {% for house in hid %}
                         {% for post in prev_posts %}
-                        {% if post.id == house.house_id %}
+                        {% if post.id == house %}
                         <!-- Single Property -->
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="single_property_style property_style_2 modern">
@@ -82,20 +82,20 @@
                                         <div class="fp_types">Sharing</div>
                                     {% endif %}
                                 <form action="" method="post" novalidate>
-                                <button onclick="house_delete('{{ post.id }}')" class="btn btn-theme btn-rounded">Delete</button>
+                                <button onclick="house_delete('{{ post.id }}', '{{ userid }}')" class="btn btn-theme btn-rounded">Delete</button>
                                 </form>
                                 </div>
 
                                 <script>
-                                    function house_delete(id){
+                                    function house_delete(hid, uid){
                                         var res=confirm('Are you sure to delete this Save?');
                                         if(res==true){
-                                            var s = id;
-                                            var data = {'s': s};
+                                            var s = hid;
+                                            var u = uid;
                                             $.ajax({
                                                 url:'/deleteSave',
                                                 type:"post",
-                                                data:data,
+                                                data: "s="+s+"&u="+u,
                                                 dataType:'json',
                                                 traditional:true,
                                                 async:false,

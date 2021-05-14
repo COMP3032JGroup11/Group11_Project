@@ -385,7 +385,7 @@ def upload():
             filename = random_filename(file.filename)
             file.save(os.path.join(ph_dir, filename))
             sImg = Image.open(os.path.join(ph_dir, filename))
-            dImg = sImg.resize((int(320), int(320)), Image.ANTIALIAS)
+            dImg = sImg.resize((int(660), int(420)), Image.ANTIALIAS)
             dImg.save(os.path.join(ph_dir, filename))
             user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
             prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
@@ -683,7 +683,7 @@ def house_change(house_id):
                 filename = random_filename(file.filename)
                 file.save(os.path.join(ph_dir, filename))
                 sImg = Image.open(os.path.join(ph_dir, filename))
-                dImg = sImg.resize((int(320), int(320)), Image.ANTIALIAS)
+                dImg = sImg.resize((int(660), int(420)), Image.ANTIALIAS)
                 dImg.save(os.path.join(ph_dir, filename))
                 user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
                 prediction = model.predict([[form.size.data, form.floorkind.data, form.roomnumber.data,
@@ -882,8 +882,10 @@ def saveHouse():
 @app.route('/deleteSave', methods=['GET', 'POST'])
 def deleteSave():
     s = request.form.get('s')
-    stored_save = Save.query.filter(Save.house_id == s).first()
-    db.session.delete(stored_save)
+    u = request.form.get('u')
+    stored_save = Save.query.filter(Save.house_id == s, Save.user_id == u).all()
+    for save in stored_save:
+        db.session.delete(save)
     db.session.commit()
     return jsonify(s)
 
@@ -970,13 +972,17 @@ def my_save():
 
         user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
         save = Save.query.filter(Save.user_id == user_in_db.id).order_by(Save.id.desc()).all()
+        hid = []
+        for s in save:
+            if s.house_id not in hid:
+                hid.append(s.house_id)
         prev_posts = db.session.query(House).all()
         dis_posts = db.session.query(District).all()
         com_posts = db.session.query(Community).all()
         floor_posts = db.session.query(Floor).all()
         return render_template('my_save.html', username=username, prev_posts=prev_posts, dis_posts=dis_posts,
                                com_posts=com_posts, floor_posts=floor_posts, usertype=usertype,
-                               dash_tittle="my_save", save=save)
+                               dash_tittle="my_save", hid=hid, userid=user_in_db.id)
     flash("User needs to either login or signup first", 'danger')
     return redirect(url_for('login'))
 

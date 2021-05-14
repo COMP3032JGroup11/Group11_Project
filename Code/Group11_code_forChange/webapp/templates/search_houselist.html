@@ -142,6 +142,7 @@
 									</div>
                                 {% endfor %}
                                 {% else %}
+                                    {% if prev_posts %}
                                     {% for post in prev_posts %}
 									<!-- Single Property Start -->
 									<div class="sides_list_property large">
@@ -213,6 +214,9 @@
 										</div>
 									</div>
                                     {% endfor %}
+                                    {% else %}
+                                        <h3>There is no house now, please wait someone submit new houses</h3>
+                                    {% endif %}
                                     {% endif %}
 								</div>
 							</div>
