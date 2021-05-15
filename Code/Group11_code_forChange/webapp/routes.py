@@ -290,7 +290,6 @@ def my_profile():
         user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
         usertype = user_in_db.user_type
         if form.validate_on_submit():
-            print(form.email.data)
             if form.email.data == '':
                 flash('Please enter your email address, it can’t be empty', 'danger')
                 return redirect(url_for('my_profile'))
