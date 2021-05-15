@@ -690,9 +690,7 @@ def house_change(house_id):
                                              form.districtid.data, form.communityid.data]])
                 output = int(prediction[0])
                 house_in_db = House.query.filter(House.id == houseid).first()
-                print(house_in_db.image_name)
                 a = form.imagename.data
-                print(a.filename)
                 house_in_db.name = form.housename.data
                 house_in_db.size = form.size.data
                 house_in_db.floor_kind = form.floorkind.data
