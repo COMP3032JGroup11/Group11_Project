@@ -85,6 +85,7 @@
 
                     <!-- Single Block Wrap -->
                     <div class="property_block_wrap style-2">
+                        <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=183e4b6e493410a902aed4e32a6995fd"></script>
 
                         <div class="property_block_wrap_header">
                             <a data-toggle="collapse" data-parent="#dsrp" href="#clTwo" aria-expanded="true"><h4 class="property_block_title">Description</h4></a>
@@ -95,6 +96,73 @@
 
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Single Block Wrap -->
+                    <div class="property_block_wrap style-2">
+                        <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=RiSGtGX2aaKYlLDHxjYn8XDOsIkq3uQl"></script>
+                        <div class="property_block_wrap_header">
+                            <a data-toggle="collapse" data-parent="#loca" href="#clSix" aria-expanded="true" class="collapsed"><h4 class="property_block_title">Location</h4></a>
+                        </div>
+
+                        <div id="clSix" class="panel-collapse collapse show" aria-expanded="true">
+                            <div class="block-body">
+                                <div class="map-container">
+                                    <div id="singleMap" communityid="{{ house_in_db.community_id }}"></div>
+                                </div>
+                                <script type="text/javascript">
+                                    var community = document.getElementById('singleMap').getAttribute('communityid');
+                                    var community_list = ['西关环岛', '北七家', '霍营', '鼓楼大街', '回龙观', '西三旗', '东关', '天通苑',
+                                                          '沙河', '南邵', '昌平其它', '小汤山', '立水桥', '奥林匹克公园', '南口', '安宁庄',
+                                                          '定福庄', '亚运村小营', '豆各庄', '双桥', '常营', '首都机场', '管庄', '十里河',
+                                                          '芍药居', '垡头', '和平里', '亚运村', '红庙', '石佛营', '朝阳其它', '国展',
+                                                          '东坝', '工体', '潘家园', '三元桥', '北苑', '华威桥', '十里堡', 'CBD', '惠新西街',
+                                                          '十八里店', '酒仙桥', '劲松', '百子湾', '方庄', '朝青', '望京', '欢乐谷', '中央别墅区',
+                                                          '甘露园', '四惠', '北工大', '成寿寺', '高碑店', '大望路', '太阳宫', '双井', '团结湖',
+                                                          '南沙滩', '东大桥', '甜水园', '西坝河', '健翔桥', '三里屯', '安贞', '亮马桥', '未知',
+                                                          '大山子', '建国门外', '朝阳门外', '东直门', '农展馆', '朝阳公园', '马甸', '燕莎',
+                                                          '安定门', '南中轴机场商务区', '高米店', '黄村火车站', '枣园', '黄村中', '西红门',
+                                                          '大兴其它', '瀛海', '天宫院', '义和庄', '大兴新机场', '科技园区', '旧宫', '观音寺',
+                                                          '亦庄', '亦庄开发区其它', '和义', '大兴新机场洋房别墅区', '天宫院南', '永定门', '崇文门',
+                                                          '东花市', '广渠门', '陶然亭', '左安门', '东四', '建国门内', '天坛', '前门', '地安门', '灯市口',
+                                                          '金宝街', '交道口', '朝阳门内', '蒲黄榆', '东单', '长阳', '良乡', '阎村', '城关', '燕山',
+                                                          '房山其它', '窦店', '青塔', '新宫', '木樨园', '花乡', '马家堡', '西罗园', '卢沟桥', '北大地',
+                                                          '大红门', '看丹桥', '洋桥', '玉泉营', '刘家窑', '五里店', '赵公口', '宋家庄', '右安门外', '角门',
+                                                          '六里桥', '七里庄', '丰台其它', '丽泽', '草桥', '北京南站', '太平桥', '菜户营', '马连道', '岳各庄',
+                                                          '五棵松', '广安门', '马连洼', '西山', '定慧寺', '海淀北部新区', '军博', '上地', '清河', '厂洼',
+                                                          '紫竹桥', '甘家口', '公主坟', '玉泉路', '田村', '小西天', '万寿路', '西直门', '二里庄', '皂君庙',
+                                                          '双榆树', '四季青', '新街口', '苏州桥', '颐和园', '知春路', '五道口', '圆明园', '牡丹园', '西北旺',
+                                                          '学院路', '万柳', '中关村', '西二旗', '杨庄', '魏公村', '世纪城', '白石桥', '北太平庄', '海淀其它',
+                                                          '怀柔', '大峪', '石门营', '城子', '滨河西区', '冯村', '门头沟其它', '密云其它', '平谷其它', '鲁谷',
+                                                          '八角', '苹果园', '石景山其它', '古城', '老山', '马坡', '顺义其它', '顺义城', '后沙峪', '天竺',
+                                                          '李桥', '乔庄', '北关', '万达', '临河里', '武夷花园', '果园', '玉桥', '梨园', '九棵树(家乐福)',
+                                                          '潞苑', '通州北苑', '通州其它', '马驹桥', '金融街', '牛街', '右安门内', '木樨地', '西单', '长椿街',
+                                                          '月坛', '车公庄', '阜成门', '天宁寺', '宣武门', '官园', '白纸坊', '六铺炕', '德胜门', '西四',
+                                                          '延庆其它'];
+                                    var map = new BMapGL.Map('singleMap');
+                                    map.centerAndZoom(new BMapGL.Point(116.331398,39.897445), 12);
+                                    //创建地址解析器实例
+                                    var myGeo = new BMapGL.Geocoder();
+                                    // 将地址解析结果显示在地图上，并调整地图视野
+                                    myGeo.getPoint(community_list[community-1], function(point){
+                                        if(point){
+                                            map.centerAndZoom(point, 16);
+                                            map.addOverlay(new BMapGL.Marker(point, {title: community_list[community-1]}))
+                                            var circle = new BMapGL.Circle(point, 300, {
+                                                strokeColor: 'blue',
+                                                strokeWeight: 5,
+                                                strokeOpacity: 0.5
+                                            });
+                                            map.addOverlay(circle);
+                                        }else{
+                                            alert('您选择的地址没有解析到结果！');
+                                        }
+                                    }, '北京市')
+                                </script>
+
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
