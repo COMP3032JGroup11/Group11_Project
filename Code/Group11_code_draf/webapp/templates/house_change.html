@@ -19,56 +19,89 @@
                     <div class="form-group col-md-6">
                         {{ form.housename.label }}<br>
                         {{ form.housename (class="form-control" ,placeholder="Enter your house name") }}
+                        {% for error in form.housename.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.size.label }}<br>
                         {{ form.size (class="form-control" ,placeholder="Enter your house size") }}
+                        {% for error in form.size.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.floorkind.label }}<br>
                         {{ form.floorkind (class="form-control")}}
+                        {% for error in form.floorkind.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.floornumber.label }}<br>
                         {{ form.floornumber (class="form-control" ,placeholder="Enter your house floor") }}
+                        {% for error in form.floornumber.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.roomnumber.label }}<br>
                         {{ form.roomnumber(class="form-control" ,placeholder="Enter your room number") }}
+                        {% for error in form.roomnumber.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.livingnumber.label }}<br>
                         {{ form.livingnumber (class="form-control" ,placeholder="Enter your living room number") }}
+                        {% for error in form.livingnumber.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.bathnumber.label }}<br>
                         {{ form.bathnumber (class="form-control" ,placeholder="Enter your bath room number") }}
+                        {% for error in form.bathnumber.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.districtid.label }}<br>
-                        {{ form.districtid (class="form-control")}}
+                        {{ form.districtid (class="form-control", id="bathrooms")}}
+                        {% for error in form.districtid.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.communityid.label }}<br>
-                        {{ form.communityid (class="form-control")}}
+                        {{ form.communityid (class="form-control", id="ptypes")}}
+                        {% for error in form.communityid.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-6">
                         {{ form.imagename.label }}<br>
                         {{ form.imagename (class="form-control")}}
+                        {% for error in form.imagename.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                     <div class="form-group col-md-12">
                         {{ form.description.label }}<br>
                         {{ form.description (class="form-control")}}
+                        {% for error in form.description.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
                     </div>
 
                 </div>
