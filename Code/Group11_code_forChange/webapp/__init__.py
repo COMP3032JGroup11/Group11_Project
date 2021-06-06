@@ -9,6 +9,7 @@ from webapp.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_dropzone import Dropzone
 from flask_mail import Mail
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -21,6 +22,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = '2101282494yyd@gmail.com'
 app.config['MAIL_PASSWORD'] = '13156676990Yyd'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
 # app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
 # app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
 mail = Mail(app)

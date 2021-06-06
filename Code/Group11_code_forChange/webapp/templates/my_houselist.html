@@ -56,7 +56,7 @@
 
                                         </div>
                                         <div class="property-real-price"><a class="cl-blue">Your Price: ¥ {{post.price}}<span class="price_status">/mo</span></a></div>
-                                        <div class="property-real-price"><a class="cl-blue">Predict Price: ¥ {{post.predicted_price}}<span class="price_status">/mo</span></a></div>
+                                        <div class="property-real-price"><a class="cl-blue">Predict Price: ¥ {{ (post.predicted_price*0.9)|int }} - {{ (post.predicted_price*1.1)|int }}<span class="price_status">/mo</span></a></div>
                                     </div>
                                 </div>
 

@@ -292,10 +292,57 @@ def customer_index():
     return redirect(url_for('login'))
 
 
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         user_in_db = User.query.filter(User.username == form.username.data).first()
+#         if not user_in_db:
+#             flash('No user found with username: {}'.format(form.username.data), 'warning')
+#             return redirect(url_for('login'))
+#         elif check_password_hash(user_in_db.password_hash, form.password.data):
+#             flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
+#             session["USERNAME"] = user_in_db.username
+#             return redirect(url_for('customer_index'))
+#         else:
+#             flash('Incorrect Password', 'warning')
+#             return redirect(url_for('login'))
+#     return render_template('login.html', title='Sign In', form=form)
+#
+#
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form = RegisterForm()
+#     if form.validate_on_submit():
+#         if User.query.filter_by(username=form.username.data).first():
+#             flash('Username already exists! Please choose another username.', 'danger')
+#             return redirect(url_for('register'))
+#         elif User.query.filter_by(email=form.email.data).first():
+#             flash('This email already exists! Please check again.', 'danger')
+#             return redirect(url_for('register'))
+#         elif form.password.data != form.password2.data:
+#             flash('Passwords do not match! Please check again.', 'danger')
+#             return redirect(url_for('register'))
+#         else:
+#             passw_hash = generate_password_hash(form.password.data)
+#             user = User(username=form.username.data, email=form.email.data, password_hash=passw_hash,
+#                         user_type=form.user_type.data)
+#             db.session.add(user)
+#             db.session.commit()
+#             session["USERNAME"] = user.username
+#             flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
+#             return redirect(url_for('customer_index'))
+#     return render_template('register.html', title='Register a new user', form=form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        if session.permanent is not True:
+            session.pop("USERNAME", None)
+        else:
+            pass
         user_in_db = User.query.filter(User.username == form.username.data).first()
         if not user_in_db:
             flash('No user found with username: {}'.format(form.username.data), 'warning')
@@ -303,6 +350,8 @@ def login():
         elif check_password_hash(user_in_db.password_hash, form.password.data):
             flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
             session["USERNAME"] = user_in_db.username
+            session.permanent = True
+            # app.permanent_session_lifetime = timedelta(minutes=0.1)
             return redirect(url_for('customer_index'))
         else:
             flash('Incorrect Password', 'warning')
@@ -314,6 +363,10 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        if session.permanent is not True:
+            session.pop("USERNAME", None)
+        else:
+            pass
         if User.query.filter_by(username=form.username.data).first():
             flash('Username already exists! Please choose another username.', 'danger')
             return redirect(url_for('register'))
@@ -330,6 +383,8 @@ def register():
             db.session.add(user)
             db.session.commit()
             session["USERNAME"] = user.username
+            session.permanent = True
+            # app.permanent_session_lifetime = timedelta(minutes=0.1)
             flash('Login successful, {} welcome back!'.format(form.username.data), 'success')
             return redirect(url_for('customer_index'))
     return render_template('register.html', title='Register a new user', form=form)
@@ -1353,7 +1408,12 @@ def error(e):
 @app.route('/contacts', methods=['GET', 'POST'])
 def contacts():
     username = session.get("USERNAME")
-    return render_template('contacts.html', username=username)
+    if not session.get("USERNAME") is None:
+        user_in_db = User.query.filter(User.username == session.get("USERNAME")).first()
+        user_type = user_in_db.user_type
+        return render_template('contacts.html', username=username, user_type=user_type)
+    else:
+        return render_template('contacts.html', username=username)
 
 @app.route('/rule', methods=['GET', 'POST'])
 def rule():
